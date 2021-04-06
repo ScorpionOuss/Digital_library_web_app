@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+	<title>votre hero histoire|connexion</title>
+    <script src="./js/jquery-3.5.0.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../css/simplegrid.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/connexion.css">
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+		<header >
+			<div class="col-1-1" id="top">
+					<div class="col-1-1">
+						<h1 >Votre Hero histoire</h1>
+					</div>
+					<nav>
+						<div id="deux-button" class="bbb">
+							<div class="col-1-2-left">
+								<div class="selected">
+		                    		<a class="button" id="HOME" href="index.html"> HOME </a>
+		                    	</div>
+							</div>
+							<div class="col-1-2-right">
+							<a class="button" id="support" href="index.html">SUPPORT</a>
+							</div>
+						</div>
+					</nav>
+			</div>
+
+	    </header>
+        <main>
+            <div class="col-1-1-all">
+				<nav >
+				<ul>
+					<div class="col-9-12">
+						<li class= "col-1-3" ><a href="#partie-1" class="button2" title="partie-1">Histoires</a></li>
+						<li class="col-1-3"><a href="#partie-2" class="button2" title="partie-2">Edit</a></li>
+						<li class="col-1-3"><a href="#partie-3" class="button2" title="partie-3">Creation</a></li>
+					</div>
+					<div class = "col-3-12">
+						<li class="col-4-12"><a class = "separe">|</a></li>
+						<li class="col-8-12"><a href="#partie-4" class="button2" title="partie-4">Login</a></li>
+					</div>
+				</ul>
+				</nav>
+			</div>
+            <div class="content">
+                <div class="col-1-1" id="fond">
+                    <div class="col-3-12"></div>
+                    <div class="col-1-2">
+                        <div class="loginOrRegisterBox">
+                            <ul class="switch">
+                                <li id="loginButton" onclick="choisiLogin()">login</li>
+                                <li id="registerButton" onclick="choisiregister()">register</li>
+                            </ul>
+                            <div id="form">
+                                <form action="" id="login">
+                                    <input type="text" placeholder="username" name="username">
+                                    <input type="password" placeholder="password" name="password">
+                                    <div>
+                                        <input type="checkbox" name="" id="">
+                                    </div>
+                                    <input type="submit" value="login">
+                                </form>
+                                <form action="" id="register">
+                                    <input type="text" placeholder="username" name="username">
+                                    <input type="password" placeholder="password" name="password">
+                                    <input type="password" placeholder="password" name="confirmPassword">
+                                    <input type="submit" value="register">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3-12"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer id="end" >
+        <a href="#top" class="button2">return top</a><br><br>
+        &copy; 2021, Votre hero histoire team<br>
+      All trademarks and registered trademarks appearing on
+      this site are the property of their respective owners.<br>
+      <a href="index.html" class="button2" title="about">@about us</a>
+    </footer>
+  </body>
+
+  <script src="../js/connexion.js"></script>
+</html>
