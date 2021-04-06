@@ -6,10 +6,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import beans.Utilisateur;
+import dao.UtilisateurDAO;
 
 public final class ConnexionForm {
-    private static final String CHAMP_EMAIL  = "email";
+    private static final String CHAMP_USERNAME  = "username";
     private static final String CHAMP_PASS   = "motdepasse";
+    private static final String CHAMP_CONX  = "connexion";
 
     private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
@@ -22,20 +24,20 @@ public final class ConnexionForm {
         return erreurs;
     }
 
-    public Utilisateur connecterUtilisateur( HttpServletRequest request ) {
+    public Utilisateur connecterUtilisateur( HttpServletRequest request, UtilisateurDAO userDAO ) {
         /* Récupération des champs du formulaire */
-        String email = getValeurChamp( request, CHAMP_EMAIL );
+        String userName = getValeurChamp( request, CHAMP_USERNAME );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
 
         Utilisateur utilisateur = new Utilisateur();
 
         /* Validation du champ email. */
         try {
-            validationEmail( email );
+            validationUserName( userName );
         } catch ( Exception e ) {
-            setErreur( CHAMP_EMAIL, e.getMessage() );
+            setErreur( CHAMP_USERNAME, e.getMessage() );
         }
-        utilisateur.setEmail( email );
+        utilisateur.setUserName( userName );
 
         /* Validation du champ mot de passe. */
         try {
@@ -47,7 +49,13 @@ public final class ConnexionForm {
 
         /* Initialisation du résultat global de la validation. */
         if ( erreurs.isEmpty() ) {
-            resultat = "Succès de la connexion.";
+        	resultat = "Succès de la connexion.";
+//        	try {
+//        	connexionUser(utilisateur, userDAO);
+//            resultat = "Succès de la connexion.";
+//        	}catch (Exception e) {
+//				setErreur(CHAMP_CONX, e.getMessage());
+//			}
         } else {
             resultat = "Échec de la connexion.";
         }
@@ -58,9 +66,9 @@ public final class ConnexionForm {
     /**
      * Valide l'adresse email saisie.
      */
-    private void validationEmail( String email ) throws Exception {
-        if ( email != null && !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-            throw new Exception( "Merci de saisir une adresse mail valide." );
+    private void validationUserName( String userName) throws Exception {
+    	if ( userName != null && userName.length() < 3 ) {
+            throw new Exception( "Le nom d'utilisateur doit contenir au moins 3 caractères." );
         }
     }
 
@@ -96,4 +104,10 @@ public final class ConnexionForm {
             return valeur;
         }
     }
+    
+//    private void connexionUser(Utilisateur user, UtilisateurDAO userDao) throws Exception{
+//        if(!userDao.connexion(user)){
+//            throw new Exception("Pseudonyme ou mot de passe incorrecte");
+//        }
+//    }
 }

@@ -39,7 +39,7 @@ public final class InscriptionForm {
         } catch ( Exception e ) {
             setErreur( CHAMP_EMAIL, e.getMessage() );
         }
-        utilisateur.setEmail( email );
+        utilisateur.setUserName( email );
 
         try {
             validationMotsDePasse( motDePasse, confirmation );

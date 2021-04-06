@@ -17,6 +17,16 @@
 		<url-pattern>/inscription</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>Connexion</servlet-name>
+		<servlet-class>servlets.Connexion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Connexion</servlet-name>
+		<url-pattern>/connexion</url-pattern>
+	</servlet-mapping>
+	
 	<jsp-config>
     <jsp-property-group>
         <url-pattern>*.jsp</url-pattern>

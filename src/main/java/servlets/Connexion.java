@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -29,12 +30,14 @@ public class Connexion extends HttpServlet {
     }
 
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-        /* Préparation de l'objet formulaire */
+       
+    	PrintWriter out=response.getWriter();
+    	/* Préparation de l'objet formulaire */
         ConnexionForm form = new ConnexionForm();
         UtilisateurDAO userDAO = new UtilisateurDAO(dataSource);
         
         /* Traitement de la requête et récupération du bean en résultant */
-        Utilisateur utilisateur = form.connecterUtilisateur( request );
+        Utilisateur utilisateur = form.connecterUtilisateur(request, userDAO );
 
         /* Récupération de la session depuis la requête */
         HttpSession session = request.getSession();
@@ -45,11 +48,9 @@ public class Connexion extends HttpServlet {
          */
         if ( form.getErreurs().isEmpty() ) {
             session.setAttribute( ATT_SESSION_USER, utilisateur );
-            this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
         } else {
             session.setAttribute( ATT_SESSION_USER, null );
         }
-
         /* Stockage du formulaire et du bean dans l'objet request */
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_USER, utilisateur );

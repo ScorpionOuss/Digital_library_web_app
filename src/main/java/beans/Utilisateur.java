@@ -2,15 +2,15 @@ package beans;
 
 public class Utilisateur {
 
-    private String email;
+    private String userName;
     private String motDePasse;
     private String nom;
 
-    public void setEmail(String email) {
-	this.email = email;
+    public void setUserName(String email) {
+	this.userName = email;
     }
-    public String getEmail() {
-	return email;
+    public String getUserName() {
+	return userName;
     }
 
     public void setMotDePasse(String motDePasse) {
