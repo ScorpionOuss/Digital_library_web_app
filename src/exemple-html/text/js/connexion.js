@@ -1,4 +1,4 @@
-$(".witch>li").click(function (e) { 
+$(".switch>li").click(function (e) { 
     $(this).css("border-bottom","2px solid #fff").siblings().css("border-bottom","none");
     var aid = $(this).attr("id");
     if( aid == "registerButton" ){
