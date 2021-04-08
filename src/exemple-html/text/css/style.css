@@ -69,6 +69,10 @@ h1{
 	text-align: center;
 	padding:0;
 }
+span{
+	color:#a16060;
+	font-size:0.5em;
+}
 
 footer{
 	text-align: left;
@@ -82,7 +86,7 @@ footer{
 }
 #fond{
 	background-color: #FFFFFF;
-
+	min-height: 500px;
 }
 
 #end {
@@ -93,6 +97,7 @@ footer{
   margin: 0 0 0 0px;
   font-size:        90%;
 }
+
 
 .at-histoire{
 	padding-top: 30px;
@@ -153,6 +158,25 @@ footer{
 	-webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
+.button#btn{
+	background-color: rgba(61, 42, 42, 0.377);
+}
+.button#btn:hover {
+    background-color: rgba(0, 0, 0, 0.678); 
+    color: white;
+}
+.buttonadd{
+	padding: 0;
+	margin: 0px;
+	text-align: center;
+	background-color: rgba(61, 42, 42, 0.377);
+	cursor: default;
+}
+.buttonadd:hover{
+	background-color: rgba(0, 0, 0, 0.678); 
+    color: white;
+	cursor:default;
+}
 .separe{
 	color:#FFF;
 	cursor: default;
@@ -170,6 +194,9 @@ footer{
     background-color: rgba(0,0,0,0.5); /* Green */
     color: white;
 }
+.creation-paragraph{
+	margin:20px;
+}
 .at{
 	background-color: #212530;
 	color: #FFF;
@@ -185,6 +212,33 @@ footer{
 	height:150px;
 	width: 215px;
 }
+
+.dropdown-content {
+    display: none;
+    background-color: #7269699c;
+    min-width: 100px;
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
+	border-radius: 6px;
+}
+
+.dropdown-content a {
+    color: black;
+	
+    padding: 10px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1;
+	color: black;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+	border-radius: 6px;
+}
+
 #HOME{
 }
 #support{
