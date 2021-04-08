@@ -17,7 +17,7 @@ import forms.ConnexionForm;
 
 public class Connexion extends HttpServlet {
 	
-	@Resource(name = "jdbc/bibliography")
+	@Resource(name = "users")
     private DataSource dataSource;
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";

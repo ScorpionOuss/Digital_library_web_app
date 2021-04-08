@@ -8,7 +8,7 @@
    maxTotal="2"
    maxIdle="1"
    maxWaitMillis="20000"
-   name="jdbc/bibliography"
+   name="users"
    password="yanjia"
    username="yanjia"
 />
