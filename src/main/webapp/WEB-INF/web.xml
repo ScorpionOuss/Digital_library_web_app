@@ -7,6 +7,21 @@
   <display-name>Archetype Created Web Application</display-name>
 
  
+ <welcome-file-list>
+        <welcome-file>accueil</welcome-file>
+    </welcome-file-list>
+    
+    <filter>
+	<filter-name>RestrictionFilter</filter-name>
+	<filter-class>filters.RestrictionFilter</filter-class>
+	</filter>
+<filter-mapping>
+	<filter-name>RestrictionFilter</filter-name>
+	<url-pattern>/inscription</url-pattern>
+	<url-pattern>/creation</url-pattern>
+	<url-pattern>/edit</url-pattern>	
+</filter-mapping>
+
     <servlet>
 		<servlet-name>Inscription</servlet-name>
 		<servlet-class>servlets.Inscription</servlet-class>
