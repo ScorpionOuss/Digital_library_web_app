@@ -50,12 +50,12 @@ public final class ConnexionForm {
         /* Initialisation du résultat global de la validation. */
         if ( erreurs.isEmpty() ) {
         	resultat = "Succès de la connexion.";
-//        	try {
-//        	connexionUser(utilisateur, userDAO);
-//            resultat = "Succès de la connexion.";
-//        	}catch (Exception e) {
-//				setErreur(CHAMP_CONX, e.getMessage());
-//			}
+        	try {
+        	connexionUser(utilisateur, userDAO);
+            resultat = "Succès de la connexion.";
+        	}catch (Exception e) {
+				setErreur(CHAMP_CONX, e.getMessage());
+			}
         } else {
             resultat = "Échec de la connexion.";
         }
@@ -105,9 +105,9 @@ public final class ConnexionForm {
         }
     }
     
-//    private void connexionUser(Utilisateur user, UtilisateurDAO userDao) throws Exception{
-//        if(!userDao.connexion(user)){
-//            throw new Exception("Pseudonyme ou mot de passe incorrecte");
-//        }
-//    }
+    private void connexionUser(Utilisateur user, UtilisateurDAO userDao) throws Exception{
+        if(!userDao.connexion(user)){
+            throw new Exception("Pseudonyme ou mot de passe incorrecte");
+        }
+    }
 }
