@@ -4,4 +4,9 @@ public class LineBreak extends ShortTag{
         super();
         this.name = "br";
     }
+
+    public LineBreak(HashMap<String, String> attributes){
+        super(attributes);
+        this.name = "br";
+    }
 }

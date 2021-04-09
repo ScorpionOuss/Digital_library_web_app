@@ -7,6 +7,10 @@ public class Head extends DoubleTag{
         super();
         this.name = "head";
     }
+    public Head(HashMap<String, String> attributes){
+        super(attributes);
+        this.name = "head";
+    }
 
     public void printInFile(FileWriter writer) throws IOException {
         writer.write('\n');

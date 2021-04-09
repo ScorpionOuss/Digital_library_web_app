@@ -8,7 +8,10 @@ class Section extends DoubleTag{
         super();
         this.name = "section";
     }
-
+    public Section(HashMap<String, String> attributes){
+        super(attributes);
+        this.name = "section";
+    }
     public void printInFile(FileWriter writer) throws IOException {
         writer.write(getOpenTag());
         writer.write('\n');

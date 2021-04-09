@@ -8,6 +8,10 @@ class Html extends DoubleTag{
         super();
         this.name = "html";
     }
+    public Html(HashMap<String, String> attributes){
+        super(attributes);
+        this.name = "html";
+    }
 
     public void printInFile(FileWriter writer) throws IOException {
         writer.write(getOpenTag());

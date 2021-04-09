@@ -7,6 +7,10 @@ public class Paragraph extends DoubleTag{
         super();
         this.name = "p";
     }
+    public Paragraph(HashMap<String, String> attributes){
+        super(attributes);
+        this.name = "p";
+    }
 
     public void printInFile(FileWriter writer) throws IOException {
         writer.write(getOpenTag());
