@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -92,28 +93,35 @@ public class ChoixDAO extends AbstractDAO {
 		ResultSet res = null ;
 		try {
 			conn = getConnexion();
-			/* See if the choice has an associate paragraph which is a conclusion */
-			st = conn.prepareStatement("SELECT C.assocStory as story, C.assocPar as idPar "
-					+ "from Choice C JOIN Bodyparagraph B ON C.assocStory = B.titleStory and C.assocPar = B.idParagraph " +
-					"where idChoice = ? ");
+			/* See if the choice has an associate paragraph and after see if it is a conclusion 
+			 * We can not use a join because the associated paragraph can be null : so we must eliminate this case*/
+			st = conn.prepareStatement("SELECT assocStory as story, assocPar as idPar from Choice where idChoice = ?");
 			st.setInt(1, idChoice);
 			res = st.executeQuery();
-			if (!res.next()) { /* means the choice is associated to a conclusion */
- 				memoizeMap.put(idChoice, false);
+			/* the result is either a row with null values or not null values */
+			res.next();
+			int idPar = res.getInt("idPar");
+			if (res.wasNull()) { /* The choice is not associated to any paragraph : so masked */
+				memoizeMap.put(idChoice, true);
+				return true; 
+			}
+			String story = res.getString("story");
+			/* To suppress the warnings */
+			ResClose.silencedClosing(res, st);
+			/* And now search for the next choices */ 
+			/* the getNextChoices anlyzes also the case of a conclusion */
+			LinkedList<Integer> nextChoices = getNextChoices(story, idPar, conn);
+			/* if the list is empty : means that : either the paragraph is a conclusion or that all the way to 
+			 * the conclusion there is only next paragraphs : the last paragraph is necessarly a conclusion 
+			 * because of the condition : a non conclusion paragraph has a least on choice*/
+			if (nextChoices.size() == 0) {
+				memoizeMap.put(idChoice, false);
 				return false;
 			}
-			/* Else search for the next corresponding choices */
-			String assocStory = res.getString("story");
-			int assocPar = res.getInt("idPar");
-			/* To suppress The warnings */
-			ResClose.silencedClosing(res, st);
-			st = conn.prepareStatement("SELECT idChoice from Choice where prevParStory = ? and prevPar = ? ");
-			st.setString(1, assocStory);
-			st.setInt(2, assocPar);
-			res = st.executeQuery();
-			boolean isMasked = true;
-			while(res.next()) { /* the choice is masked if all of the next choices are masked */
-				isMasked = isMasked && isMaskedRecur(res.getInt("idChoice"), memoizeMap);
+			
+			boolean isMasked = true; 
+			for (int idC : nextChoices) {
+				isMasked = isMasked && isMaskedRecur(idC, memoizeMap);
 			}
 			memoizeMap.put(idChoice, isMasked);
 			return isMasked; 
@@ -125,6 +133,50 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * The purpose from this method is to facilitate the recursion on the choices, it is used to ignore
+	 * the paragraphs that have no next choices but a next paragraph 
+	 * @param story
+	 * @param idPar
+	 * @return
+	 */
+	private LinkedList<Integer> getNextChoices(String story, int idPar, Connection conn){
+		PreparedStatement st = null; 
+		ResultSet res = null ;
+		try {
+			st = conn.prepareStatement("SELECT titleNext, idNextPar from BodyParagraph where " + 
+					"titleStory = ? and idParagraph = ? ");
+			st.setString(1, story);
+			st.setInt(2, idPar);
+			res = st.executeQuery();
+			/* if it's a conclusion */
+			if (!res.next()) { /* return an empty list */
+				return new LinkedList<Integer>();
+			}
+			/* if there is a next paragraph */
+			int nextPar = res.getInt("idNextPar");
+			if (!res.wasNull()) {
+				return getNextChoices(res.getString("titleNext"), nextPar, conn);
+			}
+			ResClose.silencedClosing(res, st);
+			/* search if there is choices */
+			st = conn.prepareStatement("SELECT idChoice from Choice where prevParStory = ? and prevPar = ?");
+			st.setString(1, story);
+			st.setInt(2, idPar);
+			res = st.executeQuery();
+			LinkedList<Integer> listOfChoices = new LinkedList<Integer>();
+			while (res.next()) {
+				listOfChoices.add(res.getInt("idChoice"));
+			}
+			return listOfChoices; 
+			
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+	}
+
 	public Paragraphe retreiveCorrPar(int idChoice) {
 		Connection conn = null; 
 		PreparedStatement st = null; 

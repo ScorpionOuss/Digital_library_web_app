@@ -13,7 +13,11 @@
 	<h1>Les histoires que vous pouvez lire </h1>
 		${histoires.size()}
 		<c:forEach items="${histoires}" var="v">
-       		<a href="LireUneHistoire?titre=${v.title}"> ${v.title} </a>
+			<%-- Display the story only if it is public for lecture or the user is logged in  --%>
+			<c:if test="${v.publicLec || isConnected}">
+				<a href="LireUneHistoire?titre=${v.title}"> ${v.title} </a>
+			</c:if>
+       		
    		</c:forEach>
 
 </body>

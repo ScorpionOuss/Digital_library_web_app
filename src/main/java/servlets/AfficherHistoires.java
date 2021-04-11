@@ -23,6 +23,8 @@ public class AfficherHistoires extends HttpServlet {
     private DataSource dataSource;
 	private static final long serialVersionUID = 1L;
 	public static final String HISTOIRES = "histoires";
+	public static final String SESSION_USER = "sessionUtilisateur";
+	public static final String CONNECTED = "isConnected";
 	public static final String VUE  = "/WEB-INF/afficherHistoires.jsp";
 	
     /**
@@ -37,8 +39,15 @@ public class AfficherHistoires extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		/* Restore all the stories in the data base for read */
 		HistoireDAO storiesDAO = new HistoireDAO(dataSource);
 		LinkedList<Histoire> stories = storiesDAO.listOfStoriesToRead();
+		/* See if the user is connected or not */
+		boolean isConnected = false; 
+		if (request.getSession().getAttribute(SESSION_USER) != null) {
+			isConnected = true; 
+		}
+		request.setAttribute(CONNECTED, isConnected);
 		request.setAttribute(HISTOIRES, stories);
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}

@@ -33,8 +33,8 @@ public class HistoireDAO extends AbstractDAO {
             histoire.setTitle(title);
             histoire.setDescription(res.getString("Description"));
             histoire.setImage(res.getString("Image"));
-            histoire.setPublicEc(res.getInt("publicLec") == 1);
-            histoire.setPublicLec(res.getInt("PublicLec") == 1);
+            histoire.setPublicEc(res.getInt("publicEc") == 1);
+            histoire.setPublicLec(res.getInt("publicLec") == 1);
             histoire.setFirstParagraph(res.getInt("firstParagraph"));
             return histoire;
 		} catch (SQLException e){

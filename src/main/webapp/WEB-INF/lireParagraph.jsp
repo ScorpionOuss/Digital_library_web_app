@@ -9,23 +9,23 @@
 </head>
 <body>
 	<h1> Paragraphe </h1>
-		<h3> rédigée par ${par.author}</h3>
-		<p> ${par.text}</p>
+		<h3> rédigée par ${paragraph.author}</h3>
+		<p> ${paragraph.text}</p>
 	<h2> Suite </h2>
 		<%-- see if there is a next paragraph :  --%>
 		<c:choose>
-			<c:when test= "${par.nextParagraph != null}">
-				<a href="affichParagraph?idPar=${par.nextParagraph}&titleStory=${par.story}"> 
+			<c:when test= "${paragraph.nextParagraph != null}">
+				<a href="LireParagraph?idPar=${paragraph.nextParagraph}&titleStory=${paragraph.story}"> 
 					Paragraphe suivante
 				</a>
 			</c:when>
 			<%-- otherwise we have choices to display  --%>
 			<c:otherwise>
-				<c:if test="${par.choices != null }">
-					<c:forEach items="${par.choices}" var="ch">
+				<c:if test="${paragraph.choices != null }">
+					<c:forEach items="${paragraph.choices}" var="ch">
 						<%-- Test if it's masked or not  --%>
 						<c:if test="${ch.isMasked == false}">
-							<a href="LireParagraph?idChoice= ${ch.idChoice}"> ${ch.text}</a> <br>
+							<a href="LireParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> <br>
 						</c:if>
 						
 					</c:forEach> 
