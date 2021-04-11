@@ -42,16 +42,6 @@
 		<url-pattern>/connexion</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
-		<servlet-name>AfficherHistoires</servlet-name>
-		<servlet-class>servlets.AfficherHistoires</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>AfficherHistoires</servlet-name>
-		<url-pattern>/afficherHistoires</url-pattern>
-	</servlet-mapping>
-	
 	<jsp-config>
     <jsp-property-group>
         <url-pattern>*.jsp</url-pattern>

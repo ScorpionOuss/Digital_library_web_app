@@ -1,4 +1,4 @@
-package servlets;
+package servlets.modeLecture;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -32,7 +32,7 @@ public class LireUneHistoire extends HttpServlet {
 	public static final String donneepar = "donneePar";
 	/* 1 = a unique display / 0 = not unique */
 	public static final String displayUnique = "displayUnique";
-	public static final String VUE  = "/WEB-INF/lireUneHistoire.jsp";
+	public static final String VUE  = "/WEB-INF/jspModeLecture/lireUneHistoire.jsp";
     /**
      * @see HttpServlet#HttpServlet()
      */

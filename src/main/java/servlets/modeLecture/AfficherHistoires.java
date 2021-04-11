@@ -1,10 +1,11 @@
-package servlets;
+package servlets.modeLecture;
 
 import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import dao.HistoireDAO;
 /**
  * Servlet implementation class AfficherHistoires
  */
-
+@WebServlet("/afficherHistoires")
 public class AfficherHistoires extends HttpServlet {
 	
 	@Resource(name = "users")
@@ -25,7 +26,7 @@ public class AfficherHistoires extends HttpServlet {
 	public static final String HISTOIRES = "histoires";
 	public static final String SESSION_USER = "sessionUtilisateur";
 	public static final String CONNECTED = "isConnected";
-	public static final String VUE  = "/WEB-INF/afficherHistoires.jsp";
+	public static final String VUE  = "/WEB-INF/jspModeLecture/afficherHistoires.jsp";
 	
     /**
      * @see HttpServlet#HttpServlet()

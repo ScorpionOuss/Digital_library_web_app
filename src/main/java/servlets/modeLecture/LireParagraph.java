@@ -1,4 +1,4 @@
-package servlets;
+package servlets.modeLecture;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ public class LireParagraph extends HttpServlet {
     private static final String story = "titleStory";
     private static final String forChoice = "idChoice";
     private static final String par = "paragraph";
-    public static final String VUE  = "/WEB-INF/lireParagraph.jsp";
+    public static final String VUE  = "/WEB-INF/jspModeLecture/lireParagraph.jsp";
     /**
      * @see HttpServlet#HttpServlet()
      */
