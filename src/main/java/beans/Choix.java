@@ -5,7 +5,17 @@ public class Choix {
 	private Integer idChoice; 
 	private String text; 
 	private Boolean locked; 
+	private boolean isMasked = false; /* Pay attention when to Use it it's not stored in the DB but calculated 
+	during the display of paragraphs */
 	
+	public boolean getIsMasked() {
+		return isMasked;
+	}
+
+	public void setMasked(boolean isMasked) {
+		this.isMasked = isMasked;
+	}
+
 	public String getText() {
 		return text;
 	}
@@ -22,13 +32,12 @@ public class Choix {
 		return idChoice;
 	} 
 	
-	public Boolean isLocked() {
+	public Boolean getIsLocked() {
 		return locked;
 	}
 	
 	public void setLocked(Boolean locked) {
 		this.locked = locked;
 	}
-	
 	
 }

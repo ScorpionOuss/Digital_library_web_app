@@ -17,11 +17,14 @@ public class HistoireDAO extends AbstractDAO {
 	}
 
 	public Histoire getHistoire(String title) throws DAOException {
+		Connection conn = null;
+		PreparedStatement st = null;
+		ResultSet res = null;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT * from Story where title = ? ");
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from Story where title = ? ");
 			st.setString(1, title);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
             if (! res.next()) {
             	throw new DAOException("Histoire introuvable"); 
             }
@@ -36,6 +39,8 @@ public class HistoireDAO extends AbstractDAO {
             return histoire;
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
@@ -50,17 +55,22 @@ public class HistoireDAO extends AbstractDAO {
 	 * @return
 	 */
 	public int addHistoire(String title, String creator,boolean publicLec, boolean publicEc, String image, String description){
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null;
 		try{
-			Connection conn = getConnexion();
+			conn = getConnexion();
 			/* Create the first paragraph */
-			PreparedStatement st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author) " + 
+			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author) " + 
 					"values(?, seqPar.nextval, ?); SELECT seqPar.currval as idPar from dual;");
 			st.setString(1, title);
 			st.setString(2, creator);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			/* retrieve the id of the paragraph */
             res.next();
 			int id = res.getInt("idPar");
+			/* just to Suppress The warnings */
+			ResClose.silencedClosing(st);
 			/* Create the story */
 			st = conn.prepareStatement("INSERT INTO STORY(title, creator, publicLec, publicEc, firstParagraph, image, description)" + 
 					"values(?, ?, ?, ?, ?, ?, ?)");
@@ -75,7 +85,9 @@ public class HistoireDAO extends AbstractDAO {
 			return id; 
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
-		}		
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
 	}
 	
 	/**
@@ -83,14 +95,13 @@ public class HistoireDAO extends AbstractDAO {
 	 * @param title
 	 * @return
 	 */
-	public boolean availableForRead(String title) {
+	private boolean availableForRead(String title, Connection conn, PreparedStatement st, ResultSet res) {
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT * from Paragraph where titleStory = ? " + 
+			st = conn.prepareStatement("SELECT * from Paragraph where titleStory = ? " + 
 				"and idParagraph NOT IN (SELECT idParagraph from BodyParagraph where titleStory = ?)");
 			st.setString(1, title);
 			st.setString(2, title);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			return res.next();
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
@@ -104,18 +115,23 @@ public class HistoireDAO extends AbstractDAO {
 	 * @return
 	 */
 	public boolean uniqueDisplay(String title, LinkedList<Integer> path) {
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null;
 		try{
-			Connection conn = getConnexion();
+			conn = getConnexion();
 			/* search if there is more that one conclusion */
-			PreparedStatement st = conn.prepareStatement("SELECT COUNT(*) AS ConcNb from Paragraph where titleStory = ? " + 
+			st = conn.prepareStatement("SELECT COUNT(*) AS ConcNb from Paragraph where titleStory = ? " + 
 					"and idParagraph NOT IN (SELECT idParagraph from BodyParagraph where titleStory = ?)");
 			st.setString(1, title);
 			st.setString(2, title);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			res.next();
 			if (res.getInt("ConcNb") > 1) { /* More than one conclusion */
 				return false; /* mean normal display */
 			}
+			/* Close : for warning :( ? */
+			ResClose.silencedClosing(res, st);
 			/* Else we must verify if the unique existing conclusion can have more than one path, in case of no 
 			 * 	search the path and store it 
 			 */
@@ -146,6 +162,9 @@ public class HistoireDAO extends AbstractDAO {
 					idLastPar = res.getInt("idParagraph");
 					continue;
 				}
+				/* Close : for warning :( ? */
+				ResClose.silencedClosing(res, st);
+				
 				/* search the number of the choices associated */
 				st = conn.prepareStatement("SELECT COUNT(*) as NbChoices from Choice where assocStory = ? and assocPar = ? ");
 				st.setString(1, title);
@@ -169,7 +188,9 @@ public class HistoireDAO extends AbstractDAO {
 			
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
-		}	
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
 	}
 	
 	/**
@@ -177,13 +198,17 @@ public class HistoireDAO extends AbstractDAO {
 	 * @param title
 	 */
 	public void publish_story(String title) {
+		Connection conn = null;
+		PreparedStatement st = null;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("UPDATE Story set publicEc = 1 where title = ? ");
+			conn = getConnexion();
+			st = conn.prepareStatement("UPDATE Story set publicEc = 1 where title = ? ");
 			st.setString(1, title);
 			st.executeQuery();
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
 	}
 	
@@ -192,38 +217,50 @@ public class HistoireDAO extends AbstractDAO {
 	 * @param title
 	 */
 	public void unpublish_story(String title) {
+		Connection conn = null;
+		PreparedStatement st = null;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("UPDATE Story set publicEc = 0 where title = ? ");
+			conn = getConnexion();
+			st = conn.prepareStatement("UPDATE Story set publicEc = 0 where title = ? ");
 			st.setString(1, title);
 			st.executeQuery();
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+		ResClose.silencedClosing(st, conn);
 		}
 	}
 
 	public LinkedList<String> listofAuthors(String story){
 		LinkedList<String> authors = new LinkedList<String>();
+		Connection conn = null;
+		PreparedStatement st = null;
+		ResultSet res = null;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT DISTINCT author from Paragraph where titleStory = ?");
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT DISTINCT author from Paragraph where titleStory = ?");
 			st.setString(1, story);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			while(res.next()) {
 				authors.add(res.getString("author"));
 			}
 			return authors; 
 		} catch (SQLException e){
 				throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
 	}
 	
-	public LinkedList<Histoire> listOfStories(){
+	public LinkedList<Histoire> listOfStoriesToEdit(){
 		LinkedList<Histoire> stories = new LinkedList<Histoire>();
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null; 
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT * from Story");
-			ResultSet res = st.executeQuery();
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from Story");
+			res = st.executeQuery();
 			while (res.next()) {
 				Histoire histoire = new Histoire();
 				histoire.setCreator(res.getString("Creator"));
@@ -238,6 +275,39 @@ public class HistoireDAO extends AbstractDAO {
 			return stories;
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+	}
+	
+	public LinkedList<Histoire> listOfStoriesToRead(){
+		LinkedList<Histoire> stories = new LinkedList<Histoire>();
+		Connection conn = null;
+		PreparedStatement st = null;
+		ResultSet res = null;
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from Story");
+			res = st.executeQuery();
+			while (res.next()) {
+				String title = res.getString("title");
+				if (availableForRead(title, conn, st, res)) {
+					Histoire histoire = new Histoire();
+					histoire.setCreator(res.getString("Creator"));
+					histoire.setTitle(title);
+					histoire.setDescription(res.getString("Description"));
+					histoire.setImage(res.getString("Image"));
+					histoire.setPublicEc(res.getInt("publicLec") == 1);
+					histoire.setPublicLec(res.getInt("PublicLec") == 1);
+					histoire.setFirstParagraph(res.getInt("firstParagraph"));
+					stories.add(histoire);
+				}	
+			}
+			return stories;
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 }

@@ -24,23 +24,24 @@ public class UtilisateurDAO extends AbstractDAO{
 	public Boolean connexion(Utilisateur user){
 	    String pseudonyme = user.getUserName();
 	    String motDePasse = user.getMotDePasse();
-	    
-	    
-	    try (
-	            Connection conn = getConnexion();
-	            PreparedStatement st = conn.prepareStatement
-	            ("select username, password from Users where username =? ");
-	        ){
-	            st.setString(1,pseudonyme);
-	            ResultSet resultSet = st.executeQuery();
-	            if (resultSet.next()){
-	                String password = resultSet.getString(2);
-	                if (password.equals(motDePasse)){
-	                    return true;}
-	            }
-	            return false;
+	    ResultSet resultSet = null; 
+	    Connection conn = null; 
+	    PreparedStatement st = null; 
+	    try {
+	       conn = getConnexion();
+	       st = conn.prepareStatement("select username, password from Users where username =? ");
+	       st.setString(1,pseudonyme);
+	       resultSet = st.executeQuery();
+	       if (resultSet.next()){
+	    	   String password = resultSet.getString(2);
+	           if (password.equals(motDePasse)){
+	        	   return true;}
+	       }
+	       return false;
 	    } catch (SQLException e){
 	        throw new DAOException("Erreur BD " + e.getMessage(), e);
-	    }	
+	    } finally {
+	    	ResClose.silencedClosing(resultSet, st, conn);
+	    }
 	}
 }

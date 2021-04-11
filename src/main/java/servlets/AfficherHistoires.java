@@ -38,17 +38,8 @@ public class AfficherHistoires extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HistoireDAO storiesDAO = new HistoireDAO(dataSource);
-		LinkedList<Histoire> stories = storiesDAO.listOfStories();
+		LinkedList<Histoire> stories = storiesDAO.listOfStoriesToRead();
 		request.setAttribute(HISTOIRES, stories);
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

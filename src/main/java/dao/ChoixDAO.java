@@ -19,11 +19,14 @@ public class ChoixDAO extends AbstractDAO {
 	}
 	
 	public Choix getChoice(int idChoice) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ; 
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT * from Choice where idChoice = ? ");
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from Choice where idChoice = ? ");
 			st.setInt(1, idChoice);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			res.next();
 			Choix choice = new Choix();
 			choice.setIdChoice(idChoice);
@@ -32,6 +35,8 @@ public class ChoixDAO extends AbstractDAO {
 			return choice; 
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
@@ -43,19 +48,24 @@ public class ChoixDAO extends AbstractDAO {
 	 * @return
 	 */
 	public int addChoice(String story, int idParagraph, String text) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("INSERT INTO Choice(idChoice, prevParStory, prevPar, text)" + 
+			conn = getConnexion();
+			st = conn.prepareStatement("INSERT INTO Choice(idChoice, prevParStory, prevPar, text)" + 
 					"values(seqChoice.nextval, ?, ?, ?); SELECT seqChoice.currval as idChoice from dual; ");
 			st.setString(1, story);
 			st.setInt(2, idParagraph);
 			st.setString(3, text);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			res.next();
 			int idChoice = res.getInt("idChoice");
 			return idChoice;
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
@@ -77,12 +87,17 @@ public class ChoixDAO extends AbstractDAO {
 		if (memoizeMap.containsKey(idChoice)) {
 			return memoizeMap.get(idChoice);
 		}
-		
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT C.assocStory as story, C.assocPar as idPar"
-			+ "from Choice C JOIN Bodyparagraph B ON C.assocStory = B.titleStory ans C.assocPar = B.idParagraph");
-			ResultSet res = st.executeQuery();
+			conn = getConnexion();
+			/* See if the choice has an associate paragraph which is a conclusion */
+			st = conn.prepareStatement("SELECT C.assocStory as story, C.assocPar as idPar "
+					+ "from Choice C JOIN Bodyparagraph B ON C.assocStory = B.titleStory and C.assocPar = B.idParagraph " +
+					"where idChoice = ? ");
+			st.setInt(1, idChoice);
+			res = st.executeQuery();
 			if (!res.next()) { /* means the choice is associated to a conclusion */
  				memoizeMap.put(idChoice, false);
 				return false;
@@ -90,6 +105,8 @@ public class ChoixDAO extends AbstractDAO {
 			/* Else search for the next corresponding choices */
 			String assocStory = res.getString("story");
 			int assocPar = res.getInt("idPar");
+			/* To suppress The warnings */
+			ResClose.silencedClosing(res, st);
 			st = conn.prepareStatement("SELECT idChoice from Choice where prevParStory = ? and prevPar = ? ");
 			st.setString(1, assocStory);
 			st.setInt(2, assocPar);
@@ -103,15 +120,20 @@ public class ChoixDAO extends AbstractDAO {
 			
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
 	public Paragraphe retreiveCorrPar(int idChoice) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT assocStory, assocPar from Choice where idChoice = ? ");
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT assocStory, assocPar from Choice where idChoice = ? ");
 			st.setInt(1, idChoice);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			res.next(); /* definitely there is a paragraph */
 			String story = res.getString("assocStory");
 			int idPar = res.getInt("assocPar");
@@ -119,6 +141,8 @@ public class ChoixDAO extends AbstractDAO {
 			return assoParDAO.getParagraphe(story, idPar);
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
@@ -129,18 +153,23 @@ public class ChoixDAO extends AbstractDAO {
 	 * @return
 	 */
 	public int lockChoice(int idChoice, String lockedBy) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
 		/* modify lock and associate it with a paragraph */
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT prevParStory from Choice where idChoice = ?");
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT prevParStory from Choice where idChoice = ?");
 			st.setInt(1, idChoice);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			String story = res.getString("prevParStory");
 			
 			ParagrapheDAO assocParDao = new ParagrapheDAO(this.dataSource);
 			/* Create a paragraph with an empty text */
 			int idPar = assocParDao.addParagraphe(story, "", false, lockedBy, true); 
 			
+			/* To suppress the warnings */
+			ResClose.silencedClosing(res, st);
 			st = conn.prepareStatement("UPDATE Choice set locked = 1 and assocPar = ? and assocStory = ? where idChoice = ?");
 			st.setInt(1, idPar);
 			st.setString(2, story);
@@ -149,22 +178,29 @@ public class ChoixDAO extends AbstractDAO {
 			return idPar;
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
 	public void unlockChoice(int idChoice) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
 		/* change locked and set the associated paragraph to Null  : delete the paragraph */
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT assocStory, assocPar from Choice where idChoice = ? ;" + 
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT assocStory, assocPar from Choice where idChoice = ? ;" + 
 					"UPDATE Choice set locked = 0 and assocPar = NULL and assocStory = NULL where idChoice = ?");
 			st.setInt(1, idChoice);
 			st.setInt(2, idChoice);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			ParagrapheDAO assocParDao = new ParagrapheDAO(this.dataSource);
 			assocParDao.deleteParagraphe(res.getString("assocStory"), res.getInt("assocPar"));
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 }

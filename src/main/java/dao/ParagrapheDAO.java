@@ -18,23 +18,27 @@ public class ParagrapheDAO extends AbstractDAO {
 	}
 	
 	public Paragraphe getParagraphe(String titleStory, int idPar) {
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null; 
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT * from Paragraph where titleStory = ? " + 
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from Paragraph where titleStory = ? " + 
 				"and idParagraph = ? ");
 			st.setString(1, titleStory);
 			st.setInt(2, idPar);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			if (!res.next()) {
 				throw new DAOException("Erreur : paragraphe introuvable");
 			}
-			
 			Paragraphe paragraph = new Paragraphe();
 			paragraph.setIdParagraph(idPar);
 			paragraph.setStory(titleStory);
 			paragraph.setAuthor(res.getString("author"));
 			paragraph.setText(res.getString("text"));
 			paragraph.setIsValidated(res.getInt("validated") == 1);
+			/* Close */
+			ResClose.silencedClosing(res, st);
 			/* See if there is a next paragraph */
 			st = conn.prepareStatement("SELECT idNextPar from BodyParagraph where titleStory = ? and titleNext = ? and idParagraph = ?");
 			st.setString(1, titleStory);
@@ -42,10 +46,15 @@ public class ParagrapheDAO extends AbstractDAO {
 			st.setInt(3, idPar);
 			/* The result can be null */
 			res = st.executeQuery();
-			int next = res.getInt("idNextPar");
-			paragraph.setNextParagraph((res.wasNull()? null : next));
+			if (res.next()) {
+				int next = res.getInt("idNextPar");
+				paragraph.setNextParagraph((res.wasNull()? null : next));
+				return paragraph; /* There is no choices : exit */
+			}
 			/* retrieve the choices */
 			st = conn.prepareStatement("SELECT * from Choice where prevParStory = ? and prevPar = ? ");
+			st.setString(1, titleStory);
+			st.setInt(2, idPar);
 			res = st.executeQuery();
 			LinkedList<Choix> choices = new LinkedList<Choix>();
 			while (res.next()) {
@@ -59,6 +68,8 @@ public class ParagrapheDAO extends AbstractDAO {
 			return paragraph;
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		}  finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 
@@ -71,17 +82,22 @@ public class ParagrapheDAO extends AbstractDAO {
 	 * @return
 	 */
 	public int addParagraphe(String story, String text, boolean validated, String author, boolean isConclusion) {
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null;
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("INSERT INTO Paragraphe(titleStory, idParagraph, author, text, validated)" + 
+			conn = getConnexion();
+			st = conn.prepareStatement("INSERT INTO Paragraphe(titleStory, idParagraph, author, text, validated)" + 
 					"values(?, seqPar.nextval, ?, ?, ?); SELECT seqPar.currval as idPar from dual; ");
 			st.setString(1, story);
 			st.setString(2, author);
 			st.setString(3, text);
 			st.setInt(4, (validated)? 1:0);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			res.next();
 			int idPar = res.getInt("idPar");
+			/* Close : warning ? */
+			ResClose.silencedClosing(st);
 			/* if it's not a conclusion : add it to bodyParagraph */
 			if (!isConclusion) {
 				st = conn.prepareStatement("INSERT INTO BodyParagraph(titleStory, idParagraph) values(? , ?) ");
@@ -92,33 +108,41 @@ public class ParagrapheDAO extends AbstractDAO {
 			
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		}  finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
 	
 	public void modifyText(String titleStory, int idPar, String newText) {
+		Connection conn = null;
+		PreparedStatement st = null; 
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("UPDATE Paragraph set text = ? where titleStory = ? and idParagraph = ?  ");
+			conn = getConnexion();
+			st = conn.prepareStatement("UPDATE Paragraph set text = ? where titleStory = ? and idParagraph = ?  ");
 			st.setString(1, newText);
 			st.setString(2, titleStory);
 			st.setInt(3, idPar);
 			st.executeUpdate();
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
 	}
 	
 	
 	public void validateParagraphe(String titleStory, int idPar) {
-		
+		Connection conn = null;
+		PreparedStatement st = null; 
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("UPDATE Paragraph set validated = 1 where titleStory = ? and idParagraph = ?  ");
+			conn = getConnexion();
+			st = conn.prepareStatement("UPDATE Paragraph set validated = 1 where titleStory = ? and idParagraph = ?  ");
 			st.setString(1, titleStory);
 			st.setInt(2, idPar);
 			st.executeUpdate();
-			
+			/* Just to suppress the warnings ????? */
+			ResClose.silencedClosing(st);
 			/* Validate the corresponding choice also */
 			st= conn.prepareStatement("UPDATE Choice set locked = 2 where assocStory = ? and assocPar = ? ");
 			st.setString(1, titleStory);
@@ -127,17 +151,22 @@ public class ParagrapheDAO extends AbstractDAO {
 			
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
 	}
 	
 	public void associateNextParagraph(String titleStory, int idPar, String titleNext, int idParNext) {
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null;
 		try {
 			/* Must verify that the paragraph is in body paragraphs table otherwise add it */
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("SELECT * from BodyParagraph where titleStory = ? and idParagraph = ?"); 
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from BodyParagraph where titleStory = ? and idParagraph = ?"); 
 			st.setString(1, titleStory);
 			st.setInt(2, idPar);
-			ResultSet res = st.executeQuery();
+			res = st.executeQuery();
 			String statement; 
 			if (res.next()) {
 				statement = "UPDATE BodyParagraph set titleNext = ? and idNextPar = ? where titleStory = ? and idParagraph = ? ";
@@ -145,6 +174,8 @@ public class ParagrapheDAO extends AbstractDAO {
 			else {
 				statement = "Insert into BodyParagraph(titleNext, idNextPar, titleStory, idParagraph) values(?, ?, ?, ?)";	
 			}
+			/* To suppress the warnings */
+			ResClose.silencedClosing(st);
 			st = conn.prepareStatement(statement);
 			st.setString(1, titleNext);
 			st.setInt(2, idParNext);
@@ -153,18 +184,40 @@ public class ParagrapheDAO extends AbstractDAO {
 			st.executeUpdate();
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 	}
 	
 	public void deleteParagraphe(String title, int idParagraph) {
+		Connection conn = null;
+		PreparedStatement st = null; 
 		try {
-			Connection conn = getConnexion();
-			PreparedStatement st = conn.prepareStatement("DELETE from Paragraph where titleStory = ? and idParagraph = ? ");
+			conn = getConnexion();
+			st = conn.prepareStatement("DELETE from Paragraph where titleStory = ? and idParagraph = ? ");
 			st.setString(1, title);
 			st.setInt(2, idParagraph);
 			st.executeUpdate();
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
+	}
+
+	/* For the unique display */
+	public Paragraphe turnIntoOneParagraph(String titleStory, LinkedList<Integer> idPars) {
+		Paragraphe assocPar = new Paragraphe();
+		assocPar.setStory(titleStory);
+		Paragraphe intermPar; 
+		String newText; String newAuth; 
+		for (int i : idPars) {
+				intermPar = getParagraphe(titleStory, i);
+				newText = (assocPar.getText()!=null) ? assocPar.getText() + "<br>" : "";
+				newAuth = (assocPar.getAuthor()!=null)? assocPar.getAuthor() + " - " : "";
+				assocPar.setText(newText + intermPar.getText());
+				assocPar.setAuthor(newAuth+ intermPar.getAuthor());
+		}
+		return assocPar; 
 	}
 }
