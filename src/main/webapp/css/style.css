@@ -1,0 +1,262 @@
+.content{
+	margin:0px;
+	padding: 0px;;
+}
+#deux-button{
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+html {
+  line-height: 1.15; /* 1 */
+}
+
+article,
+time,
+aside,
+footer,
+header,
+nav,
+div,
+section{
+  display: block;
+}
+body{
+	line-height: 17px;
+	margin:0;
+	padding:0;
+	font-family: sans-serif;
+	font-size: medium;
+	background-color: #000;
+	background-image: url(../../images/black_lozenge.png),url(../../images/whirlpool.png);
+	background-repeat: repeat-x,repeat;
+	background-position: top left,top left;
+}
+
+img{
+ width:auto;
+ height:auto;
+ max-width:100%;
+ max-height:100%;
+
+}
+aside{
+	margin-top: 55px;
+
+}
+h1,h2{
+	font-family: 'Amatic SC', cursive;
+}
+time,h2,h3,h4,h5,p,footer{
+	padding-left: 10px;
+}
+h2{
+	font-size: 2em;
+}
+h3{
+	font-size: 1.6em;
+}
+h5{
+	font-weight: normal;
+	font-size: 80%;
+}
+h4{
+	font-size: 1em;
+}
+h1{
+	color: #eee;
+	font-size: 3.2em;
+	text-align: center;
+	padding:0;
+}
+
+footer{
+	text-align: left;
+	color: #FFF;
+  	padding-bottom:8px;
+  	font-size: 90%;
+}
+#partie-3 img{
+	 margin:-5px -5px -5px -5px;
+	 box-shadow: 3px 3px 6px #666;
+}
+#fond{
+	background-color: #FFFFFF;
+
+}
+
+#end {
+  background-color: #000;
+  color:            #efe5d0;
+  text-align:       center;
+  padding:          15px;
+  margin: 0 0 0 0px;
+  font-size:        90%;
+}
+
+.at-histoire{
+	padding-top: 30px;
+	padding-left: 30px;
+	margin: 10 10 10 10px;
+}
+
+.carre{
+	width:80%;
+	height: 100%;
+	padding:0px 20px 490px 20px;
+	text-align: center;
+	height:auto;
+	background:#cd5c5c;
+		line-height: 0;
+}
+
+
+/*#top{
+	padding:10px 0 0 0;
+	background-image: url(images/black_lozenge.png);
+	background-position: center;
+}*/
+
+.gray{
+	background-color: #f1f5f9;
+	width: 100%;
+	line-height: 0;
+	text-align: center;
+}
+#pub{
+	position: fixed;
+	top:40%;
+	right:95%;/*100*/
+}
+
+.button{
+	margin-bottom:5px;
+	display: inline-block;
+	padding:15px 15px;
+	width: 120px;
+	height: auto;
+	text-align: center;
+	font-size: 1.4em;
+	text-decoration: none;
+	border-radius: 6px;
+	color:#FFF;
+	background-color: rgba(0,233,233,0.1);
+	border-color: #FFF;
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.button2{
+	display: inline-block;
+	text-decoration: none;
+	color:#FFF;
+	border-color: transparent;
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.separe{
+	color:#FFF;
+	cursor: default;
+}
+.button2:hover {
+    color: rgba(0,0,0,0.5); /* Green */
+}
+.selected .button{
+	background-color: rgba(0,233,233,0.3);
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: rgba(0,0,0,0.5); /* Green */
+    color: white;
+}
+.at{
+	background-color: #212530;
+	color: #FFF;
+}
+.image-2-3{
+	height: 510px;
+}
+.image-1-3{
+	height:215px;
+	width: 215px;
+}
+.image-1-3-2{
+	height:150px;
+	width: 215px;
+}
+#HOME{
+}
+#support{
+}
+main a:link {
+	color:            #dc143c;
+  text-decoration:     none;
+}
+main a:visited {
+  color:           #ddd;
+  text-decoration:  none;
+}
+ .test_a {
+                display: block;
+                margin: 0 auto;
+                /*width:400px;*/
+                overflow: hidden;
+            }
+
+.test_a img {
+                width: 100%;
+                transform: scale(1);
+                transition: all 1s ease 0s;
+}
+
+.test_a:hover img {
+                transform: scale(1.2);
+                transition: all 1s ease 0s;
+            }
+/*a:hover img {
+      transform: scale(1.007, 1.007);
+    }
+    */
+main ul {
+	margin: 5px 0 10px 0;
+	padding: 5px 0 5px 0;
+	list-style: none;
+	text-align: center;
+	overflow: hidden;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background-image: url(../../images/lodyas.png);
+}
+main ul li {
+	display: inline;
+	padding: 5px 0px 5px 0px;
+}
+
+main ul li a:link, nav ul li a:visited {
+	color: #eee;
+	border-bottom: none;
+	font-weight: bold;
+
+/*
+	text-shadow: 1px 1px 3px #e2c2c2;
+	text-transform: uppercase;
+*/
+}
+main ul li.selected {
+	background-color: #c8b99c;
+}
+#lastar{
+	border-top: dashed;
+	border-top-color: #d3d3d3;
+	background-position: bottom left;
+	vertical-align: middle;
+	padding:30px 30px;
+}
+
+@media handheld, only screen and (max-width: 767px) {
+	.col-1-2-left, .col-1-2-right{
+		width: 100%;
+		text-align: center;
+	}
+}
