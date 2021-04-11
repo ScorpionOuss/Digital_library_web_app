@@ -1,7 +1,17 @@
 package html_generator;
+
+import java.util.HashMap;
+
 public abstract class DoubleTag extends Tag{
     protected Member body = null;
     
+    protected DoubleTag() {
+    	super();
+    }
+    
+    protected DoubleTag(HashMap<String, String> attributes){
+        super(attributes);
+    }
     
     public String getOpenTag(){
         return "<" + getName() + " " + printAttributes() + ">";

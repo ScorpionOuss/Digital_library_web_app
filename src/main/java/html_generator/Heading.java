@@ -1,6 +1,7 @@
 package html_generator;
 import java.io.FileWriter; 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Heading extends DoubleTag{
     public Heading(){

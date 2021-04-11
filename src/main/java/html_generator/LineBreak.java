@@ -1,4 +1,7 @@
 package html_generator;
+
+import java.util.HashMap;
+
 public class LineBreak extends ShortTag{
     public LineBreak(){
         super();

@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Page {
     /* Generates a simple html page with a paragraph and some choices */
@@ -47,10 +48,10 @@ public class Page {
         SingleScript choiceHandler = new SingleScript();
 
         Heading title = new Heading(2);
-        title.addToBody(new textMember(par.getStory()));
+        title.addToBody(new TextMember(par.getStory()));
 
         Heading author = new Heading(3);
-        author.addToBody(new textMember(par.getAuthor()));
+        author.addToBody(new TextMember(par.getAuthor()));
 
         TagMember scriptMember = new TagMember(choiceHandler);
         TagMember titleMember = new TagMember(title);
@@ -61,7 +62,7 @@ public class Page {
         currentTag.addToBody(authorMember);
 
         Paragraph paragraph = new Paragraph();
-        paragraph.addToBody(new textMember(par.getText()));
+        paragraph.addToBody(new TextMember(par.getText()));
 
         TagMember paragraphMember = new TagMember(paragraph);
         currentTag.addToBody(paragraphMember);
@@ -73,7 +74,7 @@ public class Page {
                 attributes = new HashMap<String, String>();
                 attributes.put("onclick", "handleChoice("+ c.getIdChoice() + ")"); /* script choiceHandler.js must contain a handleChoice(int id) method */
                 choice = new Span(attributes);
-                choice.addToBody(new textMember(c.getText()));
+                choice.addToBody(new TextMember(c.getText()));
                 currentTag.addToBody(new TagMember(choice));
             }
         }
@@ -104,7 +105,7 @@ public class Page {
     public String readFile(String fileName){
         String data = "";
         try {
-            File file = new File(filename);
+            File file = new File(fileName);
             Scanner reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 data += reader.nextLine() + "\n";
@@ -114,6 +115,7 @@ public class Page {
             System.out.println("IO error occurred : wrap files not found.");
             e.printStackTrace();
           }
+        return data;
     }
 
 }
