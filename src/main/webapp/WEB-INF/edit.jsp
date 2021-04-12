@@ -65,11 +65,11 @@
 				</nav>
 			</div>
             <div class="content">
-             <c:forEach items="${histoiresEdit}" var="v">
 <%--             <c:if test="${v.publicLec || isConnected}">
  --%>			<%-- Display the story only if it is public for lecture or the user is logged in  --%>
                 <div class="col-1-1" id="fond">
                     <div class="list-histoire">
+                      <c:forEach items="${histoiresEdit}" var="v">
                         <div class="col-1-3">
                             <article class = "at-histoire">
                                 <header>
@@ -87,13 +87,13 @@
                                 </footer>
                             </article>
                         </div>
+                       			</c:forEach>
                        
                     </div>
                 </div>
 
 <%--               	</c:if>
  --%>
-			</c:forEach>
                 
         </main>
 
