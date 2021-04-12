@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import javax.sql.DataSource;
 
 import beans.Histoire;
+import beans.Utilisateur;
 
 public class HistoireDAO extends AbstractDAO {
 	 
@@ -252,14 +253,16 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 	
-	public LinkedList<Histoire> listOfStoriesToEdit(){
+	public LinkedList<Histoire> listOfStoriesToEdit(Utilisateur user){
+		String editor = user.getUserName();
 		LinkedList<Histoire> stories = new LinkedList<Histoire>();
 		Connection conn = null;
 		PreparedStatement st = null; 
 		ResultSet res = null; 
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("SELECT * from Story");
+			st = conn.prepareStatement("select * from story left  join invited on title = titleStory where publicEc = 1 or invitedUser = ?");
+			st.setString(1, editor);
 			res = st.executeQuery();
 			while (res.next()) {
 				Histoire histoire = new Histoire();
