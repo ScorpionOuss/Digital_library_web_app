@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<title>votre hero histoire</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../css/simplegrid.css">
-	<link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/simplegrid.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 </head>
@@ -58,7 +58,7 @@
                 <div class="content">
                     <div class="col-1-1" id="fond">
                         <div class="col-1-1">
-                            <form class="pure-form pure-form-aligned creation-paragraph">
+                            <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="creation">
                                 <fieldset>
                                     <div class="pure-control-group" id="nomp">
                                         <label for="nom" class = "label-p">titre du histoire</label>
@@ -103,7 +103,7 @@
                                             <input id="case" name='case' type="checkbox">  I've read the terms and conditions
                                             <span class="msgE">erreur message</span>
                                             </label>
-                                        <input id="btn" name="button" value="submit" class="pure-button pure-button-primary button">
+                                        <input type="submit" id="btn" name="button" value="submit" class="pure-button pure-button-primary button">
                                     </div>
                         
                                 </fieldset>
@@ -297,4 +297,53 @@
   this site are the property of their respective owners.<br>
   <a href="index.html" class="button2" title="about">@about us</a>
 </footer>
-</html>
+</html> 
+
+<%-- <%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Inscription</title>
+        <link type="text/css" rel="stylesheet" href="form.css" />
+    </head>
+    <body>
+        <form method="post" action="creation">
+            <fieldset>
+                <legend>Inscription</legend>
+                <p>Vous pouvez vous inscrire via ce formulaire.</p>
+
+                <label for="name">Titre <span class="requis">*</span></label>
+                <input type="text" id="name" name="name" value="<c:out value="${utilisateur.email}"/>" size="20" maxlength="60" />
+                <span class="erreur">${form.erreurs['name']}</span>
+                <br />
+
+                <label for="site">url<span class="requis">*</span></label>
+                <input type="text" id="site" name="site" value="" size="20" maxlength="20" />
+                <span class="erreur">${form.erreurs['site']}</span>
+                <br />
+
+                <label for="annee">date création <span class="requis">*</span></label>
+                <input type="password" id="annee" name="annee" value="" size="20" maxlength="20" />
+                <span class="erreur">${form.erreurs['annee']}</span>
+                <br />
+
+                <label for="presentation">Description</label>
+                <input type="text" id="presentation" name="presentation" value="<c:out value="${utilisateur.nom}"/>" size="20" maxlength="20" />
+                <span class="erreur">${form.erreurs['presentation']}</span>
+                <br />
+
+				<label for="paragraph">First Paragraph</label>
+                <input type="text" id="paragraph" name="paragraph" value="<c:out value="${utilisateur.nom}"/>" size="20" maxlength="20" />
+                <span class="erreur">${form.erreurs['paragraph']}</span>
+                <br />
+                
+                <input type="submit" value="Créer" class="sansLabel" />
+                <br />
+                
+                <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+            </fieldset>
+        </form>
+    </body>
+</html> --%>

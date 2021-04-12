@@ -58,7 +58,7 @@ public class LireParagraph extends HttpServlet {
 		ChoixDAO choixDAO2 = new ChoixDAO(dataSource);
 		if (paragraph.getChoices() != null) {
 			for (Choix choice : paragraph.getChoices()) {
-				choice.setMasked(choixDAO2.isMasked(choice.getIdChoice()));
+				choice.setIsMasked(choixDAO2.isMasked(choice.getIdChoice()));
 			}
 		}
 		request.setAttribute(par, paragraph);

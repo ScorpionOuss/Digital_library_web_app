@@ -1,4 +1,4 @@
-package servlets.modeLecture;
+package servlets;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -21,8 +21,8 @@ import dao.ParagrapheDAO;
 /**
  * Servlet implementation class LireUneHistoire
  */
-@WebServlet("/LireUneHistoire")
-public class LireUneHistoire extends HttpServlet {
+@WebServlet("/EditStory")
+public class EditStory extends HttpServlet {
        
 	@Resource(name = "users")
     private DataSource dataSource;
@@ -36,7 +36,7 @@ public class LireUneHistoire extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LireUneHistoire() {
+    public EditStory() {
         super();
     }
 
