@@ -65,7 +65,7 @@ public class EditStory extends HttpServlet {
 		ChoixDAO choixDAO = new ChoixDAO(dataSource);
 		if (assocPar.getChoices() != null) {
 			for (Choix choice : assocPar.getChoices()) {
-				choice.setMasked(choixDAO.isMasked(choice.getIdChoice()));
+				choice.setIsMasked(choixDAO.isMasked(choice.getIdChoice()));
 			}
 		}
 		request.setAttribute(donneeHistoire, story);
