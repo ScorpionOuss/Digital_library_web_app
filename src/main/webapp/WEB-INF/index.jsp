@@ -36,7 +36,7 @@
 				<nav >
 				<ul>
 					<div class="col-9-12">
-						<li class= "col-1-3" ><a href="histoire-list.html" class="button2" title="partie-1">Histoires</a></li>
+						<li class= "col-1-3" ><a href="afficherHistoires" class="button2" title="partie-1">Histoires</a></li>
 						<li class="col-1-3"><a href="edit" class="button2" title="partie-2">Edit</a></li>
 						<li class="col-1-3"><a href="creation" class="button2" title="partie-3">Creation</a></li>
 					</div>
