@@ -310,5 +310,43 @@ public class HistoireDAO extends AbstractDAO {
 			ResClose.silencedClosing(res, st, conn);
 		}
 	}
+
+	public void addInvited(String story, String userInvited) {
+		Connection conn = null;
+		PreparedStatement st = null;
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("INSERT INTO Invited(titleStory, invitedUser) values(?, ?)");
+			st.setString(1, story);
+			st.setString(2, userInvited);
+			st.executeUpdate();
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
+		}
+	}
+
+	/* Return the list of invited people to edit story */
+	public LinkedList<String> getInvited(String story){
+		LinkedList<String> invited = new LinkedList<String>();
+		Connection conn = null;
+		PreparedStatement st = null;
+		ResultSet res = null;
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT invitedUser from INVITED where titleStory = ? ");
+			st.setString(1, story);
+			res = st.executeQuery();
+			while (res.next()) {
+				invited.add(res.getString("invitedUser"));
+			}
+			return invited; 
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+	}
 }
 

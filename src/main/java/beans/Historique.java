@@ -2,6 +2,10 @@ package beans;
 
 import java.util.LinkedList;
 
+import javax.sql.DataSource;
+
+import dao.ChoixDAO;
+
 public class Historique {
 	private String user; 
 	private String story; 
@@ -51,5 +55,25 @@ public class Historique {
 		this.hisChoices = hisChoices;
 	}
 	
-	
+	/* To know if a paragraph has been read or not : to use in case if there is a condition 
+	 * on the access to a certain choice : used after the method getConditionAccess on ChoixDAO 
+	 */
+	public boolean hasBeenRead (int idParagraph, DataSource dataSource) {
+		/* In case it is needed */
+		ChoixDAO choixDAO = new ChoixDAO(dataSource);
+		/* loop over all the choices in the history  */
+		for (Choix choice : hisChoices) {
+			/* get the associated paragraph */
+			if (choice.getAssocPar() == null) {
+				/* In this case we'll search in the data base */
+				/* This is not very optimal */
+				choice.setAssocPar(choixDAO.retreiveCorrPar(choice.getIdChoice()).getIdParagraph());
+			}
+			
+			if (choice.getAssocPar() == idParagraph) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

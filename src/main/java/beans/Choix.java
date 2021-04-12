@@ -7,12 +7,21 @@ public class Choix {
 	private Boolean locked; 
 	private boolean isMasked = false; /* Pay attention when to Use it it's not stored in the DB but calculated 
 	during the display of paragraphs */
+	private Integer assocPar; 
 	
+	public Integer getAssocPar() {
+		return assocPar;
+	}
+
+	public void setAssocPar(Integer assocPar) {
+		this.assocPar = assocPar;
+	}
+
 	public boolean getIsMasked() {
 		return isMasked;
 	}
 
-	public void setMasked(boolean isMasked) {
+	public void setIsMasked(boolean isMasked) {
 		this.isMasked = isMasked;
 	}
 
@@ -32,7 +41,7 @@ public class Choix {
 		return idChoice;
 	} 
 	
-	public Boolean getIsLocked() {
+	public Boolean getLocked() {
 		return locked;
 	}
 	
