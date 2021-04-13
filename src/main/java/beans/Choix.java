@@ -4,7 +4,7 @@ public class Choix {
 	
 	private Integer idChoice; 
 	private String text; 
-	private Boolean locked; 
+	private int locked; 
 	private boolean isMasked = false; /* Pay attention when to Use it it's not stored in the DB but calculated 
 	during the display of paragraphs */
 	private Integer assocPar; 
@@ -41,11 +41,12 @@ public class Choix {
 		return idChoice;
 	} 
 	
-	public Boolean getLocked() {
+	public int getLocked() {
 		return locked;
 	}
 	
-	public void setLocked(Boolean locked) {
+	public void setLocked(int locked) {
+		assert(locked == 1 || locked == 2 || locked == 0);
 		this.locked = locked;
 	}
 	
