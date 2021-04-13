@@ -9,9 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import beans.Histoire;
+import beans.Utilisateur;
 import forms.CreationForm;
 
 @WebServlet(name = "creation", urlPatterns = {"/creation"})
@@ -23,6 +25,7 @@ public class Creation extends HttpServlet {
     public static final String VUE = "/WEB-INF/creation.jsp";
     public static final String VUEP = "/WEB-INF/creationVisualis.jsp";
 
+    public static final String ATT_USER         = "utilisateur";
     public static final String ATT_HISTOIRE = "histoire";
     public static final String ATT_FORM = "form";
 
@@ -36,9 +39,11 @@ public class Creation extends HttpServlet {
     	/* Préparation de l'objet formulaire */
     	CreationForm form = new CreationForm();
     	
+    	/*Récupération du userName de l'utilisateur*/
+    	 HttpSession session = request.getSession();
+    	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
     	/*Traitement et validation de la requête*/
-    	Histoire histoire = form.creerHistoire(request, dataSource);
- 
+    	 Histoire histoire = form.creerHistoire(request, dataSource, user.getUserName());
     	
         /* Stockage du formulaire et du bean dans l'objet request */
         request.setAttribute( ATT_FORM, form );

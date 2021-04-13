@@ -1,7 +1,5 @@
 package forms;
 
-import java.lang.Object;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,12 +7,8 @@ import javax.sql.DataSource;
 import javax.servlet.http.HttpServletRequest;
 
 import beans.Histoire;
-import beans.Paragraphe;
-import beans.Utilisateur;
 import dao.HistoireDAO;
 import dao.ParagrapheDAO;
-import sun.java2d.pipe.ValidatePipe;
-import java.io.Serializable;
 public final class CreationForm {
     private static final String CHAMP_TITRE  = "name";
     private static final String CHAMP_IMAGE_URL   = "site";
@@ -44,8 +38,8 @@ public final class CreationForm {
     	String paragraph = getValeurChamp(request, CHAMP_Histoire);
     	
     	/***À gérer***/
-    	boolean publicEc = false;
-    	boolean publicLec = false;
+    	boolean publicEc = true;
+    	boolean publicLec = true;
     	
     	Histoire histoire = new Histoire();
     	
@@ -84,7 +78,10 @@ public final class CreationForm {
         }
     	
     	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
+    	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
     	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
+    	paragraphDAO.modifyText(title, idP, paragraph);
+    	stroryDAO.publish_story(title);
     	//ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
     	//int nParag = parDAO.addParagraphe(title, paragraph, validated, author, isConclusion); 
     	//histoire.setFirstParagraph(paragraph);

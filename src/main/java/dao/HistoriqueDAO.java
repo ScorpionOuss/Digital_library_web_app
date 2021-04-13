@@ -103,6 +103,21 @@ public class HistoriqueDAO extends AbstractDAO {
 			ResClose.silencedClosing(res, st, conn);
 		}
 	}
-	
 
+
+	public void deleteHistory(String story, String reader) {
+		Connection conn = null; 
+		PreparedStatement st = null;  
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("Delete from History where reader = ? and titleStory = ? ");
+			st.setString(1, reader);
+			st.setString(2, story);
+			st.executeUpdate();
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
+		}
+	}
 }
