@@ -24,30 +24,39 @@
 				</a>
 			</c:when>
 			<%-- otherwise we have choices to display  --%>
-			<c:otherwise>
+<%-- 			<c:otherwise>
 				<c:if test="${donneePar.choices != null }">
 					<c:forEach items="${donneePar.choices}" var="ch">
-						<%-- Test if it's masked or not  --%>
+						Test if it's masked or not 
 						<c:if test="${ch.isMasked == false}">
 							<a href="LireParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> <br>
 						</c:if>
 						
 					</c:forEach> 
 				</c:if>
-			</c:otherwise>
+			</c:otherwise> --%>
 			<c:otherwise>
 				<c:if test="${donneePar.choices != null }">
 					<c:forEach items="${donneePar.choices}" var="ch">
-						<%-- Test if it's masked or not  --%>
-						<c:if test="${ch.isMasked == true}">
-							<a href="EditParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> <br>
-						</c:if>
-						<c:otherwise> 
-						<a href="EditParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
-						<h2> [Pas encore écrite]</h2>
-						<br>
+						<%-- Test if it's locked or not  --%>
+						<c:out value="la valeur est ${ch.locked}" />
+						<br/>
+					 <c:choose>
+						<c:when test="${ch.locked == 0}">
+							<a href="writeParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
+							<c:out value="À Éditer"/>
+							<br>
+						</c:when>
+	 					<c:when test="${ch.locked == 1}"> 
+						${ch.text} <br>
+
+						</c:when>
+					    <c:when test="${ch.locked == 2}">
+							<a href="EditParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
+							<br>
+						</c:when>
 						
-						</c:otherwise>
+						</c:choose>
 						
 					</c:forEach> 
 				</c:if>

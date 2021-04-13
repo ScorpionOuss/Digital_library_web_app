@@ -32,7 +32,7 @@ public class EditStory extends HttpServlet {
 	public static final String donneepar = "donneePar";
 	/* 1 = a unique display / 0 = not unique */
 	public static final String displayUnique = "displayUnique";
-	public static final String VUE  = "/WEB-INF/jspModeLecture/lireUneHistoire.jsp";
+	public static final String VUE  = "/WEB-INF/editStory.jsp";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -60,14 +60,14 @@ public class EditStory extends HttpServlet {
 		else {
 			assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
 		}
-		/* Since we are in lecture mode : we have to analyze if the choices are masked or no : 
-		 * we do it here because it has a significant complexity so : done only if it's really necessary */
-		ChoixDAO choixDAO = new ChoixDAO(dataSource);
-		if (assocPar.getChoices() != null) {
-			for (Choix choice : assocPar.getChoices()) {
-				choice.setIsMasked(choixDAO.isMasked(choice.getIdChoice()));
-			}
-		}
+//		/* Since we are in lecture mode : we have to analyze if the choices are masked or no : 
+//		 * we do it here because it has a significant complexity so : done only if it's really necessary */
+//		ChoixDAO choixDAO = new ChoixDAO(dataSource);
+//		if (assocPar.getChoices() != null) {
+//			for (Choix choice : assocPar.getChoices()) {
+//				choice.setIsMasked(choixDAO.isMasked(choice.getIdChoice()));
+//			}
+//		}
 		request.setAttribute(donneeHistoire, story);
 		request.setAttribute(donneepar, assocPar);
 		

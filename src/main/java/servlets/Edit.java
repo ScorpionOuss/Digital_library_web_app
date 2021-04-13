@@ -9,9 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import beans.Histoire;
+import beans.Utilisateur;
 import dao.HistoireDAO;
 
 @WebServlet(name = "edit", urlPatterns = {"/edit"})
@@ -22,13 +24,19 @@ public class Edit extends HttpServlet {
     private DataSource dataSource;
     public static final String VUE = "/WEB-INF/edit.jsp";
 	public static final String HISTOIRES = "histoiresEdit";
-	
+    public static final String ATT_SESSION_USER = "sessionUtilisateur";
+
 
     
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
     	/* Restore all the stories in the data base for read */
+        HttpSession session = request.getSession();
+
+ 
+    	Utilisateur user = (Utilisateur) session.getAttribute(ATT_SESSION_USER); 
+
 		HistoireDAO storiesDAO = new HistoireDAO(dataSource);
-		LinkedList<Histoire> stories = storiesDAO.listOfStoriesToEdit();
+		LinkedList<Histoire> stories = storiesDAO.listOfStoriesToEdit(user);
 		/*Set attributes*/
 		request.setAttribute(HISTOIRES, stories);
     	/* Vérification de la connection et forward.*/
