@@ -180,11 +180,22 @@ footer{
     color: white;
 }
 .buttonadd{
-	padding: 0;
-	margin: 0px;
+	padding: 8px 5px 8px 5px;
+	margin: 5px;
+	border-radius: 100%;
 	text-align: center;
 	background-color: rgba(61, 42, 42, 0.377);
 	cursor: default;
+}
+#buttonaddChoix{
+	padding: auto;
+	border-radius: 5px;
+}
+.btndelete{
+	border-radius: 100%;
+	font: 0.5em sans-serif;
+	margin-left: 10px;
+	background-color: #c22e4b;
 }
 .buttonadd:hover{
 	background-color: rgba(0, 0, 0, 0.678); 
