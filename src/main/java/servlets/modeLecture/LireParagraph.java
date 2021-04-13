@@ -11,9 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import beans.Choix;
+import beans.Historique;
 import beans.Paragraphe;
+import beans.Utilisateur;
 import dao.ChoixDAO;
+import dao.HistoriqueDAO;
 import dao.ParagrapheDAO;
+import servlets.Connexion;
 
 /**
  * Servlet implementation class LireParagraph
@@ -48,7 +52,19 @@ public class LireParagraph extends HttpServlet {
 		/* Or to a choice */
 		} else if (request.getParameter(forChoice) != null) {
 			ChoixDAO choixDAO = new ChoixDAO(dataSource);
-			paragraph = choixDAO.retreiveCorrPar(Integer.parseInt(request.getParameter(forChoice))); 
+			int idChoice = Integer.parseInt(request.getParameter(forChoice));
+			paragraph = choixDAO.retreiveCorrPar(idChoice);
+			/* ALter the history */
+			Historique history = (Historique) request.getSession().getAttribute(LireUneHistoire.HISTORY);
+			Choix choiceToAdd = choixDAO.getChoice(idChoice);
+			history.addChoiceToHis(choiceToAdd);
+			/* See if the user is connected alter the DB */
+			Utilisateur user = (Utilisateur) request.getSession().getAttribute(Connexion.ATT_SESSION_USER);
+			if (user != null) {
+				HistoriqueDAO historyDAO = new HistoriqueDAO(dataSource);
+				historyDAO.addHistoryToDB(history);
+			}
+			request.getSession().setAttribute(LireUneHistoire.HISTORY, history);
 		} else {
 			return;
 		}
@@ -58,10 +74,21 @@ public class LireParagraph extends HttpServlet {
 		ChoixDAO choixDAO2 = new ChoixDAO(dataSource);
 		if (paragraph.getChoices() != null) {
 			for (Choix choice : paragraph.getChoices()) {
-				choice.setIsMasked(choixDAO2.isMasked(choice.getIdChoice()));
+				/* A choice is masked if doesn't lead to a conclusion or because of an access condition */
+				boolean masked = choixDAO2.isMasked(choice.getIdChoice());
+				/* See if there is a condition */
+				Integer condition = choixDAO2.accessCondition(choice.getIdChoice());
+				/* If there is a condition : verify that it is in the history */
+				if (condition != null) {
+					Historique history = (Historique) request.getSession().getAttribute(LireUneHistoire.HISTORY);
+					masked = masked || history.hasBeenRead(condition, dataSource);
+					
+				}
+				choice.setIsMasked(masked);
 			}
 		}
 		request.setAttribute(par, paragraph);
+		request.setAttribute(LireUneHistoire.HISTORY, request.getSession().getAttribute(LireUneHistoire.HISTORY));
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
 

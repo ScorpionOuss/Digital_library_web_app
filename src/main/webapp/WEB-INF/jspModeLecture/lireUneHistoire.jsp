@@ -19,7 +19,7 @@
 		<%-- see if there is a next paragraph :  --%>
 		<c:choose>
 			<c:when test= "${donneePar.nextParagraph != null}">
-				<a href="affichParagraph?idPar=${donneePar.nextParagraph}&titleStory=${donneePar.story}"> 
+				<a href="LireParagraph?idPar=${donneePar.nextParagraph}&titleStory=${donneePar.story}"> 
 					Paragraphe suivante
 				</a>
 			</c:when>

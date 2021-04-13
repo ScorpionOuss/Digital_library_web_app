@@ -32,5 +32,10 @@
 				</c:if>
 			</c:otherwise>
 		</c:choose>
+		
+	<h2> Historique </h2>
+		<c:forEach items="${history.hisChoices}" var="hCh">				
+			<a href="AlterHisAndRead?idChoice=${hCh.idChoice}"> ${hCh.text}</a> <br>
+		</c:forEach> 
 </body>
 </html>

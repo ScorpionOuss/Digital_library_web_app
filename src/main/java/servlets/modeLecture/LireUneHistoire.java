@@ -13,10 +13,14 @@ import javax.sql.DataSource;
 
 import beans.Choix;
 import beans.Histoire;
+import beans.Historique;
 import beans.Paragraphe;
+import beans.Utilisateur;
 import dao.ChoixDAO;
 import dao.HistoireDAO;
+import dao.HistoriqueDAO;
 import dao.ParagrapheDAO;
+import servlets.Connexion;
 
 /**
  * Servlet implementation class LireUneHistoire
@@ -33,6 +37,7 @@ public class LireUneHistoire extends HttpServlet {
 	/* 1 = a unique display / 0 = not unique */
 	public static final String displayUnique = "displayUnique";
 	public static final String VUE  = "/WEB-INF/jspModeLecture/lireUneHistoire.jsp";
+	public static final String HISTORY = "history";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -54,18 +59,61 @@ public class LireUneHistoire extends HttpServlet {
 		  * a unique display or the first story in case not */
 		ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
 		Paragraphe assocPar; 
+		/* If the display is unique */
 		if (storieDAO.uniqueDisplay(titre, paragraphsId)) {
 			assocPar = parDAO.turnIntoOneParagraph(titre, paragraphsId);
+			request.setAttribute(donneeHistoire, story);
+			request.setAttribute(donneepar, assocPar);
+			
+			this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+			return; 
 		}
-		else {
+		
+		/* Otherwise */
+		/* Case One : the user is not connected */
+		if (request.getSession().getAttribute(Connexion.ATT_SESSION_USER) == null) {
+			/* Just Get the first paragraph of story */
 			assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
+			/* Establish a history */
+			Historique history = new Historique("default", titre);
+			request.getSession().setAttribute(HISTORY, history);
+		}
+		else { /* The user is connected : get the last paragraph of the history */
+			String userName = ((Utilisateur) request.getSession().getAttribute(Connexion.ATT_SESSION_USER)).getUserName();
+			HistoriqueDAO historyDAO = new HistoriqueDAO(dataSource);
+			Historique history = historyDAO.GetHistoryFromDB(titre, userName);
+			/* If there is no history : create one for the session */
+			if (history == null) {
+				history = new Historique(userName, titre);
+				request.getSession().setAttribute(HISTORY, history);
+				/* Get the first paragraph */
+				assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
+			} else {
+				
+				/* Get the last paragraph on the history */
+				request.getSession().setAttribute(HISTORY, history);
+				/* We'll just redirect */
+				int idChoice = history.removeLastChoice(); /* We remove it because it re-added by the next command */
+				this.getServletContext().getRequestDispatcher("/LireParagraph?idChoice="+idChoice).forward( request, response );
+				return;
+			}
 		}
 		/* Since we are in lecture mode : we have to analyze if the choices are masked or no : 
 		 * we do it here because it has a significant complexity so : done only if it's really necessary */
 		ChoixDAO choixDAO = new ChoixDAO(dataSource);
 		if (assocPar.getChoices() != null) {
 			for (Choix choice : assocPar.getChoices()) {
-				choice.setIsMasked(choixDAO.isMasked(choice.getIdChoice()));
+				/* A choice is masked if doesn't lead to a conclusion or because of an access condition */
+				boolean masked = choixDAO.isMasked(choice.getIdChoice());
+				/* See if there is a condition */
+				Integer condition = choixDAO.accessCondition(choice.getIdChoice());
+				/* If there is a condition : verify that it is in the history */
+				if (condition != null) {
+					Historique history = (Historique) request.getSession().getAttribute(HISTORY);
+					masked = masked || history.hasBeenRead(condition, dataSource);
+					
+				}
+				choice.setIsMasked(masked);
 			}
 		}
 		request.setAttribute(donneeHistoire, story);

@@ -76,4 +76,14 @@ public class Historique {
 		}
 		return false;
 	}
+
+	public Integer removeLastChoice() {
+		if (hisChoices.isEmpty()) {
+			return null; 
+		}
+		else {
+			int idChoice = hisChoices.removeLast().getIdChoice();
+			return idChoice;
+		}
+	}
 }

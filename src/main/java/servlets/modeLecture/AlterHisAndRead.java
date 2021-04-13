@@ -18,7 +18,7 @@ import beans.Historique;
 @WebServlet("/AlterHisAndRead")
 public class AlterHisAndRead extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String HISTORY = "historique";
+	public static final String nextPar = "idPar";
 	public static final String Choice = "idChoice";
 	public static final String secServlet = "/LireParagraph";
 
@@ -34,7 +34,7 @@ public class AlterHisAndRead extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* We will just alter the history and redirect toward the servlet that will show the paragraph */
-		Historique his = (Historique) request.getSession().getAttribute(HISTORY);
+		Historique his = (Historique) request.getSession().getAttribute(LireUneHistoire.HISTORY);
 		/* Not the perfect choice */
 		int breakAt = Integer.parseInt(request.getParameter(Choice));
 		LinkedList<Choix> newHis = new LinkedList<Choix>();
@@ -44,7 +44,7 @@ public class AlterHisAndRead extends HttpServlet {
 			}
 			newHis.add(ch);
 		}
-		((Historique) request.getSession().getAttribute(HISTORY)).setHisChoices(newHis);
+		((Historique) request.getSession().getAttribute(LireUneHistoire.HISTORY)).setHisChoices(newHis);
 		/* Redirect to the paragraph reading Servlet */
 		this.getServletContext().getRequestDispatcher( secServlet).forward( request, response );
 	}
