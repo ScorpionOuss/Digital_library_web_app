@@ -31,7 +31,7 @@ public class ChoixDAO extends AbstractDAO {
 			res.next();
 			Choix choice = new Choix();
 			choice.setIdChoice(idChoice);
-			choice.setLocked(res.getInt("locked") == 1);
+			choice.setLocked(res.getInt("locked")); /* definitely 0/1/2 */
 			choice.setText(res.getString("text"));
 			return choice; 
 		} catch (SQLException e){

@@ -60,7 +60,7 @@ public class ParagrapheDAO extends AbstractDAO {
 			while (res.next()) {
 				Choix choice = new Choix();
 				choice.setIdChoice(res.getInt("idChoice"));
-				choice.setLocked(res.getInt("locked") == 1);
+				choice.setLocked(res.getInt("locked"));
 				choice.setText(res.getString("text"));
 				choices.add(choice);
 			}
