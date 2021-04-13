@@ -34,6 +34,8 @@
 		</c:choose>
 		
 	<h2> Historique </h2>
+		<%-- When reading the user must have the ability to get back to the first paragraph --%>
+		<a href="AlterHisAndRead?idChoice=-1"> Get back to the first paragraph</a> <br>
 		<c:forEach items="${history.hisChoices}" var="hCh">				
 			<a href="AlterHisAndRead?idChoice=${hCh.idChoice}"> ${hCh.text}</a> <br>
 		</c:forEach> 
