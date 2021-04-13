@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import beans.Paragraphe;
-import dao.ChoixDAO;
-import dao.ParagrapheDAO;
-
 /**
  * Servlet implementation class LireParagraph
  */
