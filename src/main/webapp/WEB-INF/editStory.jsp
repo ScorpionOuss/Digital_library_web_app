@@ -42,6 +42,12 @@
 						<c:if test="${ch.isMasked == true}">
 							<a href="EditParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> <br>
 						</c:if>
+						<c:otherwise> 
+						<a href="EditParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
+						<h2> [Pas encore écrite]</h2>
+						<br>
+						
+						</c:otherwise>
 						
 					</c:forEach> 
 				</c:if>
