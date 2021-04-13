@@ -12,7 +12,7 @@ import beans.Historique;
 
 public class HistoriqueDAO extends AbstractDAO {
 
-	protected HistoriqueDAO(DataSource dataSource) {
+	public HistoriqueDAO(DataSource dataSource) {
 		super(dataSource);
 	}
 	
@@ -24,6 +24,7 @@ public class HistoriqueDAO extends AbstractDAO {
 		for (Choix choice : history.getHisChoices()) {
 			if (!notFirst) {
 				his = his + choice.getIdChoice().toString();
+				notFirst = true;
 			}
 			else {
 				his = his + "-" + choice.getIdChoice().toString();

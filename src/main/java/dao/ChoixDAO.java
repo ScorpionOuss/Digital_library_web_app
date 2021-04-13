@@ -255,4 +255,30 @@ public class ChoixDAO extends AbstractDAO {
 			ResClose.silencedClosing(res, st, conn);
 		}
 	}
+	
+	/* Return null if there is no condition */
+	public Integer accessCondition(int idChoice) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
+		
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT idParagraph from AccessCondition where idChoice = ?");
+			st.setInt(1, idChoice);
+			res = st.executeQuery();
+			/* If there is no result */
+			if (!res.next()) {
+				return null;
+			}
+			else {
+				return res.getInt("idParagraph");
+			}
+			
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+	}
 }

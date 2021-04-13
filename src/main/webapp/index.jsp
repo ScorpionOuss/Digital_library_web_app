@@ -67,7 +67,7 @@
 									<div class="col-2-3 ">
 										<article class="at">
 											<header >
-												<a href="index.html" class="test_a"><img class="image-2-3" src="../../images/dragon.jpg" alt="dragon"></a>
+												<a href="index.html" class="test_a"><img class="image-2-3" src="images/dragon.jpg" alt="dragon"></a>
 												<h4>Create your unique story with people all over the world !</h4>
 												<time datetime="2017-11-20">21/03/2021</time>
 											</header>
@@ -82,14 +82,14 @@
 										<div class="col-1-3">
 											<div class="col-1-1">
 												<div class="gray">
-												<a href="index.html" class="test_a"><img class = "image-1-3" src="../../images/biao.jpg" alt="..."></a>
+												<a href="index.html" class="test_a"><img class = "image-1-3" src="images/biao.jpg" alt="..."></a>
 												</div>
 												<p><strong>histoire about...</strong><br> <br>
 												<a href="index.html" class="button2" title="sad">go to read</a></p>
 											</div>
 											<div class="col-1-1">
 												<div class="gray">
-												<a href="index.html"  class="test_a"><img class = "image-1-3" src="../../images/King-of-Mali.jpg" alt="..."></a>
+												<a href="index.html"  class="test_a"><img class = "image-1-3" src="images/King-of-Mali.jpg" alt="..."></a>
 												</div>
 												<p><strong>histoire about...</strong><br><br>
 													<a href="index.html" class="button2" title="sad">go to read</a>  </p>
@@ -104,7 +104,7 @@
 								<div class="col-1-1">
 									<article class="at">
 										<header>
-											<a href="index.html" class="test_a"><img class = "image-1-1" src="../../images/edit.jpg" alt="3.png"></a>
+											<a href="index.html" class="test_a"><img class = "image-1-1" src="images/edit.jpg" alt="3.png"></a>
 											<h4>Use your imagination</h4>
 											<time datetime="2021-11-20">20/11/2021</time>
 										</header>
@@ -124,7 +124,7 @@
 								<div class="col-1-3">
 									<article>
 										<header>
-											<a href="index.heml" class="test_a"><img class = "image-1-3-2" src="../../images/enfant.png" alt="photo6"></a>
+											<a href="index.heml" class="test_a"><img class = "image-1-3-2" src="images/enfant.png" alt="photo6"></a>
 											<h4>Enfants</h4>
 											<time datetime="2017-11-20">20/11/2021</time>
 										</header>
@@ -141,7 +141,7 @@
 								<div class="col-1-3">
 									<article>
 										<header>
-											<a href="index.html" class="test_a"><img class = "image-1-3-2" src="../../images/horrible.jpg" alt="photo5"></a>
+											<a href="index.html" class="test_a"><img class = "image-1-3-2" src="images/horrible.jpg" alt="photo5"></a>
 											<h4>Horrible</h4>
 											<time datetime="2017-11-13">13/11/2021</time>
 										</header>
@@ -158,7 +158,7 @@
 								<div class="col-1-3">
 									<article>
 										<header>
-											<a href="index.html" title="iamge" class="test_a"><img class = "image-1-3-2" src="../../images/violant.jpg" alt="photo4"></a>
+											<a href="index.html" title="iamge" class="test_a"><img class = "image-1-3-2" src="images/violant.jpg" alt="photo4"></a>
 											<h4>violant</h4>
 											<time datetime="2017-11-10">10/11/2021</time>
 										</header>
