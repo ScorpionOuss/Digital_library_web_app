@@ -73,7 +73,7 @@
                         <div class="col-1-3">
                             <article class = "at-histoire">
                                 <header>
-                                    <a href="EditStory?titre=${v.title}" class="test_a"><img class = "image-1-3-2" src="images/enfant.png" alt="photo6"></a>
+                                    <a href="editStory?titre=${v.title}" class="test_a"><img class = "image-1-3-2" src="images/enfant.png" alt="photo6"></a>
                                     <h4>Enfants</h4>
                                     <time datetime="2017-11-20">20/11/2021</time>
                                 </header>

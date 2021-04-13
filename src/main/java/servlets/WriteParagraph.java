@@ -8,7 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import beans.Paragraphe;
+import beans.Utilisateur;
+import dao.ChoixDAO;
+import forms.InscriptionForm;
+import forms.WriteParagraphForm;
 
 /**
  * Servlet implementation class LireParagraph
@@ -18,7 +25,9 @@ public class WriteParagraph extends HttpServlet {
 	@Resource(name = "users")
     private DataSource dataSource;
 	
-
+    public static final String ATT_USER         = "utilisateur";
+	public static final String ATT_ID_CHOICE = "idChoice";
+    public static final String ATT_FORM = "form";
     public static final String VUE  = "/WEB-INF/writeParagraph.jsp";
     /**
      * @see HttpServlet#HttpServlet()
@@ -32,7 +41,34 @@ public class WriteParagraph extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		 /* Récupération de la session depuis la requête */
+        HttpSession session = request.getSession();
+        
+        Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
+		int idChoice = (int) request.getAttribute(ATT_ID_CHOICE);
+		ChoixDAO choixDAO = new ChoixDAO(dataSource);
+		choixDAO.lockChoice(idChoice, user.getUserName());
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
 
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+        /* Préparation de l'objet formulaire */
+        WriteParagraphForm form = new WriteParagraphForm();
+		
+        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
+
+        Paragraphe paragraph= form.creerParagraphe(request, dataSource);
+        
+		/*Après la validation du choix*/
+		int idChoice = (int) request.getAttribute(ATT_ID_CHOICE);
+        ChoixDAO choixDAO = new ChoixDAO(dataSource);
+		choixDAO.unlockChoice(idChoice);
+		//la il faut update le contenu du choix.
+
+        
+        /* Stockage du formulaire dans l'objet request */
+        request.setAttribute( ATT_FORM, form );
+		
+        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+    }
 }

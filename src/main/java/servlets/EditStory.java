@@ -21,7 +21,7 @@ import dao.ParagrapheDAO;
 /**
  * Servlet implementation class LireUneHistoire
  */
-@WebServlet("/EditStory")
+@WebServlet("/editStory")
 public class EditStory extends HttpServlet {
        
 	@Resource(name = "users")
@@ -48,18 +48,17 @@ public class EditStory extends HttpServlet {
 		HistoireDAO storieDAO = new HistoireDAO(dataSource);
 		String titre = (String) request.getParameter(titreHis);
 		Histoire story = storieDAO.getHistoire(titre);
-		/* See if we have to do a unique display for the story */
-		LinkedList<Integer> paragraphsId = new LinkedList<Integer>();
-		 /* It will be a paragraph containing all the story if there is 
-		  * a unique display or the first story in case not */
+
 		ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
 		Paragraphe assocPar; 
-		if (storieDAO.uniqueDisplay(titre, paragraphsId)) {
-			assocPar = parDAO.turnIntoOneParagraph(titre, paragraphsId);
-		}
-		else {
-			assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
-		}
+		assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
+
+//		if (storieDAO.uniqueDisplay(titre, paragraphsId)) {
+//			assocPar = parDAO.turnIntoOneParagraph(titre, paragraphsId);
+//		}
+//		else {
+//			assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
+//		}
 //		/* Since we are in lecture mode : we have to analyze if the choices are masked or no : 
 //		 * we do it here because it has a significant complexity so : done only if it's really necessary */
 //		ChoixDAO choixDAO = new ChoixDAO(dataSource);

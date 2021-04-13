@@ -17,7 +17,7 @@ import dao.ParagrapheDAO;
 /**
  * Servlet implementation class LireParagraph
  */
-@WebServlet("/EditParagraph")
+@WebServlet("/editParagraph")
 public class EditParagraph extends HttpServlet {
 	@Resource(name = "users")
     private DataSource dataSource;

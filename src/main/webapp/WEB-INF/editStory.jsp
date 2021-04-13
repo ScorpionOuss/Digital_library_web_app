@@ -52,7 +52,7 @@
 
 						</c:when>
 					    <c:when test="${ch.locked == 2}">
-							<a href="EditParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
+							<a href="editParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
 							<br>
 						</c:when>
 						
