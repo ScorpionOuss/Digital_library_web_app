@@ -8,6 +8,8 @@
         <link type="text/css" rel="stylesheet" href="form.css" />
     </head>
     <body>
+    		<jsp:include page="header.jsp" />
+    
         <form method="post" action="inscription">
             <fieldset>
                 <legend>Inscription</legend>
@@ -39,5 +41,7 @@
                 <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
             </fieldset>
         </form>
+        		<jsp:include page="footer.jsp" />
+        
     </body>
 </html>

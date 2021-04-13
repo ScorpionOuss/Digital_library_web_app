@@ -351,5 +351,29 @@ public class HistoireDAO extends AbstractDAO {
 			ResClose.silencedClosing(res, st, conn);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param title
+	 * @return
+	 */
+	public boolean verifyTitle(String title) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null; 
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("select * from stroy where title = ?");
+			st.setString(1,title);
+			res = st.executeQuery();
+			if (res.next()) {
+				return true;
+			}
+			
+		} catch(SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		}
+		return true;
+	}
 }
 

@@ -53,6 +53,7 @@ public class Connexion extends HttpServlet {
          */
         if ( form.getErreurs().isEmpty() ) {
             session.setAttribute( ATT_SESSION_USER, utilisateur );
+            session.setAttribute(ATT_USER, utilisateur);
             this.getServletContext().getRequestDispatcher( VUE_SUCCES ).forward( request, response );
         } else {
             session.setAttribute( ATT_SESSION_USER, null );

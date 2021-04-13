@@ -6,8 +6,8 @@ public class Utilisateur {
     private String motDePasse;
     private String nom;
 
-    public void setUserName(String email) {
-	this.userName = email;
+    public void setUserName(String userName) {
+	this.userName = userName;
     }
     public String getUserName() {
 	return userName;

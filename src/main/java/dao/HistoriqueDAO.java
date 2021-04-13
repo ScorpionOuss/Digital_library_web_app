@@ -103,4 +103,6 @@ public class HistoriqueDAO extends AbstractDAO {
 			ResClose.silencedClosing(res, st, conn);
 		}
 	}
+	
+
 }

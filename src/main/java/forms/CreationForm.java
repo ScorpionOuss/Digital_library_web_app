@@ -1,5 +1,7 @@
 package forms;
 
+import java.lang.Object;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import beans.Histoire;
 import beans.Paragraphe;
 import beans.Utilisateur;
+import dao.HistoireDAO;
 import dao.ParagrapheDAO;
 import sun.java2d.pipe.ValidatePipe;
-
+import java.io.Serializable;
 public final class CreationForm {
     private static final String CHAMP_TITRE  = "name";
     private static final String CHAMP_IMAGE_URL   = "site";
@@ -32,7 +35,7 @@ public final class CreationForm {
     }
 
     
-    public Histoire creerHistoire( HttpServletRequest request, DataSource dataSource ) {
+    public Histoire creerHistoire( HttpServletRequest request, DataSource dataSource, String author ) {
     	
     	String title = getValeurChamp( request, CHAMP_TITRE );
     	String imageUrl = getValeurChamp(request, CHAMP_IMAGE_URL);
@@ -41,14 +44,13 @@ public final class CreationForm {
     	String paragraph = getValeurChamp(request, CHAMP_Histoire);
     	
     	/***À gérer***/
-    	boolean validated = false;
-    	String author = null;
-    	boolean isConclusion = false;
+    	boolean publicEc = false;
+    	boolean publicLec = false;
     	
     	Histoire histoire = new Histoire();
     	
     	try {
-            validationTitle( title );
+            validationTitle( title, dataSource );
         } catch ( Exception e ) {
             setErreur( CHAMP_TITRE, e.getMessage() );
         }
@@ -81,6 +83,8 @@ public final class CreationForm {
             setErreur( CHAMP_Histoire, e.getMessage() );
         }
     	
+    	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
+    	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
     	//ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
     	//int nParag = parDAO.addParagraphe(title, paragraph, validated, author, isConclusion); 
     	//histoire.setFirstParagraph(paragraph);
@@ -96,14 +100,16 @@ public final class CreationForm {
     
     
 
-    private void ValidateParagraph(String paragraph) {
-		// TODO Auto-generated method stub
-		
+    private void ValidateParagraph(String paragraph) throws Exception {
+    	if ( paragraph != null && paragraph.length() < 20 ) {
+            throw new Exception( "Le contenu du paragraphe doit contenir au moins 20 caractères." );
+        }
 	}
 
-	private void validateDescription(String presentation) {
-		// TODO Auto-generated method stub
-		
+	private void validateDescription(String presentation) throws Exception {
+    	if ( presentation != null && presentation.length() < 10 ) {
+            throw new Exception( "Le contenu de la description doit contenir au moins 10 caractères." );
+        }
 	}
 
 	private void validateAnnee(String annee) {
@@ -113,12 +119,14 @@ public final class CreationForm {
 
 	private void validateURL(String imageUrl) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	private void validationTitle(String titre) {
-		// TODO Auto-generated method stub
-		
+	private void validationTitle(String titre, DataSource dataSource) throws Exception {
+		HistoireDAO story = new HistoireDAO(dataSource);
+		if(story.verifyTitle(titre)== false) {
+			throw new Exception("Le titre choisi existe déjà!");
+		}
 	}
 
 	/*

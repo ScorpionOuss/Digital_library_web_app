@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -45,9 +46,10 @@ public class WriteParagraph extends HttpServlet {
         HttpSession session = request.getSession();
         
         Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
-		int idChoice = (int) request.getAttribute(ATT_ID_CHOICE);
-		ChoixDAO choixDAO = new ChoixDAO(dataSource);
-		choixDAO.lockChoice(idChoice, user.getUserName());
+		int idChoice = (int) Integer. parseInt(request.getParameter(ATT_ID_CHOICE));
+		PrintWriter out = response.getWriter();	
+//		ChoixDAO choixDAO = new ChoixDAO(dataSource);
+//		choixDAO.lockChoice(idChoice, user.getUserName());  
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
 

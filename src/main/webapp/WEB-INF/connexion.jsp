@@ -10,12 +10,14 @@
         <link type="text/css" rel="stylesheet" href="form.css" />
     </head>
     <body>
+    <%-- 		<jsp:include page="header.jsp" /> --%>
+    
         <form method="post" action="connexion">
             <fieldset>
                 <legend>Connexion</legend>
                 <p>Vous pouvez vous connecter via ce formulaire.</p>
 
-                <label for="nom">username <span class="requis">*</span></label>
+                <label for="username">username <span class="requis">*</span></label>
                 <input type="text" id="usename" name="username" value="<c:out value="${utilisateur.userName}"/>" size="20" maxlength="60" />
                 <span class="erreur">${form.erreurs['username']}</span>
                 <br />
@@ -31,5 +33,7 @@
                 <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
             </fieldset>
         </form>
+<%--         		<jsp:include page="footer.jsp" />
+ --%>        
     </body>
 </html>
