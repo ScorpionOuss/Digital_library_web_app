@@ -200,17 +200,28 @@ public class ChoixDAO extends AbstractDAO {
 	
 	/**
 	 * will return the associated paragraph to update after with the appropriate text 
+	 * Or null if the user has no right to lock 
 	 * @param idChoice
 	 * @param lockedBy
 	 * @return
 	 */
-	public int lockChoice(int idChoice, String lockedBy) {
+	public Integer lockChoice(int idChoice, String lockedBy) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
 		ResultSet res = null ;
 		/* modify lock and associate it with a paragraph */
 		try {
 			conn = getConnexion();
+			/* Verify if the user is locking another choice */
+			st = conn.prepareStatement("SELECT * from Choice JOIN Paragraph ON assocPar = idParagraph " + 
+			" and assocStory = titleStory where locked =1 and author = ? ");
+			st.setString(1, lockedBy);
+			res = st.executeQuery();
+			/* If the user is locking something */
+			if (res.next()) {
+				return null; 
+			}
+			ResClose.silencedClosing(res, st);
 			st = conn.prepareStatement("SELECT prevParStory from Choice where idChoice = ?");
 			st.setInt(1, idChoice);
 			res = st.executeQuery();
@@ -273,6 +284,33 @@ public class ChoixDAO extends AbstractDAO {
 			}
 			else {
 				return res.getInt("idParagraph");
+			}
+			
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+	}
+	
+	/* Return the name of the user who locked the choice or wrote it */
+	public String lockedOrDoneBy(int idChoice) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
+		
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT author from Choice Join Paragraph On idParagraph = assocPar and "+ 
+			" assocStory = titleStory where idChoice = ?");
+			st.setInt(1, idChoice);
+			res = st.executeQuery();
+			/* If there is no result : the choice is not locked or validated */
+			if (!res.next()) {
+				return null;
+			}
+			else {
+				return res.getString("author");
 			}
 			
 		} catch (SQLException e){
