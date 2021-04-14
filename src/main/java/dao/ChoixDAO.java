@@ -270,7 +270,7 @@ public class ChoixDAO extends AbstractDAO {
 			String story = res.getString("assocStory");
 			int idPar = res.getInt("assocPar");
 			ResClose.silencedClosing(res, st);
-			st = conn.prepareStatement("UPDATE Choice set locked = 0 and assocPar = NULL and assocStory = NULL where idChoice = ?");
+			st = conn.prepareStatement("UPDATE Choice set locked = 0 ,assocPar = NULL ,assocStory = NULL where idChoice = ?");
 			st.setInt(1, idChoice);
 			st.executeUpdate();
 			ParagrapheDAO assocParDao = new ParagrapheDAO(this.dataSource);
@@ -332,6 +332,23 @@ public class ChoixDAO extends AbstractDAO {
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		} finally {
 			ResClose.silencedClosing(res, st, conn);
+		}
+	}
+	
+	public void associateParagraph(int idChoice, int idParagraph, String story) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("UPDATE Choice set assocPar = ?, assocStory = ? where idChoice = ?");
+			st.setInt(1, idParagraph);
+			st.setString(2, story);
+			st.setInt(3, idChoice);
+			st.executeUpdate();
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
 	}
 }

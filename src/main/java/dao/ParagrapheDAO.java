@@ -61,6 +61,9 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 
+	public int addParagraphe(Paragraphe p, boolean validated, boolean isConclusion) {
+		return addParagraphe(p.getStory(), p.getText(), validated, p.getAuthor(),isConclusion);
+	}
 	/**
 	 * return the id of the paragraph created in order to be used after for associating a next paragraph or choices 
 	 * @param story
@@ -75,15 +78,20 @@ public class ParagrapheDAO extends AbstractDAO {
 		ResultSet res = null;
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("INSERT INTO Paragraphe(titleStory, idParagraph, author, text, validated)" + 
-					"values(?, seqPar.nextval, ?, ?, ?); SELECT seqPar.currval as idPar from dual; ");
-			st.setString(1, story);
-			st.setString(2, author);
-			st.setString(3, text);
-			st.setInt(4, (validated)? 1:0);
+			/* Get the id */
+			st = conn.prepareStatement("SELECT seqPar.nextval as id from dual");
 			res = st.executeQuery();
 			res.next();
-			int idPar = res.getInt("idPar");
+			int idPar = res.getInt("id");
+			ResClose.silencedClosing(res, st);
+			st = conn.prepareStatement("INSERT INTO Paragraph(titleStory, idParagraph, author, text, validated)" + 
+					"values(?, ?, ?, ?, ?)");
+			st.setString(1, story);
+			st.setInt(2, idPar);
+			st.setString(3, author);
+			st.setString(4, text);
+			st.setInt(5, (validated)? 1:0);
+			st.executeUpdate();
 			/* Close : warning ? */
 			ResClose.silencedClosing(st);
 			/* if it's not a conclusion : add it to bodyParagraph */
