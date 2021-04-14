@@ -54,14 +54,19 @@ public class ChoixDAO extends AbstractDAO {
 		ResultSet res = null ;
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("INSERT INTO Choice(idChoice, prevParStory, prevPar, text)" + 
-					"values(seqChoice.nextval, ?, ?, ?); SELECT seqChoice.currval as idChoice from dual; ");
-			st.setString(1, story);
-			st.setInt(2, idParagraph);
-			st.setString(3, text);
+			/* Get the id */
+			st = conn.prepareStatement("SELECT seqChoice.nextval as idChoice from dual");
 			res = st.executeQuery();
 			res.next();
 			int idChoice = res.getInt("idChoice");
+			ResClose.silencedClosing(res, st);
+			st = conn.prepareStatement("INSERT INTO Choice(idChoice, prevParStory, prevPar, text)" + 
+					"values(?, ?, ?, ?) ");
+			st.setInt(1, idChoice);
+			st.setString(2, story);
+			st.setInt(3, idParagraph);
+			st.setString(4, text);
+			st.executeUpdate();
 			return idChoice;
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
@@ -261,12 +266,13 @@ public class ChoixDAO extends AbstractDAO {
 			st = conn.prepareStatement("SELECT assocStory, assocPar from Choice where idChoice = ?");
 			st.setInt(1, idChoice);
 			res = st.executeQuery();
+			res.next();
 			String story = res.getString("assocStory");
 			int idPar = res.getInt("assocPar");
 			ResClose.silencedClosing(res, st);
-			st = conn.prepareStatement("UPDATE Choice set locked = 0 and assocPar = NULL and assocStory = NULL where idChoice = ?");
+			st = conn.prepareStatement("UPDATE Choice set locked = 0 ,assocPar = NULL ,assocStory = NULL where idChoice = ?");
 			st.setInt(1, idChoice);
-			res = st.executeQuery();
+			st.executeUpdate();
 			ParagrapheDAO assocParDao = new ParagrapheDAO(this.dataSource);
 			assocParDao.deleteParagraphe(story, idPar);
 		} catch (SQLException e){
@@ -326,6 +332,23 @@ public class ChoixDAO extends AbstractDAO {
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		} finally {
 			ResClose.silencedClosing(res, st, conn);
+		}
+	}
+	
+	public void associateParagraph(int idChoice, int idParagraph, String story) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("UPDATE Choice set assocPar = ?, assocStory = ? where idChoice = ?");
+			st.setInt(1, idParagraph);
+			st.setString(2, story);
+			st.setInt(3, idChoice);
+			st.executeUpdate();
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
 	}
 }

@@ -39,7 +39,7 @@ public final class WriteParagraphForm {
     	
     	/**Récupération des informations à propos de l'histoire*/
     	HttpSession session =  request.getSession();
-    	Histoire story =  (Histoire) session.getAttribute(CHAMP_Histoire);
+    	Histoire story =  (Histoire) session.getAttribute(donneeHistoire);
     	String title = story.getTitle();
     	
     			
@@ -48,17 +48,7 @@ public final class WriteParagraphForm {
     	} catch ( Exception e ) {
             setErreur( CHAMP_Histoire, e.getMessage() );
         }
-    	
-    	//ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
-    	//int nParag = parDAO.addParagraphe(title, paragraph, validated, author, isConclusion); 
-    	
-    	
-    	/* Création des choix associés au paragraphe*/
-//    	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-//    	for (String choice:choix) {
-//    		choiceDAO.addChoice(title, idP, paragraph);
-//    	}
-    	
+      	
     	if ( erreurs.isEmpty() ) {
             resultat = "Histoire créée avec succès";
         } else {

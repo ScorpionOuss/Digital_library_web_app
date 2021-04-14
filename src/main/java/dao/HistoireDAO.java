@@ -61,15 +61,19 @@ public class HistoireDAO extends AbstractDAO {
 		ResultSet res = null;
 		try{
 			conn = getConnexion();
+			/* Get the id */
+			st = conn.prepareStatement("SELECT seqPar.nextval as idPar from dual");
+			res = st.executeQuery();
+			res.next();
+			int idPar = res.getInt("idPar");
+			ResClose.silencedClosing(res, st);
 			/* Create the first paragraph */
 			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author) " + 
-					"values(?, seqPar.nextval, ?); SELECT seqPar.currval as idPar from dual;");
+					"values(?, ?, ?)");
 			st.setString(1, title);
-			st.setString(2, creator);
-			res = st.executeQuery();
-			/* retrieve the id of the paragraph */
-            res.next();
-			int id = res.getInt("idPar");
+			st.setInt(2, idPar);
+			st.setString(3, creator);
+			st.executeUpdate();
 			/* just to Suppress The warnings */
 			ResClose.silencedClosing(st);
 			/* Create the story */
@@ -79,11 +83,11 @@ public class HistoireDAO extends AbstractDAO {
 			st.setString(2, creator);
 			st.setInt(3, (publicLec)? 1 : 0);
 			st.setInt(4, (publicEc)? 1 : 0);
-			st.setInt(5, id);
+			st.setInt(5, idPar);
 			st.setString(6, image);
 			st.setString(7, description);
 			st.executeUpdate();
-			return id; 
+			return idPar; 
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		} finally {

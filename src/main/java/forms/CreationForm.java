@@ -148,6 +148,8 @@ public final class CreationForm {
         		choiceDAO.addChoice(title, idP, choice);
         	}
         	
+        	/*Gestion des invités*/
+        	
             resultat = "Histoire créée avec succès";
         } else {
             resultat = "Échec de la création de l'histoire.";

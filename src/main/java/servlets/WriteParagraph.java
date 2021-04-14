@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import beans.Paragraphe;
 import beans.Utilisateur;
 import dao.ChoixDAO;
+import dao.ParagrapheDAO;
 import forms.InscriptionForm;
 import forms.WriteParagraphForm;
 
@@ -65,6 +66,9 @@ public class WriteParagraph extends HttpServlet {
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
 
         Paragraphe paragraph= form.creerParagraphe(request, dataSource, user.getUserName());
+        /* Add the paragraph to the dataBase */
+        ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
+        int idPar = parDAO.addParagraphe(paragraph, true, true);
         
 		/*Après la validation du choix*/
 		int idChoice = Integer.parseInt(request.getParameter(ATT_ID_CHOICE));
@@ -72,6 +76,14 @@ public class WriteParagraph extends HttpServlet {
 		choixDAO.unlockChoice(idChoice);
 		//la il faut update le contenu du choix.
 		
+
+		
+		/* add the association */
+        choixDAO.associateParagraph(idChoice, idPar, paragraph.getStory());
+        
+        /* Since we do the submit : validate */
+        parDAO.validateParagraphe(paragraph.getStory(), idPar);
+
         
         /* Stockage du formulaire dans l'objet request */
         request.setAttribute( ATT_FORM, form );
