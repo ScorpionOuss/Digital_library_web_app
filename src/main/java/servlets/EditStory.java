@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import javax.websocket.Session;
 
 import beans.Choix;
 import beans.Histoire;
@@ -69,6 +71,9 @@ public class EditStory extends HttpServlet {
 //		}
 		request.setAttribute(donneeHistoire, story);
 		request.setAttribute(donneepar, assocPar);
+		
+		HttpSession session =  request.getSession();
+		session.setAttribute(donneeHistoire, story);
 		
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}

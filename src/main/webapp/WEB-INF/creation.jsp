@@ -10,12 +10,13 @@
 	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 </head>
 <body>
-   		<jsp:include page="header.jsp" />
-   
+		    		<jsp:include page="header.jsp" />
+		
                 <div class="content">
                     <div class="col-1-1" id="fond">
                         <div class="col-1-1">
-                            <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="creation">
+                             <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="creation">
+
                                 <fieldset>
                                     <div class="pure-control-group" id="nomp">
                                         <label for="nom" class = "label-p">titre du histoire</label>
@@ -37,8 +38,11 @@
                                         <input type="radio"  class="droitbtn" id = "invite" name="typecand" value="invite" >
                                         invite
                                       </label>
-                                      <span class="add"><input class="pure-button pure-button-primary buttoadd buttonadd " name="add" value="add" id="buttonadd"></span>
+                                      <span class="add"><input type ="button" class="pure-button pure-button-primary buttonadd" name="add" value="add" id="buttonadd"></span>
                                       <span class="msgE">erreur message</span>
+                                    </div>
+                                    <div class="pure-control-group add" id="invite-users">
+
                                     </div>
                                     <div class="pure-control-group" id="anneep">
                                         <label for="annee" class = "label-p">annee creation</label>
@@ -55,12 +59,18 @@
                                         <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ..."></textarea>
                                         <span class="msgE">erreur message</span>
                                     </div>
+                                    <div class="pure-control-group" id="LesChoix">
+                                      <div class="pure-controls-group" >
+                                        <label for="LesChoix" class = "label-p" >Les Choix</label>
+                                        <input type ="button" class="pure-button pure-button-primary buttonadd " name="LesChoix" value="Add Un Choix" id="buttonaddChoix">
+                                      </div>
+                                    </div>
                                     <div class="pure-controls" id="casep">
                                             <label for="conditions" class="pure-checkbox" >
                                             <input id="case" name='case' type="checkbox">  I've read the terms and conditions
                                             <span class="msgE">erreur message</span>
                                             </label>
-                                        <input type="submit" id="btn" name="button" value="submit" class="pure-button pure-button-primary button">
+                                        <input id="submit" type="submit" name="button" value="submit" class="pure-button pure-button-primary button">
                                     </div>
                         
                                 </fieldset>
@@ -68,8 +78,6 @@
                         </div>
                     </div>
                 </div>
-                		<jsp:include page="footer.jsp" />
-                
         </main>
     </div>
 
@@ -242,6 +250,63 @@
           $('#public').on('click',function(){
               $('.add').hide();
           });
+
+          $('#buttonadd').on('click',function(){
+              var div_parent = document.getElementById("invite-users");
+              var div = document.createElement('div');
+              var label = document.createElement('label');
+              var input = document.createElement('input');
+              var button = document.createElement("button");
+              var span = document.createElement("span");
+              div.className = "pure-control-group add";
+              div.id = "invite-user-p";
+              label.className="label-p";
+              label.for = "userid";
+              label.innerHTML = "invite username";
+              input.className = "invite-user";
+              input.name="userid"
+              input.type="text";
+              input.placeholder="username";
+              button.type="button";
+              button.className="btndelete";
+              button.innerHTML="X";
+
+              span.className="msgE";
+              span.innerHTML="erreur message";
+              span.style.display = "none";      
+              div.appendChild(label);
+              div.appendChild(input);
+              div.appendChild(button);
+              div.appendChild(span);
+              div_parent.appendChild(div);
+              $('.btndelete').on('click',function(){
+              $(this).parent().remove();
+             });
+          });
+
+          $('#buttonaddChoix').on('click',function(){
+              var div_parent = document.getElementById("LesChoix");
+              var div = document.createElement('div');
+              var input = document.createElement('input');
+              var button = document.createElement("button");
+              div.className = "pure-controls";
+              input.className = "choix";
+              input.name="choix"
+              input.type="text";
+              input.placeholder="choix...";
+              button.type="button";
+              button.className="btndelete";
+              button.innerHTML="X";
+    
+              div.appendChild(input);
+              div.appendChild(button);
+              div_parent.appendChild(div);
+              $('.btndelete').on('click',function(){
+              $(this).parent().remove();
+             });
+          });
+
+          
           
       }
       )
@@ -249,60 +314,6 @@
 
     </script>
 </body>
-<footer id="end" >
-    <a href="#top" class="button2">return top</a><br><br>
-    &copy; 2021, Votre hero histoire team<br>
-  All trademarks and registered trademarks appearing on
-  this site are the property of their respective owners.<br>
-  <a href="index.html" class="button2" title="about">@about us</a>
-</footer>
-</html> 
+    		<jsp:include page="footer.jsp" />
 
-<%-- <%@ page pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Inscription</title>
-        <link type="text/css" rel="stylesheet" href="form.css" />
-    </head>
-    <body>
-        <form method="post" action="creation">
-            <fieldset>
-                <legend>Inscription</legend>
-                <p>Vous pouvez vous inscrire via ce formulaire.</p>
-
-                <label for="name">Titre <span class="requis">*</span></label>
-                <input type="text" id="name" name="name" value="<c:out value="${utilisateur.email}"/>" size="20" maxlength="60" />
-                <span class="erreur">${form.erreurs['name']}</span>
-                <br />
-
-                <label for="site">url<span class="requis">*</span></label>
-                <input type="text" id="site" name="site" value="" size="20" maxlength="20" />
-                <span class="erreur">${form.erreurs['site']}</span>
-                <br />
-
-                <label for="annee">date création <span class="requis">*</span></label>
-                <input type="password" id="annee" name="annee" value="" size="20" maxlength="20" />
-                <span class="erreur">${form.erreurs['annee']}</span>
-                <br />
-
-                <label for="presentation">Description</label>
-                <input type="text" id="presentation" name="presentation" value="<c:out value="${utilisateur.nom}"/>" size="20" maxlength="20" />
-                <span class="erreur">${form.erreurs['presentation']}</span>
-                <br />
-
-				<label for="paragraph">First Paragraph</label>
-                <input type="text" id="paragraph" name="paragraph" value="<c:out value="${utilisateur.nom}"/>" size="20" maxlength="20" />
-                <span class="erreur">${form.erreurs['paragraph']}</span>
-                <br />
-                
-                <input type="submit" value="Créer" class="sansLabel" />
-                <br />
-                
-                <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
-            </fieldset>
-        </form>
-    </body>
-</html> --%>
+</html>

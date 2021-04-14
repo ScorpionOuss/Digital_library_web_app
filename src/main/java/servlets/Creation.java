@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -43,14 +44,22 @@ public class Creation extends HttpServlet {
     	 HttpSession session = request.getSession();
     	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
     	/*Traitement et validation de la requête*/
-    	 Histoire histoire = form.creerHistoire(request, dataSource, user.getUserName());
+    	 String[] histoire = form.creerHistoire(request, dataSource, user.getUserName());
     	
         /* Stockage du formulaire et du bean dans l'objet request */
-        request.setAttribute( ATT_FORM, form );
-        request.setAttribute( ATT_HISTOIRE, histoire );
+        //request.setAttribute( ATT_FORM, form );
+        //request.setAttribute( ATT_HISTOIRE, histoire );
         
+    	 PrintWriter out = response.getWriter();
 
-        this.getServletContext().getRequestDispatcher( VUEP ).forward( request, response );
+    	 
+    	 if(histoire != null) {
+    	 for (String str: histoire) {
+    		 out.println(str);
+    	 }
+    	 }
+
+//        this.getServletContext().getRequestDispatcher( VUEP ).forward( request, response );
 
 
     }

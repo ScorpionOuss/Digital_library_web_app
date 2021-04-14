@@ -56,10 +56,13 @@ public class WriteParagraph extends HttpServlet {
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
         /* Préparation de l'objet formulaire */
         WriteParagraphForm form = new WriteParagraphForm();
-		
+
+        /*Récupération du userName de l'utilisateur*/
+	   	 HttpSession session = request.getSession();
+	   	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
 
-        Paragraphe paragraph= form.creerParagraphe(request, dataSource);
+        Paragraphe paragraph= form.creerParagraphe(request, dataSource, user.getUserName());
         
 		/*Après la validation du choix*/
 		int idChoice = (int) request.getAttribute(ATT_ID_CHOICE);

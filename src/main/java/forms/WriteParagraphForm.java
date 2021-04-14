@@ -5,15 +5,18 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import beans.Histoire;
 import beans.Paragraphe;
+import dao.ChoixDAO;
 
 public final class WriteParagraphForm {
 
     private static final String CHAMP_Histoire    = "paragraph";
-
-
+    private static final String CHAMP_CHOIX = "choix";
+    private static final String donneeHistoire = "donneeHis";
+    
     private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
 
@@ -26,15 +29,20 @@ public final class WriteParagraphForm {
     }
 
     
-    public Paragraphe creerParagraphe( HttpServletRequest request, DataSource dataSource ) {
+    public Paragraphe creerParagraphe( HttpServletRequest request, DataSource dataSource, String author ) {
     	
     	
     	String paragraph = getValeurChamp(request, CHAMP_Histoire);
+    	String[] choix = request.getParameterValues(CHAMP_CHOIX);
     	
+    	Paragraphe paragraphe = new Paragraphe();
     	
-    	Paragraphe histoire = new Paragraphe();
+    	/**Récupération des informations à propos de l'histoire*/
+    	HttpSession session =  request.getSession();
+    	Histoire story =  (Histoire) session.getAttribute(CHAMP_Histoire);
+    	String title = story.getTitle();
     	
-    	
+    			
     	try {
     		ValidateParagraph(paragraph);
     	} catch ( Exception e ) {
@@ -44,20 +52,28 @@ public final class WriteParagraphForm {
     	//ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
     	//int nParag = parDAO.addParagraphe(title, paragraph, validated, author, isConclusion); 
     	
+    	
+    	/* Création des choix associés au paragraphe*/
+//    	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
+//    	for (String choice:choix) {
+//    		choiceDAO.addChoice(title, idP, paragraph);
+//    	}
+    	
     	if ( erreurs.isEmpty() ) {
             resultat = "Histoire créée avec succès";
         } else {
             resultat = "Échec de la création de l'histoire.";
         }
     	
-    	return histoire;
+    	return paragraphe;
     }
     
     
 
-    private void ValidateParagraph(String paragraph) {
-		// TODO Auto-generated method stub
-		
+    private void ValidateParagraph(String paragraph) throws Exception {
+    	if ( paragraph != null && paragraph.length() < 20 ) {
+            throw new Exception( "Le contenu du paragraphe doit contenir au moins 20 caractères." );
+        }
 	}
 
 

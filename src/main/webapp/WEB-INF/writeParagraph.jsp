@@ -10,25 +10,32 @@
 	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 </head>
 <body>
-    		<jsp:include page="header.jsp" />
-
+		    		<jsp:include page="header.jsp" />
+		
                 <div class="content">
                     <div class="col-1-1" id="fond">
                         <div class="col-1-1">
-                            <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="writeParagraph">
+                             <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="creation">
+
                                 <fieldset>
-                                  
+                                   
                                     <div class="pure-control-group" id="paragraphp">
-                                        <label for="paragraph" class = "label-p" >Contenu du paragraphe</label>
+                                        <label for="paragraph" class = "label-p" >histoire</label>
                                         <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ..."></textarea>
                                         <span class="msgE">erreur message</span>
+                                    </div>
+                                    <div class="pure-control-group" id="LesChoix">
+                                      <div class="pure-controls-group" >
+                                        <label for="LesChoix" class = "label-p" >Les Choix</label>
+                                        <input type ="button" class="pure-button pure-button-primary buttonadd " name="LesChoix" value="Add Un Choix" id="buttonaddChoix">
+                                      </div>
                                     </div>
                                     <div class="pure-controls" id="casep">
                                             <label for="conditions" class="pure-checkbox" >
                                             <input id="case" name='case' type="checkbox">  I've read the terms and conditions
                                             <span class="msgE">erreur message</span>
                                             </label>
-                                        <input type="submit" id="btn" name="button" value="submit" class="pure-button pure-button-primary button">
+                                        <input id="submit" type="submit" name="button" value="submit" class="pure-button pure-button-primary button">
                                     </div>
                         
                                 </fieldset>
@@ -208,14 +215,70 @@
           $('#public').on('click',function(){
               $('.add').hide();
           });
+
+          $('#buttonadd').on('click',function(){
+              var div_parent = document.getElementById("invite-users");
+              var div = document.createElement('div');
+              var label = document.createElement('label');
+              var input = document.createElement('input');
+              var button = document.createElement("button");
+              var span = document.createElement("span");
+              div.className = "pure-control-group add";
+              div.id = "invite-user-p";
+              label.className="label-p";
+              label.for = "userid";
+              label.innerHTML = "invite username";
+              input.className = "invite-user";
+              input.name="userid"
+              input.type="text";
+              input.placeholder="username";
+              button.type="button";
+              button.className="btndelete";
+              button.innerHTML="X";
+
+              span.className="msgE";
+              span.innerHTML="erreur message";
+              span.style.display = "none";      
+              div.appendChild(label);
+              div.appendChild(input);
+              div.appendChild(button);
+              div.appendChild(span);
+              div_parent.appendChild(div);
+              $('.btndelete').on('click',function(){
+              $(this).parent().remove();
+             });
+          });
+
+          $('#buttonaddChoix').on('click',function(){
+              var div_parent = document.getElementById("LesChoix");
+              var div = document.createElement('div');
+              var input = document.createElement('input');
+              var button = document.createElement("button");
+              div.className = "pure-controls";
+              input.className = "choix";
+              input.name="choix"
+              input.type="text";
+              input.placeholder="choix...";
+              button.type="button";
+              button.className="btndelete";
+              button.innerHTML="X";
+    
+              div.appendChild(input);
+              div.appendChild(button);
+              div_parent.appendChild(div);
+              $('.btndelete').on('click',function(){
+              $(this).parent().remove();
+             });
+          });
+
+          
           
       }
       )
 
 
     </script>
-    
 </body>
-		<jsp:include page="footer.jsp" />
+    		<jsp:include page="footer.jsp" />
 
-</html> 
+</html>

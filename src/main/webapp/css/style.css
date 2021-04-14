@@ -69,6 +69,10 @@ h1{
 	text-align: center;
 	padding:0;
 }
+span{
+	color:#a16060;
+	font-size:0.5em;
+}
 
 footer{
 	text-align: left;
@@ -82,7 +86,7 @@ footer{
 }
 #fond{
 	background-color: #FFFFFF;
-
+	min-height: 500px;
 }
 
 #end {
@@ -93,6 +97,7 @@ footer{
   margin: 0 0 0 0px;
   font-size:        90%;
 }
+
 
 .at-histoire{
 	padding-top: 30px;
@@ -153,13 +158,58 @@ footer{
 	-webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
+.button3{
+	margin-bottom:5px;
+	display: block;
+	padding:5px 5px;
+	width: auto;
+	height: auto;
+	font-size: 1em;
+	text-decoration: none;
+	border-radius: 4px;
+	color:#FFF;
+	border-color: transparent;
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.button#btn{
+	background-color: rgba(61, 42, 42, 0.377);
+}
+.button#btn:hover {
+    background-color: rgba(0, 0, 0, 0.678); 
+    color: white;
+}
+.buttonadd{
+	padding: 8px 5px 8px 5px;
+	margin: 5px;
+	border-radius: 100%;
+	text-align: center;
+	background-color: rgba(61, 42, 42, 0.377);
+	cursor: default;
+}
+#buttonaddChoix{
+	padding: auto;
+	border-radius: 5px;
+}
+.btndelete{
+	border-radius: 100%;
+	font: 0.5em sans-serif;
+	margin-left: 10px;
+	background-color: #c22e4b;
+}
+.buttonadd:hover{
+	background-color: rgba(0, 0, 0, 0.678); 
+    color: white;
+	cursor:default;
+}
 .separe{
 	color:#FFF;
 	cursor: default;
 }
-.button2:hover {
+.button3:hover, .button2:hover {
     color: rgba(0,0,0,0.5); /* Green */
 }
+
 .selected .button{
 	background-color: rgba(0,233,233,0.3);
 	-webkit-transition-duration: 0.4s; /* Safari */
@@ -169,6 +219,9 @@ footer{
 .button:hover {
     background-color: rgba(0,0,0,0.5); /* Green */
     color: white;
+}
+.creation-paragraph{
+	margin:20px;
 }
 .at{
 	background-color: #212530;
@@ -185,6 +238,44 @@ footer{
 	height:150px;
 	width: 215px;
 }
+
+.dropdown-content {
+    display: none;
+    background-color: #7269699c;
+    min-width: 100px;
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
+	border-radius: 6px;
+}
+
+.dropdown-content a {
+    color: black;
+	
+    padding: 10px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1;
+	color: black;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+	border-radius: 6px;
+}
+
+.paragraph-affiche{
+	display: block;
+	border-radius: 6px;
+	background-color: #00000098;
+	margin-left: 6px;
+	margin-top: 20px;
+	padding: 10px 10px 10px 10px;
+	border: rgb(182, 167, 167);
+	color: rgb(231, 231, 231);
+}
+
 #HOME{
 }
 #support{

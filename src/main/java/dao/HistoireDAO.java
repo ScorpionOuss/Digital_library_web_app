@@ -363,13 +363,13 @@ public class HistoireDAO extends AbstractDAO {
 		ResultSet res = null; 
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("select * from stroy where title = ?");
-			st.setString(1,title);
+			st = conn.prepareStatement("select distinct TITLE from story");
 			res = st.executeQuery();
-			if (res.next()) {
-				return true;
+			while(res.next()){
+				if(title == res.getString("title")) {
+					return false;
+				}
 			}
-			
 		} catch(SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		}
