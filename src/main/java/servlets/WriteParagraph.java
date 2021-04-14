@@ -48,8 +48,10 @@ public class WriteParagraph extends HttpServlet {
         Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
 		int idChoice = (int) Integer. parseInt(request.getParameter(ATT_ID_CHOICE));
 		PrintWriter out = response.getWriter();	
+		/* To be able to find the id of the choice after */
+		request.setAttribute(ATT_ID_CHOICE, idChoice);
 //		ChoixDAO choixDAO = new ChoixDAO(dataSource);
-//		choixDAO.lockChoice(idChoice, user.getUserName());  
+//		choixDAO.lockChoice(idChoice, user.getUserName()); 
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
 
@@ -62,7 +64,7 @@ public class WriteParagraph extends HttpServlet {
         Paragraphe paragraph= form.creerParagraphe(request, dataSource);
         
 		/*Après la validation du choix*/
-		int idChoice = (int) request.getAttribute(ATT_ID_CHOICE);
+		int idChoice = Integer.parseInt(request.getParameter(ATT_ID_CHOICE));
         ChoixDAO choixDAO = new ChoixDAO(dataSource);
 		choixDAO.unlockChoice(idChoice);
 		//la il faut update le contenu du choix.

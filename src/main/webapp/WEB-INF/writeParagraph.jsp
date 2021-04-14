@@ -16,8 +16,8 @@
                     <div class="col-1-1" id="fond">
                         <div class="col-1-1">
                             <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="writeParagraph">
+                                <input id="idChoice" name="idChoice" type="hidden" value="${idChoice}">
                                 <fieldset>
-                                  
                                     <div class="pure-control-group" id="paragraphp">
                                         <label for="paragraph" class = "label-p" >Contenu du paragraphe</label>
                                         <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ..."></textarea>
