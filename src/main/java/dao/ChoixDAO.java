@@ -258,13 +258,17 @@ public class ChoixDAO extends AbstractDAO {
 		/* change locked and set the associated paragraph to Null  : delete the paragraph */
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("SELECT assocStory, assocPar from Choice where idChoice = ? ;" + 
-					"UPDATE Choice set locked = 0 and assocPar = NULL and assocStory = NULL where idChoice = ?");
+			st = conn.prepareStatement("SELECT assocStory, assocPar from Choice where idChoice = ?");
 			st.setInt(1, idChoice);
-			st.setInt(2, idChoice);
+			res = st.executeQuery();
+			String story = res.getString("assocStory");
+			int idPar = res.getInt("assocPar");
+			ResClose.silencedClosing(res, st);
+			st = conn.prepareStatement("UPDATE Choice set locked = 0 and assocPar = NULL and assocStory = NULL where idChoice = ?");
+			st.setInt(1, idChoice);
 			res = st.executeQuery();
 			ParagrapheDAO assocParDao = new ParagrapheDAO(this.dataSource);
-			assocParDao.deleteParagraphe(res.getString("assocStory"), res.getInt("assocPar"));
+			assocParDao.deleteParagraphe(story, idPar);
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		} finally {
