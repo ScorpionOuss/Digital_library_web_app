@@ -50,13 +50,15 @@ public final class WriteParagraphForm {
     	paragraphe.setText(paragraph);
     	
     	/*  Create the choices */
-    	LinkedList<Choix> choices = new LinkedList<Choix>();
-    	for (String ch : choix) {
-    		Choix choixObj = new Choix();
-    		choixObj.setText(ch);
-    		choices.add(choixObj);
+    	if (choix != null) {
+    		LinkedList<Choix> choices = new LinkedList<Choix>();
+    		for (String ch : choix) {
+    			Choix choixObj = new Choix();
+    			choixObj.setText(ch);
+    			choices.add(choixObj);
+    		}
+    		paragraphe.setChoices(choices);
     	}
-    	paragraphe.setChoices(choices);
     	
     	try {
     		ValidateParagraph(paragraph);

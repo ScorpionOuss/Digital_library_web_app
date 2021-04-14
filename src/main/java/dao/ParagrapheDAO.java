@@ -216,4 +216,29 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 		return assocPar; 
 	}
+	
+	public void declareAsBodyParagraph(int idParagraph, String title) {
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null;
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from BodyParagraph where idParagraph = ? and titleStory = ? ");
+			st.setInt(1, idParagraph);
+			st.setString(2, title);
+			res = st.executeQuery();
+			if (!res.next()) {
+				ResClose.silencedClosing(st);
+				st = conn.prepareStatement("INSERT INTO BodyParagraph(idParagraph, titleStory) values(?, ?)");
+				st.setInt(1, idParagraph);
+				st.setString(2, title);
+				st.executeUpdate();
+			}
+			
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
+		}
+	}
 }
