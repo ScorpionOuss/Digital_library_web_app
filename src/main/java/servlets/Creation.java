@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 import beans.Histoire;
 import beans.Utilisateur;
+import dao.HistoireDAO;
 import forms.CreationForm;
 
 @WebServlet(name = "creation", urlPatterns = {"/creation"})
@@ -36,31 +37,46 @@ public class Creation extends HttpServlet {
         this.getServletContext().getRequestDispatcher( VUE).forward( request, response );
     }
 
+//    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+//    	/* Préparation de l'objet formulaire */
+//    	CreationForm form = new CreationForm();
+//    	
+//    	/*Récupération du userName de l'utilisateur*/
+//    	 HttpSession session = request.getSession();
+//    	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
+//    	/*Traitement et validation de la requête*/
+//    	 String[] histoire = form.creerHistoire(request, dataSource, user.getUserName());
+//    	
+//        /* Stockage du formulaire et du bean dans l'objet request */
+//        //request.setAttribute( ATT_FORM, form );
+//        //request.setAttribute( ATT_HISTOIRE, histoire );
+//        
+//    	 PrintWriter out = response.getWriter();
+//
+//    	 
+//    	 if(histoire != null) {
+//    	 for (String str: histoire) {
+//    		 out.println(str);
+//    	 }
+//    	 }
+//
+////        this.getServletContext().getRequestDispatcher( VUEP ).forward( request, response );
+//
+//
+//    }
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-    	/* Préparation de l'objet formulaire */
-    	CreationForm form = new CreationForm();
+    
+    	HistoireDAO stroyDAO = new HistoireDAO(dataSource);
+    	String title = "titre de l'histoire";
+    	boolean publicLec = false;
+    	boolean publicEc = false;
+    	String image = "https://url";
+    	String description = "description";
+    	String creator = "jia";
+    	int idd = stroyDAO.addHistoire(title, creator, publicLec, publicEc, image, description);
     	
-    	/*Récupération du userName de l'utilisateur*/
-    	 HttpSession session = request.getSession();
-    	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
-    	/*Traitement et validation de la requête*/
-    	 String[] histoire = form.creerHistoire(request, dataSource, user.getUserName());
-    	
-        /* Stockage du formulaire et du bean dans l'objet request */
-        //request.setAttribute( ATT_FORM, form );
-        //request.setAttribute( ATT_HISTOIRE, histoire );
-        
-    	 PrintWriter out = response.getWriter();
-
-    	 
-    	 if(histoire != null) {
-    	 for (String str: histoire) {
-    		 out.println(str);
-    	 }
-    	 }
-
-//        this.getServletContext().getRequestDispatcher( VUEP ).forward( request, response );
-
-
+    	PrintWriter out = response.getWriter();
+    	out.println(idd);
     }
+    
 }

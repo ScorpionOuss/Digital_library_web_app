@@ -71,7 +71,7 @@ public class WriteParagraph extends HttpServlet {
         ChoixDAO choixDAO = new ChoixDAO(dataSource);
 		choixDAO.unlockChoice(idChoice);
 		//la il faut update le contenu du choix.
-
+		
         
         /* Stockage du formulaire dans l'objet request */
         request.setAttribute( ATT_FORM, form );

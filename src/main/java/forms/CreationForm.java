@@ -102,7 +102,6 @@ public final class CreationForm {
     	} catch ( Exception e ) {
             setErreur( CHAMP_Histoire, e.getMessage() );
         }
-    	//histoire.setFirstParagraph(1);
 
     	try {
     		ValidateChoix(choix);
@@ -117,23 +116,38 @@ public final class CreationForm {
             setErreur( CHAMP_INVITED, e.getMessage() );
         }
     	
-    	/*Création de l'histoire et du premier paragraphe associé*/
-    	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
-    	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
-    	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
-    	paragraphDAO.modifyText(title, idP, paragraph);
-    	stroryDAO.publish_story(title);
-    	histoire.setFirstParagraph(idP);
-
-    	
-    	/* Création des choix associés au paragraphe*/
-    	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-    	for (String choice:choix) {
-    		choiceDAO.addChoice(title, idP, paragraph);
-    	}
+//    	/*Création de l'histoire et du premier paragraphe associé*/
+//    	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
+//    	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
+//    	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
+//    	paragraphDAO.modifyText(title, idP, paragraph);
+//    	stroryDAO.publish_story(title);
+//    	histoire.setFirstParagraph(idP);
+//
+//    	
+//    	/* Création des choix associés au paragraphe*/
+//    	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
+//    	for (String choice:choix) {
+//    		choiceDAO.addChoice(title, idP, paragraph);
+//    	}
     	
     	/*Vérification erreurs*/ 
     	if ( erreurs.isEmpty() ) {
+    		
+    		/*Création de l'histoire et du premier paragraphe associé*/
+        	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
+        	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
+        	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
+        	paragraphDAO.modifyText(title, idP, paragraph);
+        	stroryDAO.publish_story(title);
+        	histoire.setFirstParagraph(idP);
+        	
+        	/* Création des choix associés au paragraphe*/
+        	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
+        	for (String choice:choix) {
+        		choiceDAO.addChoice(title, idP, choice);
+        	}
+        	
             resultat = "Histoire créée avec succès";
         } else {
             resultat = "Échec de la création de l'histoire.";
