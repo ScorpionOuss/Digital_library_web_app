@@ -16,7 +16,6 @@ import beans.Paragraphe;
 import beans.Utilisateur;
 import dao.ChoixDAO;
 import dao.HistoriqueDAO;
-import dao.ParagrapheDAO;
 import servlets.Connexion;
 
 /**
@@ -28,8 +27,6 @@ public class LireParagraph extends HttpServlet {
     private DataSource dataSource;
 	
 	private static final long serialVersionUID = 1L;
-    private static final String forNextPar = "idPar";
-    private static final String story = "titleStory";
     private static final String forChoice = "idChoice";
     private static final String par = "paragraph";
     public static final String VUE  = "/WEB-INF/jspModeLecture/lireParagraph.jsp";
@@ -46,11 +43,8 @@ public class LireParagraph extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* See if it corresponds to a next paragraph */
 		Paragraphe paragraph = null; 
-		if (request.getParameter(forNextPar) != null) {
-			ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
-			paragraph = parDAO.getParagraphe(request.getParameter(story), Integer.parseInt(request.getParameter(forNextPar)));
-		/* Or to a choice */
-		} else if (request.getParameter(forChoice) != null) {
+		/* to a choice */
+		if (request.getParameter(forChoice) != null) {
 			ChoixDAO choixDAO = new ChoixDAO(dataSource);
 			int idChoice = Integer.parseInt(request.getParameter(forChoice));
 			paragraph = choixDAO.retreiveCorrPar(idChoice);

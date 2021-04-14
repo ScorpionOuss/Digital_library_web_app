@@ -39,18 +39,6 @@ public class ParagrapheDAO extends AbstractDAO {
 			paragraph.setIsValidated(res.getInt("validated") == 1);
 			/* Close */
 			ResClose.silencedClosing(res, st);
-			/* See if there is a next paragraph */
-			st = conn.prepareStatement("SELECT idNextPar from BodyParagraph where titleStory = ? and titleNext = ? and idParagraph = ?");
-			st.setString(1, titleStory);
-			st.setString(2, titleStory);
-			st.setInt(3, idPar);
-			/* The result can be null */
-			res = st.executeQuery();
-			if (res.next()) {
-				int next = res.getInt("idNextPar");
-				paragraph.setNextParagraph((res.wasNull()? null : next));
-				return paragraph; /* There is no choices : exit */
-			}
 			/* retrieve the choices */
 			st = conn.prepareStatement("SELECT * from Choice where prevParStory = ? and prevPar = ? ");
 			st.setString(1, titleStory);
@@ -156,7 +144,7 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 	
-	public void associateNextParagraph(String titleStory, int idPar, String titleNext, int idParNext) {
+	public int associateNextParagraph(String titleStory, int idPar, String titleNext, int idParNext) {
 		Connection conn = null;
 		PreparedStatement st = null; 
 		ResultSet res = null;
@@ -167,21 +155,21 @@ public class ParagrapheDAO extends AbstractDAO {
 			st.setString(1, titleStory);
 			st.setInt(2, idPar);
 			res = st.executeQuery();
-			String statement; 
-			if (res.next()) {
-				statement = "UPDATE BodyParagraph set titleNext = ? and idNextPar = ? where titleStory = ? and idParagraph = ? ";
-			}
-			else {
-				statement = "Insert into BodyParagraph(titleNext, idNextPar, titleStory, idParagraph) values(?, ?, ?, ?)";	
+			if (!res.next()) { /* If the paragraph is not yet a body paragraph */
+				PreparedStatement st2;
+				st2 = conn.prepareStatement("Insert into BodyParagraph(titleStory, idParagraph) values(?, ?)");
+				st2.setString(1, titleStory);
+				st2.setInt(2, idPar);
+				st2.executeUpdate();
+				ResClose.silencedClosing(st2);
 			}
 			/* To suppress the warnings */
 			ResClose.silencedClosing(st);
-			st = conn.prepareStatement(statement);
-			st.setString(1, titleNext);
-			st.setInt(2, idParNext);
-			st.setString(3, titleStory);
-			st.setInt(4, idPar);
-			st.executeUpdate();
+			/* We'll insert the next paragraph as a choice */
+			/* Create the choice */
+			ChoixDAO choixDAO = new ChoixDAO(dataSource);
+			int idChoice =  choixDAO.addChoice(titleStory, idPar, "Paragraphe suivante", titleNext, idParNext);
+			return idChoice;
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		} finally {

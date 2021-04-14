@@ -70,6 +70,29 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
+	public int addChoice(String story, int idParagraph, String text, String assocStory, int assocPar) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("INSERT INTO Choice(idChoice, prevParStory, prevPar, text, assocStory, assocPar) " + 
+					"values(seqChoice.nextval, ?, ?, ?, ?, ?); SELECT seqChoice.currval as idChoice from dual; ");
+			st.setString(1, story);
+			st.setInt(2, idParagraph);
+			st.setString(3, text);
+			st.setString(4, assocStory);
+			st.setInt(5, assocPar);
+			res = st.executeQuery();
+			res.next();
+			int idChoice = res.getInt("idChoice");
+			return idChoice;
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+	}
 	/**
 	 * see if the choice must not be displayed in reading mode
 	 * @param idChoice
@@ -111,9 +134,7 @@ public class ChoixDAO extends AbstractDAO {
 			/* And now search for the next choices */ 
 			/* the getNextChoices anlyzes also the case of a conclusion */
 			LinkedList<Integer> nextChoices = getNextChoices(story, idPar, conn);
-			/* if the list is empty : means that : either the paragraph is a conclusion or that all the way to 
-			 * the conclusion there is only next paragraphs : the last paragraph is necessarly a conclusion 
-			 * because of the condition : a non conclusion paragraph has a least on choice*/
+			/* if the list is empty : means that : either the paragraph is a conclusion */
 			if (nextChoices.size() == 0) {
 				memoizeMap.put(idChoice, false);
 				return false;
@@ -134,8 +155,7 @@ public class ChoixDAO extends AbstractDAO {
 	}
 	
 	/**
-	 * The purpose from this method is to facilitate the recursion on the choices, it is used to ignore
-	 * the paragraphs that have no next choices but a next paragraph 
+	 * The purpose from this method is to get the next choices to analyze 
 	 * @param story
 	 * @param idPar
 	 * @return
@@ -144,21 +164,6 @@ public class ChoixDAO extends AbstractDAO {
 		PreparedStatement st = null; 
 		ResultSet res = null ;
 		try {
-			st = conn.prepareStatement("SELECT titleNext, idNextPar from BodyParagraph where " + 
-					"titleStory = ? and idParagraph = ? ");
-			st.setString(1, story);
-			st.setInt(2, idPar);
-			res = st.executeQuery();
-			/* if it's a conclusion */
-			if (!res.next()) { /* return an empty list */
-				return new LinkedList<Integer>();
-			}
-			/* if there is a next paragraph */
-			int nextPar = res.getInt("idNextPar");
-			if (!res.wasNull()) {
-				return getNextChoices(res.getString("titleNext"), nextPar, conn);
-			}
-			ResClose.silencedClosing(res, st);
 			/* search if there is choices */
 			st = conn.prepareStatement("SELECT idChoice from Choice where prevParStory = ? and prevPar = ?");
 			st.setString(1, story);
