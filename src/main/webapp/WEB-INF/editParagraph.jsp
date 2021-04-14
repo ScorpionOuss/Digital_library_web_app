@@ -25,17 +25,11 @@
 					<div class="col-1-1 paragraph-affiche">
 						<h4 class="paragraph-acteur">${paragraph.author}</h4>
 						<p class="paragraph-content"> ${paragraph.text} </p>
-						<c:choose>
-			<c:when test= "${paragraph.nextParagraph != null}">
-				<a href="editParagraph?idPar=${paragraph.nextParagraph}&titleStory=${paragraph.story}"> 
-					Paragraphe suivant
-				</a>
-			</c:when>
-			<%-- otherwise we have choices to display  --%>
-		<c:otherwise>
-				<c:if test="${donneePar.choices != null }">
-					<c:forEach items="${donneePar.choices}" var="ch">
-						<%-- Test if it's locked or not  --%>
+			
+			<%-- we have choices to display  --%>
+			<c:if test="${donneePar.choices != null || !donneePar.choices.isEmpty() }">
+				<c:forEach items="${donneePar.choices}" var="ch">
+					<%-- Test if it's locked or not  --%>
 					 <c:choose>
 						<c:when test="${ch.locked == 0}">
 							<a href="writeParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
@@ -54,11 +48,10 @@
 						</c:choose>
 						
 					</c:forEach> 
-				</c:if>
-			</c:otherwise>
-		</c:choose>
-					</div>
-            </div>
+			</c:if>
+			
+			</div>
+           </div>
 			<jsp:include page="footer.jsp" />
 			
 </body>

@@ -19,25 +19,7 @@
 					<div class="col-1-1 paragraph-affiche">
 						<h4 class="paragraph-acteur">Créée par ${donneeHis.creator}</h4>
 						<p class="paragraph-content"> ${donneePar.text} </p>
-<c:choose>
-			<c:when test= "${donneePar.nextParagraph != null}">
-				<a href="affichParagraph?idPar=${donneePar.nextParagraph}&titleStory=${donneePar.story}"> 
-					Paragraphe suivante
-				</a>
-			</c:when>
-			<%-- otherwise we have choices to display  --%>
-<%-- 			<c:otherwise>
-				<c:if test="${donneePar.choices != null }">
-					<c:forEach items="${donneePar.choices}" var="ch">
-						Test if it's masked or not 
-						<c:if test="${ch.isMasked == false}">
-							<a href="LireParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> <br>
-						</c:if>
-						
-					</c:forEach> 
-				</c:if>
-			</c:otherwise> --%>
-			<c:otherwise>
+			
 				<c:if test="${donneePar.choices != null }">
 					<c:forEach items="${donneePar.choices}" var="ch">
 						<%-- Test if it's locked or not  --%>
@@ -63,8 +45,6 @@
 						
 					</c:forEach> 
 				</c:if>
-			</c:otherwise>
-		</c:choose>
             </div>
             </div>
             </div>
