@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import beans.Choix;
 import beans.Paragraphe;
 import beans.Utilisateur;
 import dao.ChoixDAO;
@@ -64,7 +65,7 @@ public class WriteParagraph extends HttpServlet {
 	   	 HttpSession session = request.getSession();
 	   	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
-
+	   	 /* Ici on choisit de valider le paragraphe */
         Paragraphe paragraph= form.creerParagraphe(request, dataSource, user.getUserName());
         /* Add the paragraph to the dataBase */
         ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
@@ -84,6 +85,10 @@ public class WriteParagraph extends HttpServlet {
         /* Since we do the submit : validate */
         parDAO.validateParagraphe(paragraph.getStory(), idPar);
 
+        /* Add the inserted choices to the database */
+        for (Choix choice : paragraph.getChoices()) {
+        	choixDAO.addChoice(paragraph.getStory(), idPar, choice.getText());
+        }
         
         /* Stockage du formulaire dans l'objet request */
         request.setAttribute( ATT_FORM, form );
