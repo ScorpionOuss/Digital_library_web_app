@@ -67,16 +67,7 @@ public class HistoireDAO extends AbstractDAO {
 			res.next();
 			int idPar = res.getInt("idPar");
 			ResClose.silencedClosing(res, st);
-			/* Create the first paragraph */
-			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author) " + 
-					"values(?, ?, ?)");
-			st.setString(1, title);
-			st.setInt(2, idPar);
-			st.setString(3, creator);
-			st.executeUpdate();
-			/* just to Suppress The warnings */
-			ResClose.silencedClosing(st);
-			/* Create the story */
+			/* create the story */
 			st = conn.prepareStatement("INSERT INTO STORY(title, creator, publicLec, publicEc, firstParagraph, image, description)" + 
 					"values(?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, title);
@@ -86,6 +77,13 @@ public class HistoireDAO extends AbstractDAO {
 			st.setInt(5, idPar);
 			st.setString(6, image);
 			st.setString(7, description);
+			st.executeUpdate();
+			/* Create the first paragraph */
+			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author) " + 
+					"values(?, ?, ?)");
+			st.setString(1, title);
+			st.setInt(2, idPar);
+			st.setString(3, creator);
 			st.executeUpdate();
 			return idPar; 
 		} catch (SQLException e){
