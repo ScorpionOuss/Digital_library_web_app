@@ -10,7 +10,6 @@ public class Paragraphe {
 	private String author;
 	private Boolean isValidated;
 	private LinkedList<Choix> choices = null;
-	private Integer nextParagraph = null;
 	
 	public Integer getIdParagraph() {
 		return idParagraph;
@@ -43,13 +42,6 @@ public class Paragraphe {
 		this.choices = choices;
 	}
 	
-	public Integer getNextParagraph() {
-		return nextParagraph;
-	}
-	public void setNextParagraph(Integer nextParagraph) {
-		this.nextParagraph = nextParagraph;
-	} 
-	
 	public String getAuthor() {
 		return author;
 	}
@@ -58,7 +50,7 @@ public class Paragraphe {
 		this.author = author;
 	}
 	public boolean isConclusion() {
-		return (choices == null) && (nextParagraph == null);
+		return (choices == null|| choices.isEmpty());
 	}
 	
 }
