@@ -67,8 +67,7 @@
                     
                     <div class="list-histoire">
                          <c:forEach items="${histoires}" var="v">
-           					 <c:if test="${v.publicLec || isConnected}">
-									<%-- Display the story only if it is public for lecture or the user is logged in  --%>
+           					 
                         <div class="col-1-3">
                             <article class = "at-histoire">
                                 <header>
@@ -85,8 +84,6 @@
                                 </footer>
                             </article>
                         </div>
-                         	</c:if>
-
 			</c:forEach>
                     </div>
                 </div>
