@@ -6,17 +6,13 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-
 import javax.servlet.http.HttpServletRequest;
 
 import beans.Histoire;
-import beans.Paragraphe;
 import dao.ChoixDAO;
 import dao.HistoireDAO;
 import dao.ParagrapheDAO;
 import dao.UtilisateurDAO;
-import jdk.internal.dynalink.beans.StaticClass;
 public final class CreationForm {
     private static final String CHAMP_TITRE  = "nom";
     private static final String CHAMP_IMAGE_URL   = "site";
@@ -26,7 +22,6 @@ public final class CreationForm {
     private static final String CHAMP_CHOIX = "choix";
     private static final String CHAMP_INVITED = "userid";
     private static final String CHAMP_CHECK = "typecand";
-    private static final String LEC_CHECK = "etatLecture";
 
 
 
@@ -52,23 +47,19 @@ public final class CreationForm {
     	String[] choix = request.getParameterValues(CHAMP_CHOIX);
     	String[] invited = request.getParameterValues(CHAMP_INVITED);
     	String[] checkBox = request.getParameterValues(CHAMP_CHECK);
-    	String etatLec = getValeurChamp(request, LEC_CHECK);
     	
-    	
+    	/***À gérer***/
     	boolean publicEc;
     	boolean publicLec = true;
     	
-    	if (etatLec == null) {
-    		publicLec = false;
-    	}
-    	
-    	if(checkBox[0].equals("public")) {
+    	if(checkBox[0] == "public") {
     		publicEc = true;
     	}
     	else {
-    		assert(checkBox[1].equals("invite"));
+    		assert(checkBox[1] == "invite");
     		publicEc = false;
     	}
+    	
     	
     	Histoire histoire = new Histoire();
     	
@@ -140,21 +131,18 @@ public final class CreationForm {
         	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
         	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
         	paragraphDAO.modifyText(title, idP, paragraph);
+        	stroryDAO.publish_story(title);
         	histoire.setFirstParagraph(idP);
         	
-        	/* if there is choices */
-        	if (choix != null) {
-        		/* The paragraph is a body paragraph */
-        		paragraphDAO.declareAsBodyParagraph(idP, title);
-        		/* Création des choix associés au paragraphe*/
-        		ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-        		for (String choice:choix) {
-        			choiceDAO.addChoice(title, idP, choice);
-        		}
+        	/* Création des choix associés au paragraphe*/
+        	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
+        	for (String choice:choix) {
+        		choiceDAO.addChoice(title, idP, choice);
         	}
         	
         	/*Gestion des invités*/
-        	if (!publicEc) {
+        	// TO-DO
+        	if (publicEc == false) {
         		for (String inv:invited) {
         			stroryDAO.addInvited(title, inv);
         		}
@@ -163,7 +151,6 @@ public final class CreationForm {
         } else {
             resultat = "Échec de la création de l'histoire.";
         }
-    	
     	
     	return invited;
     }

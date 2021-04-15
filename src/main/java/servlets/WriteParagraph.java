@@ -56,10 +56,16 @@ public class WriteParagraph extends HttpServlet {
 		/* To be able to find the id of the choice after */
 		request.setAttribute(ATT_ID_CHOICE, idChoice);
 		ChoixDAO choixDAO = new ChoixDAO(dataSource);
-		choixDAO.lockChoice(idChoice, user.getUserName()); 
-		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+		
+		if(choixDAO.lockChoice(idChoice, user.getUserName()) != null){ 
+			this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+		}
+		
+		else {
+			/****Afficher vous avez déjà un paragraphe non validé****/
+		}
 	}
-
+	
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
         /* Préparation de l'objet formulaire */
         WriteParagraphForm form = new WriteParagraphForm();
@@ -103,6 +109,7 @@ public class WriteParagraph extends HttpServlet {
         case "annuler":
         	/*we unlock*/
     		choixDAO.unlockChoice(idChoice);
+    		/*Supprimer le lien et le paragraphe*/
             break;
         }
 
