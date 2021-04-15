@@ -7,12 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+		</main>
+		</div>
 		<footer id="end" >
 				<a href="#top" class="button2">return top</a><br><br>
 				&copy; 2021, Votre hero histoire team<br>
 		      All trademarks and registered trademarks appearing on
 		      this site are the property of their respective owners.<br>
 		      <a href="index.html" class="button2" title="about">@about us</a>
-			</footer>
+		</footer>
 </body>
 </html>

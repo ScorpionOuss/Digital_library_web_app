@@ -80,6 +80,22 @@ footer{
   	padding-bottom:8px;
   	font-size: 90%;
 }
+h1,h2,h3.h4,h5,p,section{
+	word-wrap: break-word;
+}
+h4,h5,p,section{
+	overflow:hidden; 
+	text-overflow:ellipsis;
+}
+.at-histoire h5{
+	margin: 0px;
+}
+.title-move-right{
+	padding-left: 30px;
+}
+.title-center{
+	text-align: center;
+}
 #partie-3 img{
 	 margin:-5px -5px -5px -5px;
 	 box-shadow: 3px 3px 6px #666;
@@ -88,7 +104,9 @@ footer{
 	background-color: #FFFFFF;
 	min-height: 500px;
 }
-
+#fond>.list-histoire{
+	margin-top: 10px;
+}
 #end {
   background-color: #000;
   color:            #efe5d0;
@@ -100,11 +118,15 @@ footer{
 
 
 .at-histoire{
-	padding-top: 30px;
-	padding-left: 30px;
-	margin: 10 10 10 10px;
+	margin: 10px 10px 10px 10px;
 }
+.at-histoire>.sans-top{
+	padding-top: 0px;
+}
+.at-histoire section{
+	height: 65px;
 
+}
 .carre{
 	width:80%;
 	height: 100%;
@@ -114,7 +136,9 @@ footer{
 	background:#cd5c5c;
 		line-height: 0;
 }
-
+.line-separe{
+	border-top: 3px dotted rgba(12, 83, 60, 0.651);
+}
 
 /*#top{
 	padding:10px 0 0 0;
@@ -305,6 +329,9 @@ main a:visited {
                 transform: scale(1.2);
                 transition: all 1s ease 0s;
             }
+.test_title{
+
+}
 /*a:hover img {
       transform: scale(1.007, 1.007);
     }

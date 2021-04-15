@@ -5,8 +5,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>votre hero histoire</title>
-	<link rel="stylesheet" type="text/css" href="simplegrid.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/simplegrid.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 </head>
@@ -166,8 +166,7 @@
 						</div>
 					</div>
 				</div>
-		</main>
-		</div>
+		
 				<jsp:include page="footer.jsp" />
 
 </body>
