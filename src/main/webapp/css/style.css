@@ -28,7 +28,7 @@ body{
 	font-family: sans-serif;
 	font-size: medium;
 	background-color: #000;
-	background-image: url(../../images/black_lozenge.png),url(../../images/whirlpool.png);
+	background-image: url(../images/black_lozenge.png),url(../images/whirlpool.png);
 	background-repeat: repeat-x,repeat;
 	background-position: top left,top left;
 }
@@ -118,7 +118,7 @@ footer{
 
 /*#top{
 	padding:10px 0 0 0;
-	background-image: url(images/black_lozenge.png);
+	background-image: url(../images/black_lozenge.png);
 	background-position: center;
 }*/
 
@@ -317,7 +317,7 @@ main ul {
 	overflow: hidden;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
-	background-image: url(../../images/lodyas.png);
+	background-image: url(../images/lodyas.png);
 }
 main ul li {
 	display: inline;

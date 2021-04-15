@@ -7,7 +7,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Connexion</title>
-        <link type="text/css" rel="stylesheet" href="form.css" />
+        <link type="text/css" rel="stylesheet" href="css/form.css" />
     </head>
     <body>
     <%-- 		<jsp:include page="header.jsp" /> --%>
