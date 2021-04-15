@@ -387,5 +387,35 @@ public class HistoireDAO extends AbstractDAO {
 		}
 		return true;
 	}
+
+	/** Guess returning stories are better to see what to publish/unpublish add more invited */
+	public LinkedList<Histoire> storiesCreatedBy(String user){
+		LinkedList<Histoire> stories = new LinkedList<Histoire>();
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null; 
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("select * from story where creator = ? ");
+			st.setString(1, user);
+			res = st.executeQuery();
+			while(res.next()){
+				Histoire s = new Histoire();
+				s.setCreator(user);
+	            s.setTitle(res.getString("title"));
+	            s.setDescription(res.getString("Description"));
+	            s.setImage(res.getString("Image"));
+	            s.setPublicEc(res.getInt("publicEc") == 1);
+	            s.setPublicLec(res.getInt("publicLec") == 1);
+	            s.setFirstParagraph(res.getInt("firstParagraph"));
+				stories.add(s);
+			}
+		} catch(SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+		return stories;
+	}
 }
 
