@@ -223,14 +223,22 @@ public class ChoixDAO extends AbstractDAO {
 		try {
 			conn = getConnexion();
 			/* Verify if the user is locking another choice */
-			st = conn.prepareStatement("SELECT * from Choice JOIN Paragraph ON assocPar = idParagraph " + 
+			st = conn.prepareStatement("SELECT idChoice, idParagraph from Choice JOIN Paragraph ON assocPar = idParagraph " + 
 			" and assocStory = titleStory where locked =1 and author = ? ");
 			st.setString(1, lockedBy);
 			res = st.executeQuery();
 			/* If the user is locking something */
 			if (res.next()) {
-				return null; 
+				/* If we're asking to lock the same choice : is just o tolerance because of the servlet 
+				 * implementation :) 
+				 */
+				if (idChoice == res.getInt("idChoice")) {
+					return res.getInt("idParagraph");
+				} else {
+					return null; 
+				}
 			}
+			
 			ResClose.silencedClosing(res, st);
 			st = conn.prepareStatement("SELECT prevParStory from Choice where idChoice = ?");
 			st.setInt(1, idChoice);

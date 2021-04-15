@@ -21,7 +21,7 @@
                                    
                                     <div class="pure-control-group" id="paragraphp">
                                         <label for="paragraph" class = "label-p" >histoire</label>
-                                        <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ..."></textarea>
+                                        <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ...">${textAff}</textarea>
                                         <span class="msgE">erreur message</span>
                                     </div>
                                     <div class="pure-control-group" id="LesChoix">

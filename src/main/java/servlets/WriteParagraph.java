@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import beans.Choix;
+import beans.Histoire;
 import beans.Paragraphe;
 import beans.Utilisateur;
 import dao.ChoixDAO;
@@ -33,7 +34,8 @@ public class WriteParagraph extends HttpServlet {
     public static final String ATT_FORM = "form";
     public static final String VUE  = "/WEB-INF/writeParagraph.jsp";
     public static final String VUE_ERREUR  = "/WEB-INF/erreur.jsp";
-
+    private static final String donneeHistoire = "donneeHis";
+    private static final String textTodisplay = "textAff";
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -57,7 +59,14 @@ public class WriteParagraph extends HttpServlet {
 		request.setAttribute(ATT_ID_CHOICE, idChoice);
 		ChoixDAO choixDAO = new ChoixDAO(dataSource);
 		
-		if(choixDAO.lockChoice(idChoice, user.getUserName()) != null){ 
+		Integer idPar = choixDAO.lockChoice(idChoice, user.getUserName());
+		if( idPar != null){ 
+			/* Forward the text to display */
+			ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
+			String title =  ((Histoire) session.getAttribute(donneeHistoire)).getTitle();
+			/* Not really efficient */
+			String text = parDAO.getParagraphe(title, idPar).getText();
+			request.setAttribute(textTodisplay, text);
 			this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 		}
 		
@@ -117,8 +126,10 @@ public class WriteParagraph extends HttpServlet {
 
 
         /* Add the inserted choices to the database */
-        for (Choix choice : paragraph.getChoices()) {
-        	choixDAO.addChoice(paragraph.getStory(), idPar, choice.getText());
+        if (paragraph.getChoices() != null) {
+        	for (Choix choice : paragraph.getChoices()) {
+        		choixDAO.addChoice(paragraph.getStory(), idPar, choice.getText());
+        	}
         }
         
         /* Stockage du formulaire dans l'objet request */
