@@ -138,12 +138,14 @@ public final class CreationForm {
         	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
         	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
         	paragraphDAO.modifyText(title, idP, paragraph);
-        	stroryDAO.publish_story(title);
         	histoire.setFirstParagraph(idP);
         	
         	/* Création des choix associés au paragraphe*/
         	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
         	if (choix != null) {
+        		/*  the paragraph is a body paragraph */
+        		paragraphDAO.declareAsBodyParagraph(idP, title);
+        		/* Creation des choix associés au paragraphe */
 	        	for (String choice:choix) {
 	        		choiceDAO.addChoice(title, idP, choice);
 	        	}
