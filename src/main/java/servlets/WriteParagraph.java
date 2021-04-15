@@ -32,8 +32,8 @@ public class WriteParagraph extends HttpServlet {
 	public static final String ATT_ID_CHOICE = "idChoice";
     public static final String ATT_FORM = "form";
     public static final String VUE  = "/WEB-INF/writeParagraph.jsp";
-    public static final String VUE1  = "/WEB-INF/accueil";
-    public static final String VUE2  = "/WEB-INF/connexion";
+    public static final String VUE_ERREUR  = "/WEB-INF/erreur.jsp";
+
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -63,6 +63,8 @@ public class WriteParagraph extends HttpServlet {
 		
 		else {
 			/****Afficher vous avez déjà un paragraphe non validé****/
+			this.getServletContext().getRequestDispatcher( VUE_ERREUR ).forward( request, response );
+
 		}
 	}
 	

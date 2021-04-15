@@ -54,12 +54,14 @@ public class EditStory extends HttpServlet {
 		Paragraphe assocPar; 
 		assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
 
+		/*Mettre en place les attributs pour la gestion dynamique en JSP*/
 		request.setAttribute(donneeHistoire, story);
 		request.setAttribute(donneepar, assocPar);
 		
 		HttpSession session =  request.getSession();
 		Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
 		request.setAttribute(ATT_USER, user);
+		/*set strory in session attributes; use in case of edition*/
 		session.setAttribute(donneeHistoire, story);
 		
 		ChoixDAO choixDao = new ChoixDAO(dataSource);
