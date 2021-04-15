@@ -265,8 +265,10 @@ public class HistoireDAO extends AbstractDAO {
 		ResultSet res = null; 
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("select * from story left  join invited on title = titleStory where publicEc = 1 or invitedUser = ?");
+			st = conn.prepareStatement("select * from story where publicEc = 1 or creator = ? UNION " + 
+					"select distinct S.* from story S join invited I on S.title = I.titleStory where invitedUser = ?");
 			st.setString(1, editor);
+			st.setString(2, editor);
 			res = st.executeQuery();
 			while (res.next()) {
 				Histoire histoire = new Histoire();
