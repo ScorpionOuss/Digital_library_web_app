@@ -241,4 +241,32 @@ public class ParagrapheDAO extends AbstractDAO {
 			ResClose.silencedClosing(st, conn);
 		}
 	}
+	
+	/* Guess since it's only for deleting and modifying text : There is no need to choices */
+	public LinkedList<Paragraphe> parWroteBy(String user){
+		LinkedList<Paragraphe> paragraphs = new LinkedList<Paragraphe>();
+		Connection conn = null;
+		PreparedStatement st = null; 
+		ResultSet res = null;
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT * from Paragraph where author = ? ");
+			st.setString(1, user);
+			res = st.executeQuery();
+			while (res.next()) {
+				Paragraphe p = new Paragraphe();
+				p.setIdParagraph(res.getInt("idParagraph"));
+				p.setStory(res.getString("titleStory"));
+				p.setAuthor(user);
+				p.setText(res.getString("text"));
+				p.setIsValidated(res.getInt("validated") == 1);
+				paragraphs.add(p);
+			}
+			return paragraphs;
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
+		}
+	}
 }
