@@ -74,9 +74,7 @@ public class WriteParagraph extends HttpServlet {
 		/*Après la validation du choix*/
 		int idChoice = Integer.parseInt(request.getParameter(ATT_ID_CHOICE));
         ChoixDAO choixDAO = new ChoixDAO(dataSource);
-		choixDAO.unlockChoice(idChoice);
-		//la il faut update le contenu du choix.
-		
+		choixDAO.unlockChoice(idChoice);		
 
 		
 		/* add the association */

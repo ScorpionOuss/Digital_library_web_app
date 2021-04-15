@@ -127,45 +127,30 @@ public final class CreationForm {
 	    	}
     	}
     	
-//    	/*Création de l'histoire et du premier paragraphe associé*/
-//    	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
-//    	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
-//    	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
-//    	paragraphDAO.modifyText(title, idP, paragraph);
-//    	stroryDAO.publish_story(title);
-//    	histoire.setFirstParagraph(idP);
-//
-//    	
-//    	/* Création des choix associés au paragraphe*/
-//    	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-//    	for (String choice:choix) {
-//    		choiceDAO.addChoice(title, idP, paragraph);
-//    	}
-    	
     	/*Vérification erreurs*/ 
     	if ( erreurs.isEmpty() ) {
     		
-//    		/*Création de l'histoire et du premier paragraphe associé*/
+    		/*Création de l'histoire et du premier paragraphe associé*/
         	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
-//        	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
-//        	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
-//        	paragraphDAO.modifyText(title, idP, paragraph);
-//        	stroryDAO.publish_story(title);
-//        	histoire.setFirstParagraph(idP);
-//        	
-//        	/* Création des choix associés au paragraphe*/
-//        	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-//        	for (String choice:choix) {
-//        		choiceDAO.addChoice(title, idP, choice);
-//        	}
-//        	
+        	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
+        	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
+        	paragraphDAO.modifyText(title, idP, paragraph);
+        	stroryDAO.publish_story(title);
+        	histoire.setFirstParagraph(idP);
+        	
+        	/* Création des choix associés au paragraphe*/
+        	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
+        	for (String choice:choix) {
+        		choiceDAO.addChoice(title, idP, choice);
+        	}
+        	
         	/*Gestion des invités*/
         	// TO-DO
-//        	if (publicEc == false) {
-//        		for (String inv:invited) {
-//        			stroryDAO.addInvited(title, inv);
-//        		}
-//        	}
+        	if (publicEc == false) {
+        		for (String inv:invited) {
+        			stroryDAO.addInvited(title, inv);
+        		}
+        	}
             resultat = "Histoire créée avec succès";
         } else {
             resultat = "Échec de la création de l'histoire.";
@@ -185,7 +170,7 @@ public final class CreationForm {
     //À modifier.
 	private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
 		for (String invited : invites) {
-			if(invited == inv) {
+			if(invited.contentEquals(inv)) {
 				return;
 			}
 		}
