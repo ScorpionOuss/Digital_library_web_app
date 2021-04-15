@@ -37,13 +37,22 @@
 							<br>
 						</c:when>
 	 					<c:when test="${ch.locked == 1}"> 
-						${ch.text} <br>
-
+					   		<c:set var="pseudo1" value="${utilisateur.userName}"/>
+	 						<c:set var="pseudo2" value="${choiceDAO.lockedOrDoneBy(ch.idChoice)}"/> 
+						
+	 							<c:choose>
+		 							<c:when test="${pseudo1 eq pseudo2}">
+		 								<a href="writeParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a>
+		 							<c:out value="Modifié et non validé"/>
+		 							<br/>
+		 							</c:when>
+		 							<c:otherwise>${ch.text} <br></c:otherwise>
+								</c:choose>
 						</c:when>
-					    <c:otherwise>
+					    <c:when test="${ch.locked == 2}">
 							<a href="editParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
 							<br>
-						</c:otherwise>
+						</c:when>
 						
 						</c:choose>
 						
