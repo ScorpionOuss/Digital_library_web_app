@@ -289,7 +289,7 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 	
-	public LinkedList<Histoire> listOfStoriesToRead(){
+	public LinkedList<Histoire> listOfStoriesToRead(boolean isConnected){
 		LinkedList<Histoire> stories = new LinkedList<Histoire>();
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -301,15 +301,19 @@ public class HistoireDAO extends AbstractDAO {
 			while (res.next()) {
 				String title = res.getString("title");
 				if (availableForRead(title, conn, st, res)) {
-					Histoire histoire = new Histoire();
-					histoire.setCreator(res.getString("Creator"));
-					histoire.setTitle(title);
-					histoire.setDescription(res.getString("Description"));
-					histoire.setImage(res.getString("Image"));
-					histoire.setPublicEc(res.getInt("publicEc") == 1);
-					histoire.setPublicLec(res.getInt("PublicLec") == 1);
-					histoire.setFirstParagraph(res.getInt("firstParagraph"));
-					stories.add(histoire);
+					boolean publicLec = (res.getInt("publicLec") == 1);
+					/* if it is public or the user is connected */
+					if (publicLec || isConnected) {
+						Histoire histoire = new Histoire();
+						histoire.setCreator(res.getString("Creator"));
+						histoire.setTitle(title);
+						histoire.setDescription(res.getString("Description"));
+						histoire.setImage(res.getString("Image"));
+						histoire.setPublicEc(res.getInt("publicEc") == 1);
+						histoire.setPublicLec(publicLec);
+						histoire.setFirstParagraph(res.getInt("firstParagraph"));
+						stories.add(histoire);
+					}
 				}	
 			}
 			return stories;
@@ -378,6 +382,8 @@ public class HistoireDAO extends AbstractDAO {
 			}
 		} catch(SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 		return true;
 	}

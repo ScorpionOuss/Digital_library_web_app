@@ -40,15 +40,13 @@ public class AfficherHistoires extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/* Restore all the stories in the data base for read */
 		HistoireDAO storiesDAO = new HistoireDAO(dataSource);
-		LinkedList<Histoire> stories = storiesDAO.listOfStoriesToRead();
 		/* See if the user is connected or not */
 		boolean isConnected = false; 
 		if (request.getSession().getAttribute(SESSION_USER) != null) {
 			isConnected = true; 
 		}
-		request.setAttribute(CONNECTED, isConnected);
+		LinkedList<Histoire> stories = storiesDAO.listOfStoriesToRead(isConnected);
 		request.setAttribute(HISTOIRES, stories);
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}

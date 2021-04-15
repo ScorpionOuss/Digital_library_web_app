@@ -44,6 +44,13 @@
                                     <div class="pure-control-group add" id="invite-users">
 
                                     </div>
+                                    
+                                    <div class="pure-control-group" id="anneep">
+                                        <label for="etatLecture" class = "label-p">publique en lecture</label>
+ 											 <input type="checkbox" id="lec" name="etatLecture" value="publicLec" checked>
+                                        	<span class="msgE">erreur message</span>
+                                    </div>
+                                    
                                     <div class="pure-control-group" id="anneep">
                                         <label for="annee" class = "label-p">annee creation</label>
                                         <input id="annee" name="annee" type="text" placeholder="01/01/2000">

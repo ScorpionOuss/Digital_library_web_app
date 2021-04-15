@@ -26,6 +26,7 @@ public final class CreationForm {
     private static final String CHAMP_CHOIX = "choix";
     private static final String CHAMP_INVITED = "userid";
     private static final String CHAMP_CHECK = "typecand";
+    private static final String LEC_CHECK = "etatLecture";
 
 
 
@@ -51,10 +52,15 @@ public final class CreationForm {
     	String[] choix = request.getParameterValues(CHAMP_CHOIX);
     	String[] invited = request.getParameterValues(CHAMP_INVITED);
     	String[] checkBox = request.getParameterValues(CHAMP_CHECK);
+    	String etatLec = getValeurChamp(request, LEC_CHECK);
     	
-    	/***À gérer***/
+    	
     	boolean publicEc;
     	boolean publicLec = true;
+    	
+    	if (etatLec == null) {
+    		publicLec = false;
+    	}
     	
     	if(checkBox[0].equals("public")) {
     		publicEc = true;
@@ -136,10 +142,15 @@ public final class CreationForm {
         	paragraphDAO.modifyText(title, idP, paragraph);
         	histoire.setFirstParagraph(idP);
         	
-        	/* Création des choix associés au paragraphe*/
-        	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-        	for (String choice:choix) {
-        		choiceDAO.addChoice(title, idP, choice);
+        	/* if there is choices */
+        	if (choix != null) {
+        		/* The paragraph is a body paragraph */
+        		paragraphDAO.declareAsBodyParagraph(idP, title);
+        		/* Création des choix associés au paragraphe*/
+        		ChoixDAO choiceDAO = new ChoixDAO(dataSource);
+        		for (String choice:choix) {
+        			choiceDAO.addChoice(title, idP, choice);
+        		}
         	}
         	
         	/*Gestion des invités*/
