@@ -244,7 +244,7 @@ public class ChoixDAO extends AbstractDAO {
 			
 			/* To suppress the warnings */
 			ResClose.silencedClosing(res, st);
-			st = conn.prepareStatement("UPDATE Choice set locked = 1 and assocPar = ? and assocStory = ? where idChoice = ?");
+			st = conn.prepareStatement("UPDATE Choice set locked = 1 , assocPar = ?, assocStory = ? where idChoice = ?");
 			st.setInt(1, idPar);
 			st.setString(2, story);
 			st.setInt(3, idChoice);
