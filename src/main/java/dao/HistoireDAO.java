@@ -417,5 +417,30 @@ public class HistoireDAO extends AbstractDAO {
 		}
 		return stories;
 	}
+
+	/* Participants are who wrote a paragraph : don't need to retrieve the creator of the paragraph 
+	 * because he is the writer of the first paragraph 
+	 */
+	public LinkedList<String> participants(String story){
+		LinkedList<String> participants = new LinkedList<String>();
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null; 
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("select DISTINCT author from Paragraph where titleStory = ? ");
+			st.setString(1, story);
+			res = st.executeQuery();
+			while(res.next()){
+				participants.add(res.getString("author"));
+			}
+			return participants; 
+		} catch(SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+		
+	}
 }
 
