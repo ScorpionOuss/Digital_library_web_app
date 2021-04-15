@@ -67,25 +67,25 @@ public class HistoireDAO extends AbstractDAO {
 			res.next();
 			int idPar = res.getInt("idPar");
 			ResClose.silencedClosing(res, st);
-			/* Create the first paragraph */
-			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author) " + 
-					"values(?, ?, ?)");
-			st.setString(1, title);
-			st.setInt(2, idPar);
-			st.setString(3, creator);
-			st.executeUpdate();
-			/* just to Suppress The warnings */
-			ResClose.silencedClosing(st);
-			/* Create the story */
+			/* create the story */
 			st = conn.prepareStatement("INSERT INTO STORY(title, creator, publicLec, publicEc, firstParagraph, image, description)" + 
 					"values(?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, title);
 			st.setString(2, creator);
-			st.setInt(3, (publicLec)? 1 : 0);
-			st.setInt(4, (publicEc)? 1 : 0);
+			int lec = (publicLec) ? 1: 0;
+			st.setInt(3, lec);
+			int ec = (publicEc) ? 1 : 0; 
+			st.setInt(4, ec);
 			st.setInt(5, idPar);
 			st.setString(6, image);
 			st.setString(7, description);
+			st.executeUpdate();
+			/* Create the first paragraph */
+			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author, validated) " + 
+					"values(?, ?, ?, 1)");
+			st.setString(1, title);
+			st.setInt(2, idPar);
+			st.setString(3, creator);
 			st.executeUpdate();
 			return idPar; 
 		} catch (SQLException e){
@@ -265,8 +265,10 @@ public class HistoireDAO extends AbstractDAO {
 		ResultSet res = null; 
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("select * from story left  join invited on title = titleStory where publicEc = 1 or invitedUser = ?");
+			st = conn.prepareStatement("select * from story where publicEc = 1 or creator = ? UNION " + 
+					"select distinct S.* from story S join invited I on S.title = I.titleStory where invitedUser = ?");
 			st.setString(1, editor);
+			st.setString(2, editor);
 			res = st.executeQuery();
 			while (res.next()) {
 				Histoire histoire = new Histoire();
@@ -287,7 +289,7 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 	
-	public LinkedList<Histoire> listOfStoriesToRead(){
+	public LinkedList<Histoire> listOfStoriesToRead(boolean isConnected){
 		LinkedList<Histoire> stories = new LinkedList<Histoire>();
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -299,15 +301,19 @@ public class HistoireDAO extends AbstractDAO {
 			while (res.next()) {
 				String title = res.getString("title");
 				if (availableForRead(title, conn, st, res)) {
-					Histoire histoire = new Histoire();
-					histoire.setCreator(res.getString("Creator"));
-					histoire.setTitle(title);
-					histoire.setDescription(res.getString("Description"));
-					histoire.setImage(res.getString("Image"));
-					histoire.setPublicEc(res.getInt("publicEc") == 1);
-					histoire.setPublicLec(res.getInt("PublicLec") == 1);
-					histoire.setFirstParagraph(res.getInt("firstParagraph"));
-					stories.add(histoire);
+					boolean publicLec = (res.getInt("publicLec") == 1);
+					/* if it is public or the user is connected */
+					if (publicLec || isConnected) {
+						Histoire histoire = new Histoire();
+						histoire.setCreator(res.getString("Creator"));
+						histoire.setTitle(title);
+						histoire.setDescription(res.getString("Description"));
+						histoire.setImage(res.getString("Image"));
+						histoire.setPublicEc(res.getInt("publicEc") == 1);
+						histoire.setPublicLec(publicLec);
+						histoire.setFirstParagraph(res.getInt("firstParagraph"));
+						stories.add(histoire);
+					}
 				}	
 			}
 			return stories;
@@ -370,12 +376,14 @@ public class HistoireDAO extends AbstractDAO {
 			st = conn.prepareStatement("select distinct TITLE from story");
 			res = st.executeQuery();
 			while(res.next()){
-				if(title == res.getString("title")) {
+				if(title.contentEquals(res.getString("title"))) {
 					return false;
 				}
 			}
 		} catch(SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
 		}
 		return true;
 	}

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import beans.Choix;
 import beans.Paragraphe;
 import beans.Utilisateur;
 import dao.ChoixDAO;
@@ -31,6 +32,9 @@ public class WriteParagraph extends HttpServlet {
 	public static final String ATT_ID_CHOICE = "idChoice";
     public static final String ATT_FORM = "form";
     public static final String VUE  = "/WEB-INF/writeParagraph.jsp";
+    public static final String VUE1  = "/WEB-INF/accueil";
+    public static final String VUE2  = "/WEB-INF/connexion";
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -51,8 +55,8 @@ public class WriteParagraph extends HttpServlet {
 		PrintWriter out = response.getWriter();	
 		/* To be able to find the id of the choice after */
 		request.setAttribute(ATT_ID_CHOICE, idChoice);
-//		ChoixDAO choixDAO = new ChoixDAO(dataSource);
-//		choixDAO.lockChoice(idChoice, user.getUserName()); 
+		ChoixDAO choixDAO = new ChoixDAO(dataSource);
+		choixDAO.lockChoice(idChoice, user.getUserName()); 
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
 
@@ -64,22 +68,49 @@ public class WriteParagraph extends HttpServlet {
 	   	 HttpSession session = request.getSession();
 	   	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
-
+	   	 /* Ici on choisit de valider le paragraphe */
         Paragraphe paragraph= form.creerParagraphe(request, dataSource, user.getUserName());
         /* Add the paragraph to the dataBase */
         ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
-        int idPar = parDAO.addParagraphe(paragraph, true, true);
+        int idPar = parDAO.addParagraphe(paragraph, true, paragraph.isConclusion());
         
-		/*Après la validation du choix*/
-		int idChoice = Integer.parseInt(request.getParameter(ATT_ID_CHOICE));
+
+        
+        int idChoice = Integer.parseInt(request.getParameter(ATT_ID_CHOICE));
         ChoixDAO choixDAO = new ChoixDAO(dataSource);
+
 		
 		/* add the association */
         choixDAO.associateParagraph(idChoice, idPar, paragraph.getStory());
         
-        /* Since we do the submit : validate */
-        parDAO.validateParagraphe(paragraph.getStory(), idPar);
+        PrintWriter out = response.getWriter();
 
+        String submit = request.getParameter("button")==null? "": request.getParameter("button");
+        String enreg = request.getParameter("enregistrer") == null?"": request.getParameter("enregistrer");
+        String annul =  request.getParameter("annuler") == null?"": request.getParameter("annuler");
+        
+        String action = submit + enreg + annul;
+        /*Manage the locked attribute of choice*/
+        switch(action) {
+        case "submit":
+        	/* Since we do the submit : validate */
+            parDAO.validateParagraphe(paragraph.getStory(), idPar);
+            break;
+        case "enregistrer":
+        	/*Rien à priori*/
+
+            break;
+        case "annuler":
+        	/*we unlock*/
+    		choixDAO.unlockChoice(idChoice);
+            break;
+        }
+
+
+        /* Add the inserted choices to the database */
+        for (Choix choice : paragraph.getChoices()) {
+        	choixDAO.addChoice(paragraph.getStory(), idPar, choice.getText());
+        }
         
         /* Stockage du formulaire dans l'objet request */
         request.setAttribute( ATT_FORM, form );

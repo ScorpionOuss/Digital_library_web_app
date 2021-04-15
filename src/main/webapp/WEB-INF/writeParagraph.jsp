@@ -35,8 +35,11 @@
                                             <input id="case" name='case' type="checkbox">  I've read the terms and conditions
                                             <span class="msgE">erreur message</span>
                                             </label>
-                                        <input id="submit" type="submit" name="button" value="submit" class="pure-button pure-button-primary button">
-                                    </div>
+                                        <input id="submit" type="submit" name="button" value="submit"  class="pure-button pure-button-primary button">
+                                        <input id="enregistrer" type="submit" name="enregistrer" value="enregistrer"  class="pure-button pure-button-primary button">
+                                        <input id="annuler" type="submit" name="annuler" value="annuler"  class="pure-button pure-button-primary button">
+                                      
+                                   	</div>
                         
                                 </fieldset>
                             </form>

@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
+
 import javax.servlet.http.HttpServletRequest;
 
 import beans.Histoire;
@@ -12,6 +15,7 @@ import beans.Paragraphe;
 import dao.ChoixDAO;
 import dao.HistoireDAO;
 import dao.ParagrapheDAO;
+import dao.UtilisateurDAO;
 import jdk.internal.dynalink.beans.StaticClass;
 public final class CreationForm {
     private static final String CHAMP_TITRE  = "nom";
@@ -22,6 +26,7 @@ public final class CreationForm {
     private static final String CHAMP_CHOIX = "choix";
     private static final String CHAMP_INVITED = "userid";
     private static final String CHAMP_CHECK = "typecand";
+    private static final String LEC_CHECK = "etatLecture";
 
 
 
@@ -47,19 +52,23 @@ public final class CreationForm {
     	String[] choix = request.getParameterValues(CHAMP_CHOIX);
     	String[] invited = request.getParameterValues(CHAMP_INVITED);
     	String[] checkBox = request.getParameterValues(CHAMP_CHECK);
+    	String etatLec = getValeurChamp(request, LEC_CHECK);
     	
-    	/***À gérer***/
+    	
     	boolean publicEc;
     	boolean publicLec = true;
     	
-    	if(checkBox[0] == "public") {
+    	if (etatLec == null) {
+    		publicLec = false;
+    	}
+    	
+    	if(checkBox[0].equals("public")) {
     		publicEc = true;
     	}
     	else {
-    		assert(checkBox[1] == "invite");
+    		assert(checkBox[1].equals("invite"));
     		publicEc = false;
     	}
-    	
     	
     	Histoire histoire = new Histoire();
     	
@@ -102,66 +111,94 @@ public final class CreationForm {
     	} catch ( Exception e ) {
             setErreur( CHAMP_Histoire, e.getMessage() );
         }
-    	//histoire.setFirstParagraph(1);
 
-    	try {
-    		ValidateChoix(choix);
-    	} catch ( Exception e ) {
-            setErreur( CHAMP_CHOIX, e.getMessage() );
-        }
+    	if (choix != null) {
+	    	for(String ch: choix) {
+		    	try {
+		    		ValidateChoix(ch);
+		    	} catch ( Exception e ) {
+		            setErreur( CHAMP_CHOIX, e.getMessage() );
+		        }
+	    	}
+    	}
     	
-    	
-    	try {
-    		ValidateInvited(invited);
-    	} catch ( Exception e ) {
-            setErreur( CHAMP_INVITED, e.getMessage() );
-        }
-    	
-    	/*Création de l'histoire et du premier paragraphe associé*/
-    	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
-    	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
-    	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
-    	paragraphDAO.modifyText(title, idP, paragraph);
-    	stroryDAO.publish_story(title);
-    	histoire.setFirstParagraph(idP);
-
-    	
-    	/* Création des choix associés au paragraphe*/
-    	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-    	for (String choice:choix) {
-    		choiceDAO.addChoice(title, idP, paragraph);
+    	if (invited != null) {
+	    	for(String inv: invited) {
+		    	try {
+		    		ValidateInvited(inv, title, dataSource);
+		    	} catch ( Exception e ) {
+		            setErreur( CHAMP_INVITED, e.getMessage() );
+		        }
+	    	}
     	}
     	
     	/*Vérification erreurs*/ 
     	if ( erreurs.isEmpty() ) {
+    		
+    		/*Création de l'histoire et du premier paragraphe associé*/
+        	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
+        	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
+        	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
+        	paragraphDAO.modifyText(title, idP, paragraph);
+        	histoire.setFirstParagraph(idP);
+        	
+        	/* if there is choices */
+        	if (choix != null) {
+        		/* The paragraph is a body paragraph */
+        		paragraphDAO.declareAsBodyParagraph(idP, title);
+        		/* Création des choix associés au paragraphe*/
+        		ChoixDAO choiceDAO = new ChoixDAO(dataSource);
+        		for (String choice:choix) {
+        			choiceDAO.addChoice(title, idP, choice);
+        		}
+        	}
+        	
+        	/*Gestion des invités*/
+        	if (!publicEc) {
+        		for (String inv:invited) {
+        			stroryDAO.addInvited(title, inv);
+        		}
+        	}
             resultat = "Histoire créée avec succès";
         } else {
             resultat = "Échec de la création de l'histoire.";
         }
     	
-    	return checkBox;
+    	
+    	return invited;
     }
     
     
 
-    private void ValidateInvited(String[] invited) {
-		// TODO Auto-generated method stub
-		
+    private void ValidateInvited(String invited, String title, DataSource dataSource) throws Exception {
+    	UtilisateurDAO usersDAO = new UtilisateurDAO(dataSource);
+    	LinkedList<String> invites = usersDAO.getUsers();
+    	verifyIn(invites, invited);
+	}
+    
+    //À modifier.
+	private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
+		for (String invited : invites) {
+			if(invited.contentEquals(inv)) {
+				return;
+			}
+		}
+		throw new Exception("userName invalide");
 	}
 
-	private void ValidateChoix(String[] choix) {
+	private void ValidateChoix(String choix) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void ValidateParagraph(String paragraph) throws Exception {
-    	if ( paragraph != null && paragraph.length() < 20 ) {
+    	if (paragraph.length() < 20 ) {
             throw new Exception( "Le contenu du paragraphe doit contenir au moins 20 caractères." );
         }
 	}
 
 	private void validateDescription(String presentation) throws Exception {
-    	if ( presentation != null && presentation.length() < 10 ) {
+    	if (presentation.length() < 10 ) {
             throw new Exception( "Le contenu de la description doit contenir au moins 10 caractères." );
         }
 	}
@@ -178,8 +215,8 @@ public final class CreationForm {
 
 	private void validationTitle(String titre, DataSource dataSource) throws Exception {
 		HistoireDAO story = new HistoireDAO(dataSource);
-		if(story.verifyTitle(titre)== false) {
-			throw new Exception("Le titre choisi existe déjà!");
+		if( titre == null || story.verifyTitle(titre)== false) {
+			throw new Exception("Titre non renseigné où existe déjà!");
 		}
 	}
 

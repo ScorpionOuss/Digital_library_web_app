@@ -1,15 +1,18 @@
 package forms;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.sql.DataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import beans.Choix;
 import beans.Histoire;
 import beans.Paragraphe;
 import dao.ChoixDAO;
+import dao.ParagrapheDAO;
 
 public final class WriteParagraphForm {
 
@@ -29,7 +32,7 @@ public final class WriteParagraphForm {
     }
 
     
-    public Paragraphe creerParagraphe( HttpServletRequest request, DataSource dataSource, String author ) {
+    public Paragraphe creerParagraphe( HttpServletRequest request, DataSource dataSource, String author) {
     	
     	
     	String paragraph = getValeurChamp(request, CHAMP_Histoire);
@@ -41,8 +44,23 @@ public final class WriteParagraphForm {
     	HttpSession session =  request.getSession();
     	Histoire story =  (Histoire) session.getAttribute(donneeHistoire);
     	String title = story.getTitle();
+    		
+    	/* Modify the object paragraph */
+    	paragraphe.setAuthor(author);
+    	paragraphe.setStory(title);
+    	paragraphe.setText(paragraph);
     	
-    			
+    	/*  Create the choices */
+    	if (choix != null) {
+    		LinkedList<Choix> choices = new LinkedList<Choix>();
+    		for (String ch : choix) {
+    			Choix choixObj = new Choix();
+    			choixObj.setText(ch);
+    			choices.add(choixObj);
+    		}
+    		paragraphe.setChoices(choices);
+    	}
+    	
     	try {
     		ValidateParagraph(paragraph);
     	} catch ( Exception e ) {
