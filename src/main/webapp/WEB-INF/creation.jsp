@@ -26,7 +26,7 @@
                                     <div class="pure-control-group" id="sitep">
                                         <label for="site">image URL</label>
                                         <input id="site" name="site" type="text" placeholder="URL">
-                                        <span>erreur message</span>
+                                        <span class="msgE">${form.erreurs['nom']}</span>
                                     </div>
                                     <div class="pure-control-group" id="droit" >
                                       <label class = "label-p"> Autorisation du Edit</label>
@@ -54,17 +54,17 @@
                                     <div class="pure-control-group" id="anneep">
                                         <label for="annee" class = "label-p">annee creation</label>
                                         <input id="annee" name="annee" type="text" placeholder="01/01/2000">
-                                        <span class="msgE">erreur message</span>
+                                        <span class="msgE">${form.erreurs['annee']}</span>
                                     </div>
                                     <div class="pure-control-group" id="descrp">
                                         <label for="presentation" class = "label-p">presentation</label>
                                         <textarea id="descr" name="presentation" rows="3" cols="80" placeholder="c'est une histoire lie ..."></textarea>
-                                        <span class="msgE">erreur message</span>
+                                        <span class="msgE">${form.erreurs['presentation']}</span>
                                     </div>
                                     <div class="pure-control-group" id="paragraphp">
                                         <label for="paragraph" class = "label-p" >histoire</label>
                                         <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ..."></textarea>
-                                        <span class="msgE">erreur message</span>
+                                        <span class="msgE">${form.erreurs['paragraph']}</span>
                                     </div>
                                     <div class="pure-control-group" id="LesChoix">
                                       <div class="pure-controls-group" >

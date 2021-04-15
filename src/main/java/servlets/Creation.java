@@ -50,23 +50,24 @@ public class Creation extends HttpServlet {
     	 String[] histoire = form.creerHistoire(request, dataSource, user.getUserName());
     	
         /* Stockage du formulaire et du bean dans l'objet request */
-        //request.setAttribute( ATT_FORM, form );
-        //request.setAttribute( ATT_HISTOIRE, histoire );
+        request.setAttribute( ATT_FORM, form );
+        request.setAttribute( ATT_HISTOIRE, histoire);
         
     	 PrintWriter out = response.getWriter();
-
-    	 for (String erreur: form.getErreurs().values()) {
-    		 out.println(erreur);
-    	 }
+    	 out.println(histoire[0]);
     	 
-    	 out.println(form.getResultat());
+//    	 for (String erreur: form.getErreurs().values()) {
+//    		 out.println(erreur);
+//    	 }
+    	 
+//    	 out.println(form.getResultat());
 //    	 if(histoire != null) {
 //    	 for (String str: histoire) {
 //    		 out.println(str);
 //    	 }
 //    	 }
 //
-//        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+        //this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 
 
     }

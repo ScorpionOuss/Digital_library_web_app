@@ -22,7 +22,7 @@ public final class CreationForm {
     private static final String CHAMP_CHOIX = "choix";
     private static final String CHAMP_INVITED = "userid";
     private static final String CHAMP_CHECK = "typecand";
-
+    private static final String CHAMP_Read = "etatLecture";
 
 
     private String              resultat;
@@ -44,6 +44,7 @@ public final class CreationForm {
     	String annee = getValeurChamp(request, CHAMP_ANNEE);
     	String presentation = getValeurChamp(request, CHAMP_Description);
     	String paragraph = getValeurChamp(request, CHAMP_Histoire);
+    	String lectureEnable = getValeurChamp(request, CHAMP_Read);
     	String[] choix = request.getParameterValues(CHAMP_CHOIX);
     	String[] invited = request.getParameterValues(CHAMP_INVITED);
     	String[] checkBox = request.getParameterValues(CHAMP_CHECK);
@@ -52,11 +53,15 @@ public final class CreationForm {
     	boolean publicEc;
     	boolean publicLec = true;
     	
-    	if(checkBox[0] == "public") {
+    	if (lectureEnable == null) {
+    		publicLec = false;
+    	}
+    	
+    	if(checkBox[0].contentEquals("public")) {
     		publicEc = true;
     	}
     	else {
-    		assert(checkBox[1] == "invite");
+    		assert(checkBox[0].contentEquals("invite"));
     		publicEc = false;
     	}
     	
@@ -109,6 +114,7 @@ public final class CreationForm {
 		    		ValidateChoix(ch);
 		    	} catch ( Exception e ) {
 		            setErreur( CHAMP_CHOIX, e.getMessage() );
+		            break;
 		        }
 	    	}
     	}
@@ -119,6 +125,7 @@ public final class CreationForm {
 		    		ValidateInvited(inv, title, dataSource);
 		    	} catch ( Exception e ) {
 		            setErreur( CHAMP_INVITED, e.getMessage() );
+		            break;
 		        }
 	    	}
     	}
@@ -136,15 +143,18 @@ public final class CreationForm {
         	
         	/* Création des choix associés au paragraphe*/
         	ChoixDAO choiceDAO = new ChoixDAO(dataSource);
-        	for (String choice:choix) {
-        		choiceDAO.addChoice(title, idP, choice);
+        	if (choix != null) {
+	        	for (String choice:choix) {
+	        		choiceDAO.addChoice(title, idP, choice);
+	        	}
         	}
-        	
         	/*Gestion des invités*/
         	// TO-DO
         	if (publicEc == false) {
-        		for (String inv:invited) {
-        			stroryDAO.addInvited(title, inv);
+        		if(invited != null) {
+	        		for (String inv:invited) {
+	        			stroryDAO.addInvited(title, inv);
+	        		}
         		}
         	}
             resultat = "Histoire créée avec succès";
@@ -152,7 +162,7 @@ public final class CreationForm {
             resultat = "Échec de la création de l'histoire.";
         }
     	
-    	return invited;
+    	return checkBox;
     }
     
     
@@ -179,14 +189,14 @@ public final class CreationForm {
 	}
 
 	private void ValidateParagraph(String paragraph) throws Exception {
-    	if (paragraph.length() < 20 ) {
-            throw new Exception( "Le contenu du paragraphe doit contenir au moins 20 caractères." );
+    	if (paragraph == null || paragraph.length() < 20 ) {
+            throw new Exception("Le contenu du paragraphe doit contenir au moins 20 caractères.");
         }
 	}
 
 	private void validateDescription(String presentation) throws Exception {
-    	if (presentation.length() < 10 ) {
-            throw new Exception( "Le contenu de la description doit contenir au moins 10 caractères." );
+    	if (presentation == null || presentation.length() < 10 ) {
+            throw new Exception("Le contenu de la description doit contenir au moins 10 caractères.");
         }
 	}
 
