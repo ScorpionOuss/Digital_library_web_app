@@ -1,5 +1,8 @@
 
 
+<%@page import="beans.Utilisateur"%>
+<%@page import="javax.security.auth.message.callback.PrivateKeyCallback.Request"%>
+<%@page import="dao.ChoixDAO"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -32,15 +35,19 @@
 							<br>
 						</c:when>
 	 					<c:when test="${ch.locked == 1}"> 
-	 					<%-- 	<c:choose>
-	 						<c:when test="${utilisateur.username} == ${choiceDAO.lockedOrDoneBy(ch.idChoice)}">
-	 						<a href="writeParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a>
-	 						<c:out value="Modifié et non validé"/>
-	 						<br/>
-	 						</c:when>
-	 						<c:otherwise>${ch.text} <br></c:otherwise>
-						</c:choose> --%>
-						${ch.text}
+	 				
+	 				
+	 					<c:set var="pseudo1" value="${utilisateur.userName}"/>
+	 					<c:set var="pseudo2" value="${choiceDAO.lockedOrDoneBy(ch.idChoice)}"/> 
+						
+	 						<c:choose>
+		 						<c:when test="${pseudo1 eq pseudo2}">
+		 						<a href="writeParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a>
+		 						<c:out value="Modifié et non validé"/>
+		 						<br/>
+		 						</c:when>
+		 						<c:otherwise>${ch.text} <br></c:otherwise>
+							</c:choose>
 						</c:when>
 					    <c:when test="${ch.locked == 2}">
 							<a href="editParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
