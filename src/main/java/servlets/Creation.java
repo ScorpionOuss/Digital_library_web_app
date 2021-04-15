@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 import beans.Histoire;
 import beans.Utilisateur;
+import dao.ChoixDAO;
 import dao.HistoireDAO;
 import forms.CreationForm;
 
@@ -53,30 +54,30 @@ public class Creation extends HttpServlet {
         
     	 PrintWriter out = response.getWriter();
 
-    	 
+//    	 for (String erreur: form.getErreurs().values()) {
+//    		 out.println(erreur);
+//    	 }
     	 if(histoire != null) {
     	 for (String str: histoire) {
     		 out.println(str);
     	 }
     	 }
-
-//        this.getServletContext().getRequestDispatcher( VUEP ).forward( request, response );
+//
+//        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 
 
     }
+    
 //    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
 //    
-//    	HistoireDAO stroyDAO = new HistoireDAO(dataSource);
-//    	String title = "titre de l'histoire";
-//    	boolean publicLec = false;
-//    	boolean publicEc = false;
-//    	String image = "https://url";
-//    	String description = "description";
-//    	String creator = "jia";
-//    	int idd = stroyDAO.addHistoire(title, creator, publicLec, publicEc, image, description);
+//    	ChoixDAO choiceDAO= new ChoixDAO(dataSource);
 //    	
-//    	PrintWriter out = response.getWriter();
-//    	out.println(idd);
+//    	String title = "titre de l'histoire";
+//    	int idP = 24;
+//    	String choice = "ouiii";
+//    	
+//		choiceDAO.addChoice(title, idP, choice);
+//
 //    }
     
 }
