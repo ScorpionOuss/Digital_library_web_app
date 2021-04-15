@@ -235,6 +235,7 @@ public class ChoixDAO extends AbstractDAO {
 			st = conn.prepareStatement("SELECT prevParStory from Choice where idChoice = ?");
 			st.setInt(1, idChoice);
 			res = st.executeQuery();
+			res.next(); // definitely there is a row 
 			String story = res.getString("prevParStory");
 			
 			ParagrapheDAO assocParDao = new ParagrapheDAO(this.dataSource);
