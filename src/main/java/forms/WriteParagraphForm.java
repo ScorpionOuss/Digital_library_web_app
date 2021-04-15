@@ -12,6 +12,7 @@ import beans.Choix;
 import beans.Histoire;
 import beans.Paragraphe;
 import dao.ChoixDAO;
+import dao.ParagrapheDAO;
 
 public final class WriteParagraphForm {
 

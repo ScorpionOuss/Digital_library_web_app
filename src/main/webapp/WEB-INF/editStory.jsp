@@ -27,14 +27,20 @@
 						<br/>
 					 <c:choose>
 						<c:when test="${ch.locked == 0}">
-						<c:out value="Wa samhamd ${ch.idChoice}"/>
 							<a href="writeParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
 							<c:out value="À Éditer"/>
 							<br>
 						</c:when>
 	 					<c:when test="${ch.locked == 1}"> 
-						${ch.text} <br>
-
+	 					<%-- 	<c:choose>
+	 						<c:when test="${utilisateur.username} == ${choiceDAO.lockedOrDoneBy(ch.idChoice)}">
+	 						<a href="writeParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a>
+	 						<c:out value="Modifié et non validé"/>
+	 						<br/>
+	 						</c:when>
+	 						<c:otherwise>${ch.text} <br></c:otherwise>
+						</c:choose> --%>
+						${ch.text}
 						</c:when>
 					    <c:when test="${ch.locked == 2}">
 							<a href="editParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 

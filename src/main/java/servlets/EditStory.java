@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import beans.Histoire;
 import beans.Paragraphe;
+import beans.Utilisateur;
+import dao.ChoixDAO;
 import dao.HistoireDAO;
 import dao.ParagrapheDAO;
 
@@ -26,6 +28,9 @@ public class EditStory extends HttpServlet {
 	public static final String titreHis = "titre";
 	public static final String donneeHistoire = "donneeHis";
 	public static final String donneepar = "donneePar";
+    public static final String ATT_USER         = "utilisateur";
+    public static final String ATT_DAO         = "choiceDAO";
+
 	/* 1 = a unique display / 0 = not unique */
 	public static final String displayUnique = "displayUnique";
 	public static final String VUE  = "/WEB-INF/editStory.jsp";
@@ -53,7 +58,12 @@ public class EditStory extends HttpServlet {
 		request.setAttribute(donneepar, assocPar);
 		
 		HttpSession session =  request.getSession();
+		Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
+		request.setAttribute(ATT_USER, user);
 		session.setAttribute(donneeHistoire, story);
+		
+		ChoixDAO choixDao = new ChoixDAO(dataSource);
+		request.setAttribute(ATT_DAO, choixDao);
 		
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
