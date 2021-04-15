@@ -27,8 +27,8 @@
 						<p class="paragraph-content"> ${paragraph.text} </p>
 			
 			<%-- we have choices to display  --%>
-			<c:if test="${donneePar.choices != null || !donneePar.choices.isEmpty() }">
-				<c:forEach items="${donneePar.choices}" var="ch">
+			<c:if test="${paragraph.choices != null || !paragraph.choices.isEmpty() }">
+				<c:forEach items="${paragraph.choices}" var="ch">
 					<%-- Test if it's locked or not  --%>
 					 <c:choose>
 						<c:when test="${ch.locked == 0}">

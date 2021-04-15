@@ -78,9 +78,9 @@ public class HistoireDAO extends AbstractDAO {
 			st.setString(6, image);
 			st.setString(7, description);
 			st.executeUpdate();
-			/* Create the first paragraph */
-			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author) " + 
-					"values(?, ?, ?)");
+			/* Create the first paragraph : we assume that it is validated */
+			st = conn.prepareStatement("INSERT INTO PARAGRAPH(titleStory, idParagraph, author, validated) " + 
+					"values(?, ?, ?,1)");
 			st.setString(1, title);
 			st.setInt(2, idPar);
 			st.setString(3, creator);

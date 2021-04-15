@@ -69,7 +69,7 @@ public class WriteParagraph extends HttpServlet {
         Paragraphe paragraph= form.creerParagraphe(request, dataSource, user.getUserName());
         /* Add the paragraph to the dataBase */
         ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
-        int idPar = parDAO.addParagraphe(paragraph, true, true);
+        int idPar = parDAO.addParagraphe(paragraph, true, paragraph.isConclusion());
         
 		/*Après la validation du choix*/
 		int idChoice = Integer.parseInt(request.getParameter(ATT_ID_CHOICE));
