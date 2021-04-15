@@ -56,14 +56,13 @@ public final class CreationForm {
     	boolean publicEc;
     	boolean publicLec = true;
     	
-    	if(checkBox[0] == "public") {
+    	if(checkBox[0].equals("public")) {
     		publicEc = true;
     	}
     	else {
-    		assert(checkBox[1] == "invite");
+    		assert(checkBox[1].equals("invite"));
     		publicEc = false;
     	}
-    	
     	
     	Histoire histoire = new Histoire();
     	
@@ -135,7 +134,6 @@ public final class CreationForm {
         	ParagrapheDAO paragraphDAO = new ParagrapheDAO(dataSource);
         	int idP = stroryDAO.addHistoire(title, author, publicLec, publicEc, imageUrl, presentation);
         	paragraphDAO.modifyText(title, idP, paragraph);
-        	stroryDAO.publish_story(title);
         	histoire.setFirstParagraph(idP);
         	
         	/* Création des choix associés au paragraphe*/
@@ -145,8 +143,7 @@ public final class CreationForm {
         	}
         	
         	/*Gestion des invités*/
-        	// TO-DO
-        	if (publicEc == false) {
+        	if (!publicEc) {
         		for (String inv:invited) {
         			stroryDAO.addInvited(title, inv);
         		}
@@ -155,6 +152,7 @@ public final class CreationForm {
         } else {
             resultat = "Échec de la création de l'histoire.";
         }
+    	
     	
     	return invited;
     }

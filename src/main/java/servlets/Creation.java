@@ -46,8 +46,8 @@ public class Creation extends HttpServlet {
     	/*Récupération du userName de l'utilisateur*/
     	 HttpSession session = request.getSession();
     	 Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
-    	/*Traitement et validation de la requête*/
-    	 String[] histoire = form.creerHistoire(request, dataSource, "jia");
+    	/*Traitement et validation de la requête*/ 
+    	 String[] histoire = form.creerHistoire(request, dataSource, user.getUserName());
     	
         /* Stockage du formulaire et du bean dans l'objet request */
         //request.setAttribute( ATT_FORM, form );
@@ -58,6 +58,8 @@ public class Creation extends HttpServlet {
     	 for (String erreur: form.getErreurs().values()) {
     		 out.println(erreur);
     	 }
+    	 
+    	 out.println(form.getResultat());
 //    	 if(histoire != null) {
 //    	 for (String str: histoire) {
 //    		 out.println(str);
