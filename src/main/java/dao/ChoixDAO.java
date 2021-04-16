@@ -111,6 +111,10 @@ public class ChoixDAO extends AbstractDAO {
 		return isMaskedRecur(idChoice, memoizeMap);
 	}
 	
+	/* Just about the non validated paragraphs : we assume that these paragraphs either they have no choices or if they 
+	 * heve definitely they are not associated to a paragraph 
+	 * But if they don't have any choice : conclusion : Yeah : must verify that its validated 
+	 */
 	private boolean isMaskedRecur(int idChoice, Map<Integer, Boolean> memoizeMap) {
 		/* search if the answer is in the map */
 		if (memoizeMap.containsKey(idChoice)) {
@@ -136,6 +140,16 @@ public class ChoixDAO extends AbstractDAO {
 			String story = res.getString("story");
 			/* To suppress the warnings */
 			ResClose.silencedClosing(res, st);
+			/* We'll just make sure that it's validated */
+			st = conn.prepareStatement("SELECT validated from Paragraph where idParagraph = ? and titleStory = ?");
+			st.setInt(1, idPar);
+			st.setString(2, story);
+			res = st.executeQuery();
+			res.next();
+			if (res.getInt("validated") == 0) { /* It's not validated */
+				memoizeMap.put(idChoice, true);
+				return true;
+			}
 			/* And now search for the next choices */ 
 			/* the getNextChoices anlyzes also the case of a conclusion */
 			LinkedList<Integer> nextChoices = getNextChoices(story, idPar, conn);

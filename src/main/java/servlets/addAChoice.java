@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import dao.ChoixDAO;
+import dao.ParagrapheDAO;
 
 /**
  * Servlet implementation class addAChoice
@@ -51,6 +52,9 @@ public class addAChoice extends HttpServlet {
 			for (String ch : choix) {
 				choixDAO.addChoice(prevStory, prevPar, ch);
 			}
+			/* Since we add a choice just to make sure that the paragraph is a body paragraph */
+			ParagrapheDAO parDAO = new ParagrapheDAO(dataSource);
+			parDAO.declareAsBodyParagraph(prevPar, prevStory);
 		}
 		
 		PrintWriter out = response.getWriter();

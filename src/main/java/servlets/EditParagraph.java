@@ -27,6 +27,7 @@ public class EditParagraph extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String forChoice = "idChoice";
     private static final String par = "paragraph";
+    public static final String ATT_DAO         = "choiceDAO";
     public static final String VUE  = "/WEB-INF/editParagraph.jsp";
     public static final String ATT_MS         = "droits";
     public static final String ATT_USER         = "utilisateur";
@@ -58,6 +59,8 @@ public class EditParagraph extends HttpServlet {
 		request.setAttribute(ATT_MS, user.getUserName().contentEquals(paragraph.getAuthor()));
 		
 		request.setAttribute(par, paragraph);
+		ChoixDAO choixDao = new ChoixDAO(dataSource);
+		request.setAttribute(ATT_DAO, choixDao);
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
 

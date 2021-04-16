@@ -97,12 +97,13 @@ public class HistoireDAO extends AbstractDAO {
 	
 	/**
 	 * a story is available for read if there is a conclusion 
+	 * Aware : only the validated conclusion to take in consideration 
 	 * @param title
 	 * @return
 	 */
 	private boolean availableForRead(String title, Connection conn, PreparedStatement st, ResultSet res) {
 		try {
-			st = conn.prepareStatement("SELECT * from Paragraph where titleStory = ? " + 
+			st = conn.prepareStatement("SELECT * from Paragraph where titleStory = ? and validated = 1 " + 
 				"and idParagraph NOT IN (SELECT idParagraph from BodyParagraph where titleStory = ?)");
 			st.setString(1, title);
 			st.setString(2, title);
@@ -125,8 +126,8 @@ public class HistoireDAO extends AbstractDAO {
 		ResultSet res = null;
 		try{
 			conn = getConnexion();
-			/* search if there is more that one conclusion */
-			st = conn.prepareStatement("SELECT COUNT(*) AS ConcNb from Paragraph where titleStory = ? " + 
+			/* search if there is more that one conclusion ( !!!!! a validated conclusion !!!!!!) */
+			st = conn.prepareStatement("SELECT COUNT(*) AS ConcNb from Paragraph where titleStory = ? and validated = 1 " + 
 					"and idParagraph NOT IN (SELECT idParagraph from BodyParagraph where titleStory = ?)");
 			st.setString(1, title);
 			st.setString(2, title);
@@ -146,8 +147,8 @@ public class HistoireDAO extends AbstractDAO {
 			res = st.executeQuery();
 			res.next();
 			int stopWhen = res.getInt("firstParagraph");
-			/* first : retrieve the conclusion */
-			st = conn.prepareStatement("SELECT idParagraph from Paragraph where titleStory = ?"
+			/* first : retrieve validated  the conclusion */
+			st = conn.prepareStatement("SELECT idParagraph from Paragraph where titleStory = ? and validated = 1 "
 					+ "and idParagraph NOT IN (SELECT idParagraph from BodyParagraph where titleStory = ?)");
 			st.setString(1, title);
 			st.setString(2, title);

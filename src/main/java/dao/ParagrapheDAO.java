@@ -185,15 +185,28 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 	
-	public void deleteParagraphe(String title, int idParagraph) {
+	public boolean deleteParagraphe(String title, int idParagraph) {
 		Connection conn = null;
 		PreparedStatement st = null; 
+		ResultSet res = null;
 		try {
 			conn = getConnexion();
+			/* Before deleting must verify that the paragraph is a conclusion or does not have any
+			 * written choices */
+			st = conn.prepareStatement("SELECT * from choice where prevPar = ? and prevParStory = ? and locked != 0");
+			st.setInt(1, idParagraph);
+			st.setString(2, title);
+			res = st.executeQuery();
+			/* if there is a row : means that we can not delete the paragraph */
+			if (res.next()) {
+				return false;
+			}
+			ResClose.silencedClosing(res, st);
 			st = conn.prepareStatement("DELETE from Paragraph where titleStory = ? and idParagraph = ? ");
 			st.setString(1, title);
 			st.setInt(2, idParagraph);
 			st.executeUpdate();
+			return true; 
 		} catch (SQLException e){
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		} finally {
