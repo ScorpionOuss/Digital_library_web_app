@@ -50,7 +50,7 @@ public class Paragraphe {
 		this.author = author;
 	}
 	public boolean isConclusion() {
-		return (choices == null|| choices.isEmpty());
+		return (choices == null|| choices.size() == 0);
 	}
 	
 }

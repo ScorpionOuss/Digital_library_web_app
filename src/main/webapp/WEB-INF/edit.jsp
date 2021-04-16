@@ -12,13 +12,12 @@
 	<link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 <meta charset="UTF-8">
-<title>Histoires à lire </title>
+<title>Histoires à éditer </title>
 </head>
 <body>
 	<%@ page import="beans.Histoire"%>
 	<%@ page import="java.util.LinkedList"%>
-	<h1>Les histoires que vous pouvez lire </h1>
-		${histoiresEdit.size()}
+	<h1>Les histoires que vous pouvez éditer </h1>
 
    		<jsp:include page="header.jsp" />
    
@@ -32,16 +31,15 @@
                             <article class = "at-histoire">
                                 <header>
                                     <a href="editStory?titre=${v.title}" class="test_a"><img class = "image-1-3-2" src="${v.image}" alt="photo6"></a>
-                                    <h4>Enfants</h4>
-                                    <time datetime="2017-11-20">20/11/2021</time>
+                                    <h4>${v.title}</h4>
                                 </header>
                                 <section>
                                     <h5>
-                                        ${v.title}
+                                        ${v.description}
                                     </h5>
                                 </section>
                                 <footer>
-                                    <a href="index.html" class="button2" title="Jump to">create more@histoires</a>
+                                    <a href="creation" class="button2" title="Jump to">create more@histoires</a>
                                 </footer>
                             </article>
                         </div>

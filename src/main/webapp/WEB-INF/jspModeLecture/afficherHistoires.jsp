@@ -71,7 +71,7 @@
                         <div class="col-1-3">
                             <article class = "at-histoire">
                                 <header>
-                                    <a href="LireUneHistoire?titre=${v.title}" class="test_a"><img class = "image-1-3-2" src="images/enfant.png" alt="photo6"></a>
+                                    <a href="LireUneHistoire?titre=${v.title}" class="test_a"><img class = "image-1-3-2" src="${v.image}" alt="photo6"></a>
                                     <h4>${v.title}</h4>
                                 </header>
                                 <section>
@@ -80,7 +80,7 @@
                                     </h5>
                                 </section>
                                 <footer>
-                                    <a href="edit" class="button2" title="Jump to">create more stories</a>
+                                    <a href="creation" class="button2" title="Jump to">create more stories</a>
                                 </footer>
                             </article>
                         </div>
