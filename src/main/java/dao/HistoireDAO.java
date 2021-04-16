@@ -157,19 +157,6 @@ public class HistoireDAO extends AbstractDAO {
 			while (idLastPar != stopWhen) {
 				/* add it to the linkedList */
 				path.addFirst(idLastPar);
-				/* Verify if it is a next paragraph */
-				st = conn.prepareStatement("SELECT idParagraph from BodyParagraph where titleNext = ? and titleStory = ? and idNextPar = ? ");
-				st.setString(1, title);
-				st.setString(2,  title);
-				st.setInt(3, idLastPar);
-				res = st.executeQuery();
-				if (res.next()) { /* if it is a next paragraph : the path is always unique */
-					idLastPar = res.getInt("idParagraph");
-					continue;
-				}
-				/* Close : for warning :( ? */
-				ResClose.silencedClosing(res, st);
-				
 				/* search the number of the choices associated */
 				st = conn.prepareStatement("SELECT COUNT(*) as NbChoices from Choice where assocStory = ? and assocPar = ? ");
 				st.setString(1, title);
@@ -180,6 +167,7 @@ public class HistoireDAO extends AbstractDAO {
 				if (nbAssoChoices > 1) {  /* There is definitely a choice */
 					return false; 
 				}
+				ResClose.silencedClosing(res, st);
 				/* one choice then : must retrieve the previous paragraph */
 				st = conn.prepareStatement("SELECT prevPar from Choice where assocStory = ? and assocPar = ? ");
 				st.setString(1, title);
