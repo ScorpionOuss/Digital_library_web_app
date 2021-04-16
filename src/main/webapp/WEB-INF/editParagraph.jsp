@@ -22,6 +22,16 @@
                     <div class="col-1-1">
                         <h2>${paragraph.story} </h2>						
                     </div>
+                    <c:choose>
+						<c:when test="${droits == true}">
+								<a href="modifier?idP=${paragraph.idParagraph}"> Modifier le paragraphe</a>
+								</br>
+		 						<a href="supprimer?idP=${paragraph.idParagraph}"> Supprimer le paragraphe</a>
+						</c:when>
+						<c:otherwise>
+						<c:out value="Vous n'avez pas les droits de modification et suppresion du paragraphe"></c:out>
+						</c:otherwise>
+					</c:choose>
 					<div class="col-1-1 paragraph-affiche">
 						<h4 class="paragraph-acteur">${paragraph.author}</h4>
 						<p class="paragraph-content"> ${paragraph.text} </p>

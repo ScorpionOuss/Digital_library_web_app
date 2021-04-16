@@ -30,7 +30,8 @@ public class EditStory extends HttpServlet {
 	public static final String donneepar = "donneePar";
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_DAO         = "choiceDAO";
-
+    public static final String ATT_MS         = "droits";
+    
 	/* 1 = a unique display / 0 = not unique */
 	public static final String displayUnique = "displayUnique";
 	public static final String VUE  = "/WEB-INF/editStory.jsp";
@@ -66,6 +67,11 @@ public class EditStory extends HttpServlet {
 		
 		ChoixDAO choixDao = new ChoixDAO(dataSource);
 		request.setAttribute(ATT_DAO, choixDao);
+		
+		/*set le droit de mofif et suppression*/
+		boolean droits = user.getUserName().contentEquals(story.getCreator());
+		request.setAttribute(ATT_MS, droits);
+		
 		
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}

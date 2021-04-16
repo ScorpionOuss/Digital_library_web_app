@@ -19,6 +19,17 @@
                    	 <h2> Description </h2>
 						<p> ${donneeHis.description} </p>
 					<div class="col-1-1 paragraph-affiche">
+					
+					<c:choose>
+						<c:when test="${droits == true}">
+								<a href="modifier?idP=${donneeHis.firstParagraph}"> Modifier le 1 er paragraphe</a>
+								</br>
+		 						<a href="supprimer?idP=${donneeHis.firstParagraph}"> Supprimer le 1 er paragraphe</a>
+						</c:when>
+						<c:otherwise>
+						<c:out value="Vous n'avez pas les droits de modification et suppresion du paragraphe"></c:out>
+						</c:otherwise>
+					</c:choose>
 						<h4 class="paragraph-acteur">Créée par ${donneeHis.creator}</h4>
 						<p class="paragraph-content"> ${donneePar.text} </p>
 			
@@ -47,7 +58,16 @@
 							</c:choose>
 						</c:when>
 					    <c:when test="${ch.locked == 2}">
+					    
+					    <c:set var="pseudo3" value="${utilisateur.userName}"/>
+	 					<c:set var="pseudo4" value="${choiceDAO.lockedOrDoneBy(ch.idChoice)}"/> 
 							<a href="editParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
+							<c:choose>
+		 						<c:when test="${pseudo1 eq pseudo2}">
+		 						<a href="modifier?idChoice=${ch.idChoice}"> Modifier</a>
+		 						<a href="supprimer?idChoice=${ch.idChoice}"> Supprimer</a>
+		 						</c:when>
+		 					</c:choose>
 							<br>
 						</c:when>
 						

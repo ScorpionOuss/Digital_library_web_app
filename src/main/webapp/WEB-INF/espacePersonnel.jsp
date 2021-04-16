@@ -42,10 +42,11 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${!s.publicLec}">
-                                            <button class="button2 button_supr_p" action = "publier?titre=${s.title}">Publier</button>
+                                            <button type="submit" class="button2 button_supr_p" action = "publier?titre=${s.title}">Publier</button>
                                      		</c:when>
                                      		<c:otherwise>
-                                     		<c:out value="Publiée"></c:out>
+                                            <button type="submit" class="button2 button_supr_p" action = "publier?titre=${s.title}">Publiée</button>
+                              		
                                      		</c:otherwise>
                                        </c:choose>
                                         </footer>
