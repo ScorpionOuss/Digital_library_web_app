@@ -47,7 +47,7 @@
 								<div class="dropdown-content">
 							  		<a href="#lien">preference</a>
 							  		<a href="#lien">log out</a>
-							  		<a href="#lien">espace personnel</a>
+							  		<a href="espacePersonnel">espace personnel</a>
 								</div>
 							</li>
 						</div>
