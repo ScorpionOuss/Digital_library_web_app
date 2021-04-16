@@ -62,8 +62,8 @@
 		<input type ="button" class="pure-button pure-button-primary buttonadd " name="ajouDesChoix" id="ajouDesChoix" value="ajouter des choix">
 		<div id="choicesForm" style="display:none">
       		<form method="post" class="pure-form pure-form-aligned creation-paragraph" action="addAChoice">
-      		<input id="prevStory" name="prevStory" type="hidden" value="${donneePar.story}">
-      		<input id="prevPar" name="prevPar" type="hidden" value="${donneePar.idParagraph}">
+      		<input id="prevStory" name="prevStory" type="hidden" value="${paragraph.story}">
+      		<input id="prevPar" name="prevPar" type="hidden" value="${paragraph.idParagraph}">
            	<div class="pure-control-group" id="LesChoix">
                <div class="pure-controls-group" >
                     <label for="LesChoix" class = "label-p" >Les Choix</label>

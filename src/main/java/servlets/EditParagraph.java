@@ -25,6 +25,7 @@ public class EditParagraph extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String forChoice = "idChoice";
     private static final String par = "paragraph";
+    public static final String ATT_DAO         = "choiceDAO";
     public static final String VUE  = "/WEB-INF/editParagraph.jsp";
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,6 +48,8 @@ public class EditParagraph extends HttpServlet {
 		}
 		
 		request.setAttribute(par, paragraph);
+		ChoixDAO choixDao = new ChoixDAO(dataSource);
+		request.setAttribute(ATT_DAO, choixDao);
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	}
 
