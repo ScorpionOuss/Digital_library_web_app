@@ -62,12 +62,7 @@
 					    <c:set var="pseudo3" value="${utilisateur.userName}"/>
 	 					<c:set var="pseudo4" value="${choiceDAO.lockedOrDoneBy(ch.idChoice)}"/> 
 							<a href="editParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> 
-							<c:choose>
-		 						<c:when test="${pseudo1 eq pseudo2}">
-		 						<a href="modifier?idChoice=${ch.idChoice}"> Modifier</a>
-		 						<a href="supprimer?idChoice=${ch.idChoice}"> Supprimer</a>
-		 						</c:when>
-		 					</c:choose>
+						
 							<br>
 						</c:when>
 						

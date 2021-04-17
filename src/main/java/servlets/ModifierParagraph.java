@@ -35,6 +35,8 @@ public class ModifierParagraph extends HttpServlet {
     public static final String ATT_FORM = "form";
     public static final String ATT_PAR = "paragraph";
     public static final String VUE  = "/WEB-INF/modifierParagraph.jsp";
+    public static final String VUEPost  = "/editStory";
+    
     private static final String donneeHistoire = "donneeHis";
     private static final String textTodisplay = "textAff";
 
@@ -61,12 +63,13 @@ public class ModifierParagraph extends HttpServlet {
 		/*récupération du paragraphe*/
 		
 		Paragraphe paragraphe = paraDAO.getParagraphe(story.getTitle(), idP);
-		request.setAttribute(ATT_PAR, paragraphe);
-		
+
+		session.setAttribute(ATT_PAR, paragraphe);
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 
 	}
 	
+
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
     	/*Créer un form pour update de contenu*/
     	ModifyForm form = new ModifyForm();
@@ -74,18 +77,17 @@ public class ModifierParagraph extends HttpServlet {
     	/*Récupérer le titre*/
 		HttpSession session =  request.getSession();
     	Histoire story = (Histoire) session.getAttribute(donneeHistoire);
-    	
-    	/*Récupérer l'identifiant*/
-    	int idP = Integer.parseInt(request.getParameter("idP"));
+    	Paragraphe par = (Paragraphe) session.getAttribute(ATT_PAR);
+
     	
         String submit = request.getParameter("button")==null? "": request.getParameter("button");
         String annul =  request.getParameter("annuler") == null?"": request.getParameter("annuler");
         String action = submit + annul;
     	
         switch(action) {
-        	case "submit":
+        	case "modify":
         		/*Execution*/
-            	form.modifierParagraph(request, dataSource, story.getTitle(), idP);
+            	form.modifierParagraph(request, dataSource, story.getTitle(), par.getIdParagraph());
             	break;
         	case "annuler":
         		/*rien à priori*/
@@ -93,7 +95,7 @@ public class ModifierParagraph extends HttpServlet {
         }
 
     	request.setAttribute(ATT_FORM, form);
-		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );    	
+    	response.sendRedirect(request.getContextPath() +  VUEPost + "?" + "titre=" + story.getTitle());    	
     	
     }
 }

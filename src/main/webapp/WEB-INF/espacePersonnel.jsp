@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         
-                        <p class="col-1-1-all line-separe">
+                       <%--  <p class="col-1-1-all line-separe">
                         <div class = "col-1-1-all espace-block">
                             <h2 class="title-move-right">Vos pararaphes</h2>
                             <div class="list-paragraph">
@@ -82,7 +82,7 @@
                            	</c:forEach>
                                 
                             </div>
-                        </div>
+                        </div> --%>
                     </div>
                     
                 </div>

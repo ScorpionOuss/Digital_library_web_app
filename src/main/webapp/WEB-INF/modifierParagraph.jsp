@@ -31,7 +31,6 @@
                                             </label>
                                         <input id="submit" type="submit" name="button" value="modify"  class="pure-button pure-button-primary button">
                                         <input id="annuler" type="submit" name="annuler" value="annuler"  class="pure-button pure-button-primary button">
-                                      
                                    	</div>
                         
                                 </fieldset>
