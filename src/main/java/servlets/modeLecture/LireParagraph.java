@@ -53,7 +53,7 @@ public class LireParagraph extends HttpServlet {
 			Choix choiceToAdd = choixDAO.getChoice(idChoice);
 			history.addChoiceToHis(choiceToAdd);
 			/* See if the user is connected alter the DB */
-			Utilisateur user = (Utilisateur) request.getSession().getAttribute(Connexion.ATT_SESSION_USER);
+			Utilisateur user = (Utilisateur) request.getSession().getAttribute(Connexion.ATT_USER);
 			if (user != null) {
 				HistoriqueDAO historyDAO = new HistoriqueDAO(dataSource);
 				historyDAO.addHistoryToDB(history);

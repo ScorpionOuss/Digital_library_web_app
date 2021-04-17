@@ -55,7 +55,7 @@ public class ParticipantFilter implements Filter {
         	HistoireDAO stDao = new HistoireDAO(dataSource);
         	LinkedList<String> participants = stDao.getInvited(story.getTitle());
         	        	
-            boolean participe = containsStr(user.getUserName(), participants);
+            boolean participe = containsStr(user.getUserName(), participants) || story.getPublicEc();
             
             if (!participe) {
                 response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );

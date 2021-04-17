@@ -71,7 +71,7 @@ public class LireUneHistoire extends HttpServlet {
 		
 		/* Otherwise */
 		/* Case One : the user is not connected */
-		if (request.getSession().getAttribute(Connexion.ATT_SESSION_USER) == null) {
+		if (request.getSession().getAttribute(Connexion.ATT_USER) == null) {
 			/* Just Get the first paragraph of story */
 			assocPar = parDAO.getParagraphe(titre, story.getFirstParagraph());
 			/* Establish a history */
@@ -79,7 +79,7 @@ public class LireUneHistoire extends HttpServlet {
 			request.getSession().setAttribute(HISTORY, history);
 		}
 		else { /* The user is connected : get the last paragraph of the history */
-			String userName = ((Utilisateur) request.getSession().getAttribute(Connexion.ATT_SESSION_USER)).getUserName();
+			String userName = ((Utilisateur) request.getSession().getAttribute(Connexion.ATT_USER)).getUserName();
 			HistoriqueDAO historyDAO = new HistoriqueDAO(dataSource);
 			Historique history = historyDAO.GetHistoryFromDB(titre, userName);
 			/* If there is no history : create one for the session */

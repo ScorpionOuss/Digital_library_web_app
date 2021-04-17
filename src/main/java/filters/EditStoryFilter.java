@@ -56,25 +56,25 @@ public class EditStoryFilter implements Filter {
         	LinkedList<String> participants = stDao.getInvited(titre);
         	participants.add(story.getCreator());
 
-            boolean participe = containsStr(user.getUserName(), participants);
-            PrintWriter out = response.getWriter();
-            if (participe) {
-            	out.print("Yesss");
-            } else {
-            	out.print("Nonn");
-            }
-            
-            for (String in:participants) {
-            	out.println(in);
-            }
-            
-//            if (!participe) {
-//                response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
+            boolean participe = containsStr(user.getUserName(), participants) || story.getPublicEc();
+//            PrintWriter out = response.getWriter();
+//            if (participe) {
+//            	out.print("Yesss");
+//            } else {
+//            	out.print("Nonn");
 //            }
-//            else {
-//	        	/* Affichage de la page restreinte */
-//	            chain.doFilter( request, response );
-//            	}
+//            
+//            for (String in:participants) {
+//            	out.println(in);
+//            }
+            
+            if (!participe) {
+                response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
+            }
+            else {
+	        	/* Affichage de la page restreinte */
+	            chain.doFilter( request, response );
+            	}
             
         	}
         }

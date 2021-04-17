@@ -48,7 +48,7 @@ public class AlterHisAndRead extends HttpServlet {
 		int breakAt = Integer.parseInt(request.getParameter(Choice));
 		/* if the parameter is -1 : we'll delete all the history and start from the begining */
 		if (breakAt < 0 ) {
-			Utilisateur user = (Utilisateur) request.getSession().getAttribute(Connexion.ATT_SESSION_USER);
+			Utilisateur user = (Utilisateur) request.getSession().getAttribute(Connexion.ATT_USER);
 			if (user != null) {
 				/* delete from the data base */
 				HistoriqueDAO hisDAO = new HistoriqueDAO(dataSource);
