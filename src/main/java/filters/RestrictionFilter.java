@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 public class RestrictionFilter implements Filter {
     public static final String ACCES_PUBLIC     = "/connexion";
-    public static final String ATT_SESSION_USER = "sessionUtilisateur";
+    public static final String ATT_USER = "utilisateur";
 
     public void init( FilterConfig config ) throws ServletException {
     }
@@ -32,7 +32,7 @@ public class RestrictionFilter implements Filter {
          * Si l'objet utilisateur n'existe pas dans la session en cours, alors
          * l'utilisateur n'est pas connecté.
          */
-        if ( session.getAttribute( ATT_SESSION_USER ) == null ) {
+        if ( session.getAttribute( ATT_USER ) == null ) {
             /* Redirection vers la page publique */
             response.sendRedirect( request.getContextPath() + ACCES_PUBLIC );
         } else {

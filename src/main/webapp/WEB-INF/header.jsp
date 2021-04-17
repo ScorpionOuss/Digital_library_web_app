@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -43,13 +44,21 @@
 					<div class = "col-3-12">
 						<li class="col-4-12"><a class = "separe">•</a></li>
 						<div class="dropdown">
+                    <c:choose>
+                    	<c:when test="${empty utilisateur}">
 						<li class="col-8-12"><a href="connexion" class="button2 dropbtn" title="partie-4">Login</a>
-								<div class="dropdown-content">
-							  		<a href="#lien">preference</a>
-							  		<a href="#lien">log out</a>
+                  		<div class="dropdown-content">
+                  		<a href="inscription">Inscription</a>
+                    	</c:when>
+                    	<c:otherwise>
+							<li class="col-8-12"><a href="logout" class="button2 dropbtn" title="partie-4">Log out</a>
+	                    	<div class="dropdown-content">
+							<!--   		<a href="#lien">preference</a> -->
 							  		<a href="espacePersonnel">espace personnel</a>
 								</div>
-							</li>
+                    	</c:otherwise>
+                    </c:choose>
+						
 						</div>
 						
 					</div>

@@ -24,7 +24,7 @@ public class Edit extends HttpServlet {
     private DataSource dataSource;
     public static final String VUE = "/WEB-INF/edit.jsp";
 	public static final String HISTOIRES = "histoiresEdit";
-    public static final String ATT_SESSION_USER = "sessionUtilisateur";
+    public static final String ATT_USER = "utilisateur";
 
 
     
@@ -33,7 +33,7 @@ public class Edit extends HttpServlet {
         HttpSession session = request.getSession();
 
  
-    	Utilisateur user = (Utilisateur) session.getAttribute(ATT_SESSION_USER); 
+    	Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER); 
 
 		HistoireDAO storiesDAO = new HistoireDAO(dataSource);
 		LinkedList<Histoire> stories = storiesDAO.listOfStoriesToEdit(user);

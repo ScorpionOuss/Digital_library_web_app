@@ -16,11 +16,58 @@
 	<filter-name>RestrictionFilter</filter-name>
 	<filter-class>filters.RestrictionFilter</filter-class>
 	</filter>
+	<!--
+	<filter>
+	<filter-name>AuthorParFilter</filter-name>
+	<filter-class>filters.AuthorParFilter</filter-class>
+	</filter>
+	    
+	<filter>
+	<filter-name>AuthorStoryFilter</filter-name>
+	<filter-class>filters.AuthorStoryFilter</filter-class>
+	</filter>
+	
+	<filter>
+	<filter-name>ParticipantFilter</filter-name>
+	<filter-class>filters.ParticipantFilter</filter-class>
+	</filter>
+	
+	<filter>
+	<filter-name>EditStoryFilter</filter-name>
+	<filter-class>filters.EditStoryFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	<filter-name>ParticipantFilter</filter-name>
+	<url-pattern>/editParagraph</url-pattern>
+	<url-pattern>/addAChoice</url-pattern>	
+	<url-pattern>/writeParagraph</url-pattern>	
+</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>EditStoryFilter</filter-name>
+		<url-pattern>/editStory</url-pattern>
+	</filter-mapping>
+	
+
+<filter-mapping>
+	<filter-name>AuthorParFilter</filter-name>
+	<url-pattern>/supprimer</url-pattern>
+	<url-pattern>/modifier</url-pattern>	
+</filter-mapping>
+
+<filter-mapping>
+	<filter-name>AuthorStoryFilter</filter-name>
+	<url-pattern>/publier</url-pattern>
+	<url-pattern>/autoriserAcces</url-pattern>	
+</filter-mapping> -->
+
 <filter-mapping>
 	<filter-name>RestrictionFilter</filter-name>
 	<url-pattern>/inscription</url-pattern>
 	<url-pattern>/creation</url-pattern>
-	<url-pattern>/edit</url-pattern>	
+	<url-pattern>/edit</url-pattern>
+	<url-pattern>/espacePersonnel</url-pattern>
 </filter-mapping>
 
     <servlet>

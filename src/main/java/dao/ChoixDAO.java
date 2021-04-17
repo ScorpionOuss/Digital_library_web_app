@@ -374,23 +374,23 @@ public class ChoixDAO extends AbstractDAO {
 			ResClose.silencedClosing(st, conn);
 		}
 	}
-
-	/**
-	 * 
-	 * @param idChoice
-	 * @return a list of paragraphs that the user can choose one of them to define his 
-	 * access condition
-	 */
-	public LinkedList<Paragraphe> listParForCondition(int idChoice){
-		/* Stop if the previous paragraph is the first paragraph of the story */
-		Connection conn = null; 
-		PreparedStatement st = null; 
-		try {
-			return null;	
-		} catch (SQLException e){
-			throw new DAOException("Erreur BD " + e.getMessage(), e);
-		} finally {
-			ResClose.silencedClosing(st, conn);
-		}	
-	}
+//
+//	/**
+//	 * 
+//	 * @param idChoice
+//	 * @return a list of paragraphs that the user can choose one of them to define his 
+//	 * access condition
+//	 */
+//	public LinkedList<Paragraphe> listParForCondition(int idChoice){
+//		/* Stop if the previous paragraph is the first paragraph of the story */
+//		Connection conn = null; 
+//		PreparedStatement st = null; 
+//		try {
+//			return null;	
+//		} catch (SQLException e){
+//			throw new DAOException("Erreur BD " + e.getMessage(), e);
+//		} finally {
+//			ResClose.silencedClosing(st, conn);
+//		}	
+//	}
 }
