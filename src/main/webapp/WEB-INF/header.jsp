@@ -34,7 +34,7 @@
 		</header>
 		<main>
 			<div class="col-1-1-all">
-				<nav >
+				<nav id="sommaire">
 				<ul>
 					<div class="col-9-12">
 						<li class= "col-1-3" ><a href="afficherHistoires" class="button2" title="partie-1">Histoires</a></li>
@@ -64,7 +64,8 @@
 					</div>
 				</ul>
 				</nav>
-	</div>
+				<div class="content">
+					<div class="col-1-1" id="fond">
 
 </body>
 </html>

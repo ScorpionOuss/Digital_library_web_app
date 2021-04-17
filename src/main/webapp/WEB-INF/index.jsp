@@ -12,9 +12,6 @@
 </head>
 <body >
 				<jsp:include page="header.jsp" />
-		
-				<div class="content">
-					<div class="col-1-1" id="fond">
 						<div class="col-9-12" >
 							<section id="partie-1">
 								<div class="col-1-1">
@@ -152,7 +149,7 @@
 									</article>
 								</div>
 								<div class="col-1-2">
-									<p><img src="../../images/help.png" alt="help article" class="test_a"></p>
+									<p><img src="images/help.png" alt="help article" class="test_a"></p>
 								</div>
 							</section>
 
@@ -164,8 +161,7 @@
 								</div>
 							</aside>
 						</div>
-					</div>
-				</div>
+
 		
 				<jsp:include page="footer.jsp" />
 

@@ -14,8 +14,7 @@
 </head>
 <body>
 	<jsp:include page="../header.jsp" />
-	<div class="content">
-        <div class="col-1-1" id="fond">
+
              <div class="col-1-1">
                 <h2>${donneeHis.title} </h2>						
              </div>
@@ -33,8 +32,7 @@
 						</c:if>		
 					</c:forEach>
 			</c:if> 
-			</div>
-      </div>
-			<jsp:include page="../footer.jsp" />
+
+		<jsp:include page="../footer.jsp" />
 </body>
 </html>

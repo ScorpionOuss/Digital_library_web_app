@@ -14,9 +14,6 @@
 </head>
 <body >
 				<jsp:include page="header.jsp" />
-	
-				<div class="content">
-					<div class="col-1-1-all" id="fond">
                         <div class="col-1-1-all espace-block">
                             <h2 class="title-move-right">Vos histoires</h2>
                             <div class="list-histoire">
@@ -83,9 +80,6 @@
                                 
                             </div>
                         </div> --%>
-                    </div>
-                    
-                </div>
 		<jsp:include page="footer.jsp" />
 						
 			

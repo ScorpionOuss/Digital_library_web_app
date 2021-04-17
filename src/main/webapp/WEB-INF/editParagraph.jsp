@@ -16,9 +16,6 @@
 </head>
 <body>
     		<jsp:include page="header.jsp" />
-
-            <div class="content">
-                <div class="col-1-1" id="fond">
                     <div class="col-1-1">
                         <h2>${paragraph.story} </h2>						
                     </div>
@@ -83,8 +80,7 @@
            </div>
      	   </form>
 		</div>
-  </div>
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>

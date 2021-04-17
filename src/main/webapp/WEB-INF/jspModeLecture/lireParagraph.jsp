@@ -14,8 +14,6 @@
 </head>
 <body>
 	<jsp:include page="../header.jsp" />
-	<div class="content">
-        <div class="col-1-1" id="fond">
              <div class="col-1-1">
                 <h2>${paragraph.story} </h2>						
              </div>
@@ -28,7 +26,7 @@
 					<c:forEach items="${paragraph.choices}" var="ch">
 						<%-- Test if it's masked or not  --%>
 						<c:if test="${ch.isMasked == false}">
-							<a href="LireParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> <br>
+							<a class="link-paragraph" href="LireParagraph?idChoice=${ch.idChoice}"> ${ch.text}</a> <br>
 						</c:if>		
 					</c:forEach>
 			</c:if>
@@ -36,10 +34,8 @@
 				<%-- When reading the user must have the ability to get back to the first paragraph --%>
 				<a href="AlterHisAndRead?idChoice=-1"> Get back to the first paragraph</a> <br>
 				<c:forEach items="${history.hisChoices}" var="hCh">				
-					<a href="AlterHisAndRead?idChoice=${hCh.idChoice}"> ${hCh.text}</a> <br>
+					<a class="link-historique" href="AlterHisAndRead?idChoice=${hCh.idChoice}"> ${hCh.text}</a> <br>
 				</c:forEach> 
-			</div>
-      </div>
-			<jsp:include page="../footer.jsp" />
+	<jsp:include page="../footer.jsp" />
 </body>
 </html>
