@@ -80,6 +80,22 @@ footer{
   	padding-bottom:8px;
   	font-size: 90%;
 }
+h1,h2,h3.h4,h5,p,section{
+	word-wrap: break-word;
+}
+h4,h5,p,section{
+	overflow:hidden; 
+	text-overflow:ellipsis;
+}
+.at-histoire h5{
+	margin: 0px;
+}
+.title-move-right{
+	padding-left: 30px;
+}
+.title-center{
+	text-align: center;
+}
 #partie-3 img{
 	 margin:-5px -5px -5px -5px;
 	 box-shadow: 3px 3px 6px #666;
@@ -88,7 +104,9 @@ footer{
 	background-color: #FFFFFF;
 	min-height: 500px;
 }
-
+#fond>.list-histoire{
+	margin-top: 10px;
+}
 #end {
   background-color: #000;
   color:            #efe5d0;
@@ -100,11 +118,15 @@ footer{
 
 
 .at-histoire{
-	padding-top: 30px;
-	padding-left: 30px;
-	margin: 10 10 10 10px;
+	margin: 10px 10px 10px 10px;
 }
+.at-histoire>.sans-top{
+	padding-top: 0px;
+}
+.at-histoire section{
+	height: 65px;
 
+}
 .carre{
 	width:80%;
 	height: 100%;
@@ -114,11 +136,13 @@ footer{
 	background:#cd5c5c;
 		line-height: 0;
 }
-
+.line-separe{
+	border-top: 3px dotted rgba(12, 83, 60, 0.651);
+}
 
 /*#top{
 	padding:10px 0 0 0;
-	background-image: url(../images/black_lozenge.png);
+	background-image: url(images/black_lozenge.png);
 	background-position: center;
 }*/
 
@@ -150,10 +174,11 @@ footer{
 	-webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
+
 .button2{
 	display: inline-block;
 	text-decoration: none;
-	color:#FFF;
+	color:#ff960d;
 	border-color: transparent;
 	-webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
@@ -206,8 +231,21 @@ footer{
 	color:#FFF;
 	cursor: default;
 }
+nav#sommaire .button2{
+	color: #FFF;;
+}
+nav#sommaire .button2:hover{
+	color:rgba(0,0,0,0.5);;
+}
 .button3:hover, .button2:hover {
-    color: rgba(0,0,0,0.5); /* Green */
+    color: rgba(0, 174, 255, 0.582); /* Green */
+}
+
+#end>.button2{
+	color: rgb(214, 43, 43);
+}
+#end>.button2:hover{
+	color: rgba(255, 251, 251, 0.747);
 }
 
 .selected .button{
@@ -269,20 +307,31 @@ footer{
 	display: block;
 	border-radius: 6px;
 	background-color: #00000098;
-	margin-left: 6px;
 	margin-top: 20px;
 	padding: 10px 10px 10px 10px;
 	border: rgb(182, 167, 167);
 	color: rgb(231, 231, 231);
 }
 
+
 #HOME{
 }
 #support{
 }
-main a:link {
-	color:            #dc143c;
+main a:link{
+	color:            #9aa6dadc;
   text-decoration:     none;
+}
+a.link-paragraph{
+	color: #e7e7e7dc;
+	margin-bottom: 5px;
+}
+a.link-historique{
+	color: #ffddbddc;
+	margin-bottom: 5px;
+}
+a.link-historique:hover,a.link-paragraph:hover{
+	color: #000000dc;
 }
 main a:visited {
   color:           #ddd;
@@ -305,6 +354,9 @@ main a:visited {
                 transform: scale(1.2);
                 transition: all 1s ease 0s;
             }
+.test_title{
+
+}
 /*a:hover img {
       transform: scale(1.007, 1.007);
     }

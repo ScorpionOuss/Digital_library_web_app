@@ -10,10 +10,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 </head>
 <body>
-		    		<jsp:include page="header.jsp" />
-		
-                <div class="content">
-                    <div class="col-1-1" id="fond">
+		    	<jsp:include page="header.jsp" />
                         <div class="col-1-1">
                              <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="modifier">
 								<input id="idChoice" name="idChoice" type="hidden" value="${idChoice}">
@@ -36,10 +33,7 @@
                                 </fieldset>
                             </form>
                         </div>
-                    </div>
-                </div>
-        </main>
-    </div>
+    <jsp:include page="footer.jsp" />
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -273,7 +267,6 @@
 
 
     </script>
+    
 </body>
-    		<jsp:include page="footer.jsp" />
-
 </html>

@@ -4,10 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>footer</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/simplegrid.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 </head>
 <body>
-		</main>
+					</div>
+				</div>
+			</main>
 		</div>
 		<footer id="end" >
 				<a href="#top" class="button2">return top</a><br><br>
