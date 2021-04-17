@@ -202,6 +202,12 @@ public class ParagrapheDAO extends AbstractDAO {
 				return false;
 			}
 			ResClose.silencedClosing(res, st);
+			/* First of all : before deleting must dissociate it from the associated choice */
+			st = conn.prepareStatement("UPDATE Choice set locked = 0 ,assocPar = NULL ,assocStory = NULL where " + 
+					"assocStory = ? and assocPar = ? ");
+			st.setString(1, title);
+			st.setInt(2, idParagraph);
+			st.executeUpdate();
 			st = conn.prepareStatement("DELETE from Paragraph where titleStory = ? and idParagraph = ? ");
 			st.setString(1, title);
 			st.setInt(2, idParagraph);
