@@ -71,7 +71,7 @@ public class LireParagraph extends HttpServlet {
 				/* A choice is masked if doesn't lead to a conclusion or because of an access condition */
 				boolean masked = choixDAO2.isMasked(choice.getIdChoice());
 				/* See if there is a condition */
-				Integer condition = choixDAO2.accessCondition(choice.getIdChoice());
+				Integer condition = choixDAO2.getAccessCondition(choice.getIdChoice());
 				/* If there is a condition : verify that it is in the history */
 				if (condition != null) {
 					Historique history = (Historique) request.getSession().getAttribute(LireUneHistoire.HISTORY);

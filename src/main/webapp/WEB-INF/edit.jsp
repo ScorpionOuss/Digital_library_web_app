@@ -22,8 +22,6 @@
    		<jsp:include page="header.jsp" />
    
             <div class="content">
-<%--             <c:if test="${v.publicLec || isConnected}">
- --%>			<%-- Display the story only if it is public for lecture or the user is logged in  --%>
                 <div class="col-1-1" id="fond">
                     <div class="list-histoire">
                       <c:forEach items="${histoiresEdit}" var="v">
@@ -47,12 +45,7 @@
                        
                     </div>
                 </div>
-
-<%--               	</c:if>
- --%>
                 <jsp:include page="footer.jsp" />
-                
-        </main>
 
     </div>
 
