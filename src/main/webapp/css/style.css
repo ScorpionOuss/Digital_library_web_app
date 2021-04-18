@@ -90,6 +90,9 @@ h4,h5,p,section{
 .at-histoire h5{
 	margin: 0px;
 }
+article.at-histoire>header>h4{
+	height: 15px;
+}
 .title-move-right{
 	padding-left: 30px;
 }

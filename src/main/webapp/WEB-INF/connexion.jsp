@@ -7,33 +7,63 @@
     <head>
         <meta charset="utf-8" />
         <title>Connexion</title>
-        <link type="text/css" rel="stylesheet" href="css/form.css" />
+        <link rel="stylesheet" type="text/css" href="css/simplegrid.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+        <!--link type="text/css" rel="stylesheet" href="css/form.css" /-->
     </head>
     <body>
-    <%-- 		<jsp:include page="header.jsp" /> --%>
-    
-        <form method="post" action="connexion">
-            <fieldset>
-                <legend>Connexion</legend>
-                <p>Vous pouvez vous connecter via ce formulaire.</p>
-
-                <label for="username">username <span class="requis">*</span></label>
-                <input type="text" id="usename" name="username" value="<c:out value="${utilisateur.userName}"/>" size="20" maxlength="60" />
-                <span class="erreur">${form.erreurs['username']}</span>
-                <br />
-
-                <label for="motdepasse">Mot de passe <span class="requis">*</span></label>
-                <input type="password" id="motdepasse" name="motdepasse" value="" size="20" maxlength="20" />
-                <span class="erreur">${form.erreurs['motdepasse']}</span>
-                <br />
-
-                <input type="submit" value="Connexion" class="sansLabel" />
-                <br />
-                
-                <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
-            </fieldset>
-        </form>
-<%--         		<jsp:include page="footer.jsp" />
- --%>        
+	<jsp:include page="header.jsp" /> 
+		<div class ="col-3-12"></div>
+		<div class="col-1-2">
+               <div class="loginOrRegisterBox col-1-1-all">
+               		<div class="switch">
+						<div class="col-1-2-right"><button id="loginButton" >login</button></div>
+						<div class="col-1-2-left"><button id="registerButton">register</button></div>
+                   </div>
+                   <div id="form">
+                       <form action="connexion" method="post" id="login">
+                           <input type="text" placeholder="username" name="username">
+                           <span class="erreur">${form.erreurs['username']}</span>
+                           <input type="password" placeholder="password" name="motdepasse">
+                            <span class="erreur">${form.erreurs['motdepasse']}</span>
+                           <input type="submit" value="Connexion">
+                       </form>
+                       <form action="inscription" method="post" id="register">
+                           <input type="text" placeholder="username" name="username">
+                           <span class="erreur">${form.erreurs['username']}</span>
+                           <input type="password" placeholder="password" name="motdepasse">
+                           <span class="erreur">${form.erreurs['motdepasse']}</span>
+                           <input type="password" placeholder="confirmPassword" name="confirmation">
+                           <span class="erreur">${form.erreurs['confirmation']}</span>
+                           <input type="submit" value="register">
+                           <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+                       </form>
+                   </div>
+        	</div>
+	  	</div>
+	  <div class="col-3-12"></div>
+	<jsp:include page="footer.jsp" />    
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <script>
+	    window.onload = function () {
+	        var login = document.getElementById("login");
+	        var register=document.getElementById("register");
+	        var btnlogin = document.getElementById("loginButton");
+	        var btnregister = document.getElementById("registerButton");
+	
+	        btnlogin.onclick = function () {
+	            login.style.display = "block";
+	            register.style.display = "none";
+	        }
+	        btnregister.onclick = function () {
+	        	login.style.display = "none";
+	            register.style.display = "block";
+	        }
+	    }
+	 </script>
     </body>
 </html>
