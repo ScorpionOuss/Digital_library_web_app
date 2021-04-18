@@ -17,6 +17,12 @@ public class HistoireDAO extends AbstractDAO {
 		super(dataSource);
 	}
 
+	/**
+	 * 
+	 * @param title
+	 * @return
+	 * @throws DAOException
+	 */
 	public Histoire getHistoire(String title) throws DAOException {
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -224,27 +230,6 @@ public class HistoireDAO extends AbstractDAO {
 		ResClose.silencedClosing(st, conn);
 		}
 	}
-
-	public LinkedList<String> listofAuthors(String story){
-		LinkedList<String> authors = new LinkedList<String>();
-		Connection conn = null;
-		PreparedStatement st = null;
-		ResultSet res = null;
-		try {
-			conn = getConnexion();
-			st = conn.prepareStatement("SELECT DISTINCT author from Paragraph where titleStory = ?");
-			st.setString(1, story);
-			res = st.executeQuery();
-			while(res.next()) {
-				authors.add(res.getString("author"));
-			}
-			return authors; 
-		} catch (SQLException e){
-				throw new DAOException("Erreur BD " + e.getMessage(), e);
-		} finally {
-			ResClose.silencedClosing(st, conn);
-		}
-	}
 	
 	public LinkedList<Histoire> listOfStoriesToEdit(Utilisateur user){
 		String editor = user.getUserName();
@@ -316,8 +301,18 @@ public class HistoireDAO extends AbstractDAO {
 	public void addInvited(String story, String userInvited) {
 		Connection conn = null;
 		PreparedStatement st = null;
+		ResultSet res = null;
 		try {
 			conn = getConnexion();
+			/* We'll make sure that it is not already invited */
+			st = conn.prepareStatement("SELECT * from Invited where titleStory = ? and invitedUser = ?");
+			st.setString(1, story);
+			st.setString(2, userInvited);
+			res = st.executeQuery();
+			if (res.next()) {
+				return; /* Already exist */
+			}
+			ResClose.silencedClosing(res, st);
 			st = conn.prepareStatement("INSERT INTO Invited(titleStory, invitedUser) values(?, ?)");
 			st.setString(1, story);
 			st.setString(2, userInvited);
@@ -431,5 +426,43 @@ public class HistoireDAO extends AbstractDAO {
 		}
 		
 	}
+
+	public void publishForWriting(String story) {
+		Connection conn = null; 
+		PreparedStatement st = null;  
+		try {
+			conn = getConnexion();
+			/* set publicEc on true */
+			st = conn.prepareStatement("UPDATE STORY set publicEc = 1 where title = ?");
+			st.setString(1, story);
+			st.executeUpdate();
+			ResClose.silencedClosing(st);
+			/* Delete the invited */
+			st = conn.prepareStatement("DELETE FROM invited where titleStory = ? ");
+			st.setString(1, story);
+			st.executeUpdate();
+		} catch(SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
+		}
+	}
+
+	public void unpublishForWriting(String story) {
+		Connection conn = null; 
+		PreparedStatement st = null;  
+		try {
+			conn = getConnexion();
+			/* set publicEc on false */
+			st = conn.prepareStatement("UPDATE STORY set publicEc = 0 where title = ?");
+			st.setString(1, story);
+			st.executeUpdate();
+		} catch(SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
+		}
+	}
 }
+
 

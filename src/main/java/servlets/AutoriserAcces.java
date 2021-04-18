@@ -43,7 +43,15 @@ public class AutoriserAcces extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.setAttribute("titre", title);
-        
+//        
+//=======
+//    public static final String CONTROLOR = "/espacePersonnel";
+//
+//    
+//    public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+//    	/* Forward the name of the story to the form after tho the doPost */
+//    	request.setAttribute(ATT_TITLE, request.getParameter(ATT_TITLE));
+//>>>>>>> 9092363dd9fc8e9faa66e027e4b938a99b510663
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
     
@@ -55,23 +63,14 @@ public class AutoriserAcces extends HttpServlet {
     HttpSession session = request.getSession();
     String title = (String) session.getAttribute("titre");
 	 
+//=======
+//    String title = request.getParameter(ATT_TITLE);
+//
+//>>>>>>> 9092363dd9fc8e9faa66e027e4b938a99b510663
 	 form.autoriserAcces(request, dataSource, title);
 	 
      request.setAttribute( ATT_FORM, form );
-     
-     PrintWriter out = response.getWriter();
-     
-//     out.print("Paaaaas possible!");
-//     for (String inv:invites) {
-//    	 out.println(inv);
-//     }
-//     
-//     out.println(title);
-//     if (form.getErreurs().isEmpty()) {
-//    	 out.println("Yeeees");
-//     } else {
-////    	 out.print("Noooo");
-//     }
+
      
      this.getServletContext().getRequestDispatcher( VUE_Post ).forward( request, response );
 
