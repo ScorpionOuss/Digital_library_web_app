@@ -19,6 +19,7 @@ public class Publier extends HttpServlet {
     private DataSource dataSource;
     public static final String VUE = "/espacePersonnel";
     public static final String ATT_TITLE      = "titre";
+    public static final String CURRSTATUS = "etatPublic";
     
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
     
@@ -27,7 +28,12 @@ public class Publier extends HttpServlet {
         String title = request.getParameter(ATT_TITLE);
         
         HistoireDAO storyDAO = new HistoireDAO(dataSource);
-        storyDAO.publish_story(title);
+        if (Boolean.parseBoolean(request.getParameter(CURRSTATUS))) {
+        	storyDAO.unpublish_story(title);
+        }
+        else {
+        	storyDAO.publish_story(title);
+        }
         
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
         
