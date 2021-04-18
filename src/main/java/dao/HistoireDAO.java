@@ -196,7 +196,7 @@ public class HistoireDAO extends AbstractDAO {
 		PreparedStatement st = null;
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("UPDATE Story set publicEc = 1 where title = ? ");
+			st = conn.prepareStatement("UPDATE Story set publicLec = 1 where title = ? ");
 			st.setString(1, title);
 			st.executeQuery();
 		} catch (SQLException e){
@@ -215,7 +215,7 @@ public class HistoireDAO extends AbstractDAO {
 		PreparedStatement st = null;
 		try {
 			conn = getConnexion();
-			st = conn.prepareStatement("UPDATE Story set publicEc = 0 where title = ? ");
+			st = conn.prepareStatement("UPDATE Story set publicLec = 0 where title = ? ");
 			st.setString(1, title);
 			st.executeQuery();
 		} catch (SQLException e){

@@ -3,6 +3,7 @@
 
 
 .content .loginOrRegisterBox {
+    margin-top: 20px;
     border-radius: 10px;
     background-color: rgba(92, 93, 94, 0.3)
 
@@ -38,6 +39,7 @@
 }
 
 .content .loginOrRegisterBox>#form>form>input {
+    display: block;
     width: 97.5%;
     height: 40px;
     margin-top: 15px;

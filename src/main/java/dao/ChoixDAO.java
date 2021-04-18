@@ -306,7 +306,7 @@ public class ChoixDAO extends AbstractDAO {
 	}
 	
 	/* Return null if there is no condition */
-	public Integer accessCondition(int idChoice) {
+	public Integer getAccessCondition(int idChoice) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
 		ResultSet res = null ;
@@ -374,23 +374,70 @@ public class ChoixDAO extends AbstractDAO {
 			ResClose.silencedClosing(st, conn);
 		}
 	}
-//
-//	/**
-//	 * 
-//	 * @param idChoice
-//	 * @return a list of paragraphs that the user can choose one of them to define his 
-//	 * access condition
-//	 */
-//	public LinkedList<Paragraphe> listParForCondition(int idChoice){
-//		/* Stop if the previous paragraph is the first paragraph of the story */
-//		Connection conn = null; 
-//		PreparedStatement st = null; 
-//		try {
-//			return null;	
-//		} catch (SQLException e){
-//			throw new DAOException("Erreur BD " + e.getMessage(), e);
-//		} finally {
-//			ResClose.silencedClosing(st, conn);
-//		}	
-//	}
+	
+	public void listParConditionRecur(int stopIn, String stopSt, Map<String, Integer> insertIn, int prevPar, 
+			String prevStory, Connection conn) {
+		if (stopIn == prevPar && stopSt.equals(prevStory)) {
+			return;
+		}
+		/* Retrieve the previous paragraphs */
+		PreparedStatement st = null; 
+		ResultSet res = null;
+		try {
+			st = conn.prepareStatement("SELECT prevParStory, prevPar from Choice where assocStory = ? and assocPar = ?");
+			st.setString(1, prevStory);
+			st.setInt(2, prevPar);
+			res = st.executeQuery();
+			while (res.next()) {
+				String story = res.getString("prevParStory");
+				int par = res.getInt("prevPar");
+				insertIn.put(story, par);
+				/* Recursion */
+				listParConditionRecur(stopIn, stopSt, insertIn, par, story, conn);
+			}	
+		} catch(SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st);
+		}	
+	}
+	
+	/**
+	 * 
+	 * @param idChoice
+	 * @return a list of paragraphs that the user can choose one of them to define his 
+	 * access condition
+	 */
+	public Map<String, Integer> listParForCondition(int idChoice){
+		/* Stop if the previous paragraph is the first paragraph of the story */
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null;
+		try {
+			Map<String, Integer> listPars = new HashMap<String, Integer>();
+			conn = getConnexion();
+			/* Retrieve the previous paragraph of the choice */
+			st = conn.prepareStatement("SELECT prevParStory, prevPar from Choice where idChoice = ? ");
+			st.setInt(1, idChoice);
+			res = st.executeQuery();
+			String story = res.getString("prevParStory");
+			int prevPar = res.getInt("prevPar");
+			/* Close */
+			ResClose.silencedClosing(res, st);
+			/* Must know where to stop */
+			st = conn.prepareStatement("SELECT idFirstParagraph from story where title = ?");
+			st.setString(1, story);
+			res = st.executeQuery();
+			res.next();
+			int stopIn = res.getInt("idFirstParagraph");
+			/* The previous paragraph does not need to be listed as a condition , also as the first one*/
+			/* Get paragraphs which finished by a choice leading to this paragraph */
+			listParConditionRecur(stopIn, story, listPars, prevPar, story, conn);
+			return listPars;
+		} catch(SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
+		}	
+	}
 }
