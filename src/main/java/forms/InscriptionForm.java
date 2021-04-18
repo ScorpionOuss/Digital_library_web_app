@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import beans.Utilisateur;
 
 public final class InscriptionForm {
-    private static final String CHAMP_EMAIL  = "email";
+    private static final String CHAMP_USERNAME  = "username";
     private static final String CHAMP_PASS   = "motdepasse";
     private static final String CHAMP_CONF   = "confirmation";
-    private static final String CHAMP_NOM    = "nom";
 
 
     private String              resultat;
@@ -27,17 +26,17 @@ public final class InscriptionForm {
 
 
     public Utilisateur inscrireUtilisateur( HttpServletRequest request ) {
-        String email = getValeurChamp( request, CHAMP_EMAIL );
+        String email = getValeurChamp( request, CHAMP_USERNAME );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
         String confirmation = getValeurChamp( request, CHAMP_CONF );
-        String nom = getValeurChamp( request, CHAMP_NOM );
+
 
         Utilisateur utilisateur = new Utilisateur();
 
         try {
             validationEmail( email );
         } catch ( Exception e ) {
-            setErreur( CHAMP_EMAIL, e.getMessage() );
+            setErreur( CHAMP_USERNAME, e.getMessage() );
         }
         utilisateur.setUserName( email );
 
@@ -49,12 +48,7 @@ public final class InscriptionForm {
         }
         utilisateur.setMotDePasse( motDePasse );
 
-        try {
-            validationNom( nom );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_NOM, e.getMessage() );
-        }
-        utilisateur.setNom( nom );
+      
 
         if ( erreurs.isEmpty() ) {
             resultat = "Succès de l'inscription.";

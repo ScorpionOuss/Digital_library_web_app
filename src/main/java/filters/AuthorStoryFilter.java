@@ -49,22 +49,27 @@ public class AuthorStoryFilter implements Filter {
             /* Redirection vers la page publique */
             response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
     	} else {
-    		Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
-        	String titre = request.getParameter("titre");
-        	HistoireDAO stDao = new HistoireDAO(dataSource);
-        	
-        	Histoire story = stDao.getHistoire(titre);
-    		boolean droits = user.getUserName().contentEquals(story.getCreator());
-
-            if (!droits) {
-                response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
-            }
-            else {
+        	if (request.getMethod().contentEquals("GET")) {
+	    		Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
+	        	String titre = request.getParameter("titre");
+	        	HistoireDAO stDao = new HistoireDAO(dataSource);
+	        	
+	        	Histoire story = stDao.getHistoire(titre);
+	    		boolean droits = user.getUserName().contentEquals(story.getCreator());
+	
+	            if (!droits) {
+	                response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
+	            }
+	            else {
+		        	/* Affichage de la page restreinte */
+		            chain.doFilter( request, response );
+	            	}
+        	} else {
 	        	/* Affichage de la page restreinte */
 	            chain.doFilter( request, response );
             	}
-        	}
         }
+       }
     
     
 

@@ -57,9 +57,6 @@ public class Connexion extends HttpServlet {
             this.getServletContext().getRequestDispatcher( VUE_FAILURE ).forward( request, response );
 
         }
-        /* Stockage du formulaire et du bean dans l'objet request */
-        request.setAttribute( ATT_FORM, form );
-        request.setAttribute( ATT_USER, utilisateur );
-
+        
     }
 }

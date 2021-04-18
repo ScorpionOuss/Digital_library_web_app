@@ -49,18 +49,23 @@ public class AuthorParFilter implements Filter {
             /* Redirection vers la page publique */
             response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
         } else {
-        	Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
-        	Histoire story = (Histoire) session.getAttribute(donneeHistoire);
-        	int idP = Integer.parseInt(request.getParameter("idP"));
-        	ParagrapheDAO paragDao = new ParagrapheDAO(dataSource);
-        	Paragraphe paragraph = paragDao.getParagraphe(story.getTitle(), idP);
-        	
-    		boolean droits = user.getUserName().contentEquals(paragraph.getAuthor());
-
-            if (!droits) {
-                response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
-            }
-            else {
+        	if (request.getMethod().contentEquals("GET")) {
+	        	Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
+	        	Histoire story = (Histoire) session.getAttribute(donneeHistoire);
+	        	int idP = Integer.parseInt(request.getParameter("idP"));
+	        	ParagrapheDAO paragDao = new ParagrapheDAO(dataSource);
+	        	Paragraphe paragraph = paragDao.getParagraphe(story.getTitle(), idP);
+	        	
+	    		boolean droits = user.getUserName().contentEquals(paragraph.getAuthor());
+	
+	            if (!droits) {
+	                response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
+	            }
+	            else {
+		        	/* Affichage de la page restreinte */
+		            chain.doFilter( request, response );
+	            	}
+        	}else {
 	        	/* Affichage de la page restreinte */
 	            chain.doFilter( request, response );
             	}

@@ -28,7 +28,7 @@ public class AutorisationForm {
     }
     
     
-    public void autoriserAcces( HttpServletRequest request, DataSource dataSource, String title ) {
+    public String[] autoriserAcces( HttpServletRequest request, DataSource dataSource, String title ) {
     	String[] checkBox = request.getParameterValues(CHAMP_CHECK);
     	String[] invited = request.getParameterValues(CHAMP_INVITED);
 
@@ -68,6 +68,7 @@ public class AutorisationForm {
         } else {
             resultat = "Échec de la création de l'histoire.";
     	}
+    	return invited;
     }
     
 	/*

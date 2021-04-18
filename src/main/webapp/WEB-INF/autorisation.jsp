@@ -12,7 +12,7 @@
 <body>
 		    		<jsp:include page="header.jsp" />
                         <div class="col-1-1">
-                             <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="creation">
+                             <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="autoriserAcces">
 
                                 <fieldset>
                                    
