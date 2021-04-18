@@ -2,16 +2,21 @@ package servlets;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import beans.Utilisateur;
 import forms.InscriptionForm;
 
 public class Inscription extends HttpServlet {
-    public static final String ATT_USER = "utilisateur";
+	
+	@Resource(name = "users")
+    private DataSource dataSource;
+	public static final String ATT_USER = "utilisateur";
     public static final String ATT_FORM = "form";
     public static final String VUE = "/WEB-INF/Inscription.jsp";
 		
@@ -25,7 +30,7 @@ public class Inscription extends HttpServlet {
         InscriptionForm form = new InscriptionForm();
 		
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
-        Utilisateur utilisateur = form.inscrireUtilisateur( request );
+        Utilisateur utilisateur = form.inscrireUtilisateur(request, dataSource);
 		
         /* Stockage du formulaire et du bean dans l'objet request */
         request.setAttribute( ATT_FORM, form );

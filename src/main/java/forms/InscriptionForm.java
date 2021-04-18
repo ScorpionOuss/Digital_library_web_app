@@ -1,11 +1,14 @@
 package forms;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import beans.Utilisateur;
+import dao.UtilisateurDAO;
 
 public final class InscriptionForm {
     private static final String CHAMP_USERNAME  = "username";
@@ -25,20 +28,19 @@ public final class InscriptionForm {
     }
 
 
-    public Utilisateur inscrireUtilisateur( HttpServletRequest request ) {
-        String email = getValeurChamp( request, CHAMP_USERNAME );
+    public Utilisateur inscrireUtilisateur( HttpServletRequest request, DataSource dataSource) {
+        String userName = getValeurChamp( request, CHAMP_USERNAME );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
         String confirmation = getValeurChamp( request, CHAMP_CONF );
-
 
         Utilisateur utilisateur = new Utilisateur();
 
         try {
-            validationEmail( email );
+        	validationUserName(userName, dataSource);
         } catch ( Exception e ) {
             setErreur( CHAMP_USERNAME, e.getMessage() );
         }
-        utilisateur.setUserName( email );
+        utilisateur.setUserName( userName);
 
         try {
             validationMotsDePasse( motDePasse, confirmation );
@@ -48,9 +50,11 @@ public final class InscriptionForm {
         }
         utilisateur.setMotDePasse( motDePasse );
 
-      
+
 
         if ( erreurs.isEmpty() ) {
+        	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
+        	//inscrire
             resultat = "Succès de l'inscription.";
         } else {
             resultat = "Échec de l'inscription.";
@@ -60,17 +64,25 @@ public final class InscriptionForm {
     }
     
 
-    private void validationEmail( String email ) throws Exception {
-        if ( email != null ) {
-            if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-                throw new Exception( "Merci de saisir une adresse mail valide." );
-            }
-        } else {
-            throw new Exception( "Merci de saisir une adresse mail." );
-        }
-    }
 
-    private void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception {
+
+    private void validationUserName(String userName, DataSource dataSource) throws Exception {
+
+    	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
+    	LinkedList<String> users = userDao.getUsers();
+    	verifyIn(users, userName);	
+	}
+    
+    private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
+		for (String invited : invites) {
+			if(invited.contentEquals(inv)) {
+				return;
+			}
+		}
+		throw new Exception("userName invalide");
+	}
+
+	private void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception {
         if ( motDePasse != null && confirmation != null ) {
             if ( !motDePasse.equals( confirmation ) ) {
                 throw new Exception( "Les mots de passe entrés sont différents, merci de les saisir à nouveau." );
@@ -82,11 +94,6 @@ public final class InscriptionForm {
         }
     }
 
-    private void validationNom( String nom ) throws Exception {
-        if ( nom != null && nom.length() < 3 ) {
-            throw new Exception( "Le nom d'utilisateur doit contenir au moins 3 caractères." );
-        }
-    }
 
     /*
      * Ajoute un message correspondant au champ spécifié à la map des erreurs.
