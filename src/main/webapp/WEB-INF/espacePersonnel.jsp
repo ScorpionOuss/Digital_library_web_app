@@ -25,27 +25,30 @@
                                                 <img class = "image-1-3-2" src="${s.image}" alt="photo6"></a>
                                             <h4>${s.title}</h4>
                                             <time datetime="2017-11-20">20/11/2021</time>
+                                            <c:choose>
+                                            	<c:when test="${s.publicLec}"> <h5>Publique en lecture</h5> </c:when>
+                                            	<c:otherwise> <h5>Non publiée en lecture</h5> </c:otherwise>
+                                            </c:choose>
+                                            <c:choose>
+                                            	<c:when test="${s.publicEc}"> <h5>Publique en écriture</h5> </c:when>
+                                            	<c:otherwise> <h5>Privée en mode écriture</h5> </c:otherwise>
+                                            </c:choose>
                                         </header>
                                         <section>
                                         </section>
                                         <footer>
-                                        <c:choose>
-                                        <c:when test="${!s.publicEc}">
-                                            <a href="autoriserAcces?titre=${s.title}" class="button2" title="Jump to">Configurer les droits</a>
-                                        </c:when>
-                                        <c:otherwise>
-                                        <a href="#" class="button2" title="Jump to">Publique</a>
-                                        tit</c:otherwise>
-                                        </c:choose>
-                                        <c:choose>
-                                            <c:when test="${!s.publicLec}">
-                                            <button type="submit" class="button2 button_supr_p" action = "publier?titre=${s.title}">Publier</button>
-                                     		</c:when>
-                                     		<c:otherwise>
-                                            <button type="submit" class="button2 button_supr_p" action = "publier?titre=${s.title}">Publiée</button>
-                              		
-                                     		</c:otherwise>
-                                       </c:choose>
+                                       <a href="autoriserAcces?titre=${s.title}" class="button2" title="Jump to">Configurer les droits d'écriture</a>
+                                       <form action="publier" method="get">
+                                       		<input id="titre" name="titre" type="hidden" value="${s.title}">
+                                       		<input id="etatPublic" name="etatPublic" type="hidden" value="${s.publicLec}">
+                                       		<button type="submit" class="button2 button_supr_p">
+                                       				<c:choose>
+                                            		<c:when test="${!s.publicLec}"> Publier pour lecture </c:when>
+                                     				<c:otherwise> Dépublier pour lecture  </c:otherwise>
+                                      				 </c:choose>
+                                       		</button>
+                                       </form>                   
+                                       
                                         </footer>
                                     </article>
                                 </div>

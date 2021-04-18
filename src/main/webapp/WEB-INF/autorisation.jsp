@@ -12,8 +12,8 @@
 <body>
 		    		<jsp:include page="header.jsp" />
                         <div class="col-1-1">
-                             <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="creation">
-
+                             <form method="post" class="pure-form pure-form-aligned creation-paragraph" action="autoriserAcces">
+								<input id="titre" name="titre" type="hidden" value="${titre}">
                                 <fieldset>
                                    
                                     <div class="pure-control-group" id="droit" >

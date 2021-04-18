@@ -33,11 +33,12 @@ public class AutoriserAcces extends HttpServlet {
     public static final String VUE       = "/WEB-INF/autorisation.jsp";
     public static final String ATT_HISTOIRE = "histoire";
     public static final String ATT_FORM = "form";
-
+    public static final String CONTROLOR = "/espacePersonnel";
 
     
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-    	
+    	/* Forward the name of the story to the form after tho the doPost */
+    	request.setAttribute(ATT_TITLE, request.getParameter(ATT_TITLE));
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
     
@@ -47,10 +48,12 @@ public class AutoriserAcces extends HttpServlet {
     
     /*Récupération de l'histoire à partir du titre*/
     String title = request.getParameter(ATT_TITLE);
-	 
+
 	 form.autoriserAcces(request, dataSource, title);
 	 
      request.setAttribute( ATT_FORM, form );
-
+     
+     PrintWriter out = response.getWriter();
+	 out.print(form.getResultat());
     }    
 }

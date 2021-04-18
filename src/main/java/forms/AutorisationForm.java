@@ -53,20 +53,26 @@ public class AutorisationForm {
 	    	}
     	}
     	
-    	HistoireDAO stroryDAO = new HistoireDAO(dataSource);
+    	HistoireDAO storyDAO = new HistoireDAO(dataSource);
 
     	/*Vérification erreurs*/ 
     	if ( erreurs.isEmpty() ) {
-    		if (publicEc == false) {
+    		/* publish story */
+    		if (publicEc) {
+    			storyDAO.publishForWriting(title);
+    		}
+    		else {
+    			/* Unpublish */
+    			storyDAO.unpublishForWriting(title);
         		if(invited != null) {
 	        		for (String inv:invited) {
-	        			stroryDAO.addInvited(title, inv);
+	        			storyDAO.addInvited(title, inv);
 	        		}
         		}
         	}
-            resultat = "Histoire créée avec succès";
+            resultat = "Droits modifiés par succès";
         } else {
-            resultat = "Échec de la création de l'histoire.";
+            resultat = "Échec de modification de droits";
     	}
     }
     
