@@ -60,7 +60,6 @@
 
 <filter-mapping>
 	<filter-name>RestrictionFilter</filter-name>
-	<url-pattern>/inscription</url-pattern>
 	<url-pattern>/creation</url-pattern>
 	<url-pattern>/edit</url-pattern>
 	<url-pattern>/espacePersonnel</url-pattern>

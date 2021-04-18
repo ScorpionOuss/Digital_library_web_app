@@ -18,10 +18,7 @@
 		<div class ="col-3-12"></div>
 		<div class="col-1-2">
                <div class="loginOrRegisterBox col-1-1-all">
-               		<div class="switch">
-						<div class="col-1-2-right"><button id="loginButton" >login</button></div>
-						<div class="col-1-2-left"><button id="registerButton">register</button></div>
-                   </div>
+               		
                    <div id="form">
                        <form action="connexion" method="post" id="login">
                            <input type="text" placeholder="username" name="username">
@@ -29,16 +26,6 @@
                            <input type="password" placeholder="password" name="motdepasse">
                             <span class="erreur">${form.erreurs['motdepasse']}</span>
                            <input type="submit" value="Connexion">
-                       </form>
-                       <form action="inscription" method="post" id="register">
-                           <input type="text" placeholder="username" name="username">
-                           <span class="erreur">${form.erreurs['username']}</span>
-                           <input type="password" placeholder="password" name="motdepasse">
-                           <span class="erreur">${form.erreurs['motdepasse']}</span>
-                           <input type="password" placeholder="confirmPassword" name="confirmation">
-                           <span class="erreur">${form.erreurs['confirmation']}</span>
-                           <input type="submit" value="register">
-                           <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
                        </form>
                    </div>
         	</div>

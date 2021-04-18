@@ -37,6 +37,7 @@ public class AutoriserAcces extends HttpServlet {
 
 
     
+    @Override
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
     	
         String title = request.getParameter(ATT_TITLE);
