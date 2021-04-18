@@ -35,15 +35,18 @@
                                         </c:when>
                                         <c:otherwise>
                                         <a href="#" class="button2" title="Jump to">Publique</a>
-                                        tit</c:otherwise>
+                                        </c:otherwise>
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${!s.publicLec}">
-                                            <button type="submit" class="button2 button_supr_p" action = "publier?titre=${s.title}">Publier</button>
+                                            </br>
+                                            <a href="publier?titre=${s.title}" class="button2" title="Jump to">Publier</a>
+                                           <%--  <form method="get" action="publier?titre=${s.title}">
+                                            <input type="submit" class="button2 button_supr_p" value="publier"/>
+                                            </form> --%>
                                      		</c:when>
                                      		<c:otherwise>
-                                            <button type="submit" class="button2 button_supr_p" action = "publier?titre=${s.title}">Publiée</button>
-                              		
+                                            <button type="submit" class="button2 button_supr_p" >Publiée</button>
                                      		</c:otherwise>
                                        </c:choose>
                                         </footer>

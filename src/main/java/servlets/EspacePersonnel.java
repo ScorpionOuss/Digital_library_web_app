@@ -34,8 +34,9 @@ public class EspacePersonnel extends HttpServlet {
 
 
     
-    public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-        /* Affichage de la page de connexion */
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	 /* Affichage de la page de connexion */
     	HttpSession session = request.getSession();
     	Utilisateur user = (Utilisateur) session.getAttribute(ATT_USER);
     	
@@ -51,4 +52,7 @@ public class EspacePersonnel extends HttpServlet {
     	
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
+    
+    
+
 }

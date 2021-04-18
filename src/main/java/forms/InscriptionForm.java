@@ -55,6 +55,7 @@ public final class InscriptionForm {
         if ( erreurs.isEmpty() ) {
         	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
         	//inscrire
+        	userDao.insertUser(utilisateur);
             resultat = "Succès de l'inscription.";
         } else {
             resultat = "Échec de l'inscription.";

@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ public class Inscription extends HttpServlet {
     private DataSource dataSource;
 	public static final String ATT_USER = "utilisateur";
     public static final String ATT_FORM = "form";
-    public static final String VUE = "/WEB-INF/Inscription.jsp";
+    public static final String VUE = "/WEB-INF/connexion.jsp";
 		
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
         /* Affichage de la page d'inscription */
@@ -35,7 +36,12 @@ public class Inscription extends HttpServlet {
         /* Stockage du formulaire et du bean dans l'objet request */
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_USER, utilisateur );
-		
-        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+
+        PrintWriter out = response.getWriter();
+        
+        for (String erreur:form.getErreurs().values()) {
+        	out.println(erreur);
+        }
+//        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
 }
