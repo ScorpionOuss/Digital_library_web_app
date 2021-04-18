@@ -66,4 +66,22 @@ public class UtilisateurDAO extends AbstractDAO{
 	    	ResClose.silencedClosing(resultSet, st, conn);
 	    }
 	}
+
+	public void insertUser(Utilisateur user){
+	    String pseudonyme = user.getUserName();
+	    String motDePasse = user.getMotDePasse();
+	    Connection conn = null; 
+	    PreparedStatement st = null; 
+	    try {
+	       conn = getConnexion();
+	       st = conn.prepareStatement("INSERT INTO USERS(username, password) values(?, ?)");
+	       st.setString(1, pseudonyme);
+	       st.setString(2, motDePasse);
+	       st.executeUpdate();
+	    } catch (SQLException e){
+	        throw new DAOException("Erreur BD " + e.getMessage(), e);
+	    } finally {
+	    	ResClose.silencedClosing(st, conn);
+	    }
+	}
 }
