@@ -20,21 +20,18 @@
                                 <fieldset>
                                    
                                     <div class="pure-control-group" id="paragraphp">
-                                        <label for="paragraph" class = "label-p" >histoire</label>
+                                        <label for="paragraph" class = "label-p" >Histoire</label>
                                         <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ...">${textAff}</textarea>
                                         <span class="msgE">erreur message</span>
                                     </div>
                                     <div class="pure-control-group" id="LesChoix">
                                       <div class="pure-controls-group" >
                                         <label for="LesChoix" class = "label-p" >Les Choix</label>
-                                        <input type ="button" class="pure-button pure-button-primary buttonadd " name="LesChoix" value="Add Un Choix" id="buttonaddChoix">
+                                        <input type ="button" class="pure-button pure-button-primary buttonadd " name="LesChoix" value="Ajouter un Choix" id="buttonaddChoix">
                                       </div>
                                     </div>
                                     <div class="pure-controls" id="casep">
-                                            <label for="conditions" class="pure-checkbox" >
-                                            <input id="case" name='case' type="checkbox">  I've read the terms and conditions
-                                            <span class="msgE">erreur message</span>
-                                            </label>
+                                            
                                         <input id="submit" type="submit" name="button" value="submit"  class="pure-button pure-button-primary button">
                                         <input id="enregistrer" type="submit" name="enregistrer" value="enregistrer"  class="pure-button pure-button-primary button">
                                         <input id="annuler" type="submit" name="annuler" value="annuler"  class="pure-button pure-button-primary button">

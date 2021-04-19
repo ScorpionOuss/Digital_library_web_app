@@ -24,7 +24,7 @@
                                             <a href="editStory?titre=${s.title}" class="test_a">
                                                 <img class = "image-1-3-2" src="${s.image}" alt="photo6"></a>
                                             <h4>${s.title}</h4>
-                                            <time datetime="2017-11-20">20/11/2021</time>
+                                            
                                             <c:choose>
                                             	<c:when test="${s.publicLec}"> <h5>Publique en lecture</h5> </c:when>
                                             	<c:otherwise> <h5>Non publiée en lecture</h5> </c:otherwise>
@@ -70,7 +70,6 @@
                                        </form>                   
                                        
 <%-- >>>>>>> 9092363dd9fc8e9faa66e027e4b938a99b510663 --%>
- --%>                                        </footer>
                                     </article>
                                 </div>
                                 </c:forEach>
@@ -104,11 +103,17 @@
                                 
                             </div>
                         </div> --%>
-                        
+                        <c:choose>
+                        <c:when test="${!(empty idChoice)}">
                         <div class="col-1-1-all espace-block">
                             <h2 class="title-move-right">Non encore validé</h2>
 		 								<a href="writeParagraph?idChoice=${idChoice}"> ${text}</a>
                             </div>
+                            <br> </br>
+                            </c:when>
+                            </c:choose>
+                     </footer>
+                            
 		<jsp:include page="footer.jsp" />
 						
 			

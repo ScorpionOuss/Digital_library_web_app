@@ -3,9 +3,11 @@ package forms;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import beans.Utilisateur;
 import dao.UtilisateurDAO;
@@ -26,7 +28,7 @@ public final class ConnexionForm {
         return erreurs;
     }
 
-    public Utilisateur connecterUtilisateur( HttpServletRequest request, UtilisateurDAO userDAO ) {
+    public Utilisateur connecterUtilisateur( HttpServletRequest request, UtilisateurDAO userDAO, DataSource dataSource ) {
         /* Récupération des champs du formulaire */
         String userName = getValeurChamp( request, CHAMP_USERNAME );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
@@ -35,7 +37,7 @@ public final class ConnexionForm {
 
         /* Validation du champ email. */
         try {
-            validationUserName( userName );
+            validationUserName( userName, dataSource );
         } catch ( Exception e ) {
             setErreur( CHAMP_USERNAME, e.getMessage() );
         }
@@ -69,14 +71,23 @@ public final class ConnexionForm {
         return utilisateur;
     }
 
-    /**
-     * Valide l'adresse email saisie.
-     */
-    private void validationUserName( String userName) throws Exception {
-    	if ( userName != null && userName.length() < 3 ) {
-            throw new Exception( "Le nom d'utilisateur doit contenir au moins 3 caractères." );
-        }
-    }
+    
+    private void validationUserName(String userName, DataSource dataSource) throws Exception {
+
+    	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
+    	LinkedList<String> users = userDao.getUsers();
+    	verifyIn(users, userName);	
+	}
+    
+    private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
+		for (String invited : invites) {
+			if(invited.contentEquals(inv)) {
+				return;
+			}
+		}
+		throw new Exception("userName invalide");
+
+	}
 
     /**
      * Valide le mot de passe saisi.

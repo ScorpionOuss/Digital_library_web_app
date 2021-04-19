@@ -38,20 +38,21 @@ public class Connexion extends HttpServlet {
         UtilisateurDAO userDAO = new UtilisateurDAO(dataSource);
         
         /* Traitement de la requête et récupération du bean en résultant */
-        Utilisateur utilisateur = form.connecterUtilisateur(request, userDAO );
+        Utilisateur utilisateur = form.connecterUtilisateur(request, userDAO, dataSource);
 
         /* Récupération de la session depuis la requête */
         HttpSession session = request.getSession();
 
         /* Stockage du formulaire et du bean dans l'objet request */
         request.setAttribute( ATT_FORM, form );
-        request.setAttribute( ATT_USER, utilisateur );
+        
         /**
          * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
          * Utilisateur à la session, sinon suppression du bean de la session.
          */
         if ( form.getErreurs().isEmpty() ) {
             session.setAttribute(ATT_USER, utilisateur);
+            request.setAttribute( ATT_USER, utilisateur );
             this.getServletContext().getRequestDispatcher( VUE_SUCCES ).forward( request, response );
         } else {
             this.getServletContext().getRequestDispatcher( VUE_FAILURE ).forward( request, response );

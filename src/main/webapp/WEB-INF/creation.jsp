@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,64 +20,55 @@
 
                                 <fieldset>
                                     <div class="pure-control-group" id="nomp">
-                                        <label for="nom" class = "label-p">titre du histoire</label>
+                                        <label for="nom" class = "label-p">Titre de l'histoire</label>
                                         <input name='nom' id="nom" type="text" placeholder="titre">
-                                        <span class="msgE">erreur message</span>
+                                        <span class="erreur">${form.erreurs['nom']}</span>
                                     </div>
                                     <div class="pure-control-group" id="sitep">
                                         <label for="site">image URL</label>
                                         <input id="site" name="site" type="text" placeholder="URL">
-                                        <span class="msgE">${form.erreurs['nom']}</span>
+                                        <span class="erreur">${form.erreurs['site']}</span>
                                     </div>
                                     <div class="pure-control-group" id="droit" >
-                                      <label class = "label-p"> Autorisation du Edit</label>
+                                      <label class = "label-p"> Autorisation de l'édition</label>
                                       <label for="typecand" class="pure-radio">
                                         <input type="radio" class="droitbtn" id="public" name="typecand" value="public" checked>
                                         public
                                       </label>
                                       <label for="typecand" class="pure-radio" >
                                         <input type="radio"  class="droitbtn" id = "invite" name="typecand" value="invite" >
-                                        invite
+                                        Sur invitation
                                       </label>
-                                      <span class="add"><input type ="button" class="pure-button pure-button-primary buttonadd" name="add" value="add" id="buttonadd"></span>
-                                      <span class="msgE">erreur message</span>
+                                      <span class="add"><input type ="button" class="pure-button pure-button-primary buttonadd" name="add" value="ajouter" id="buttonadd"></span>
+                                      <span class="erreur">${form.erreurs['userid']}</span>
                                     </div>
                                     <div class="pure-control-group add" id="invite-users">
 
                                     </div>
                                     
                                     <div class="pure-control-group" id="anneep">
-                                        <label for="etatLecture" class = "label-p">publique en lecture</label>
+                                        <label for="etatLecture" class = "label-p">Publique en lecture</label>
  											 <input type="checkbox" id="lec" name="etatLecture" value="publicLec" checked>
                                         	<span class="msgE">erreur message</span>
                                     </div>
                                     
-                                    <div class="pure-control-group" id="anneep">
-                                        <label for="annee" class = "label-p">annee creation</label>
-                                        <input id="annee" name="annee" type="text" placeholder="01/01/2000">
-                                        <span class="msgE">${form.erreurs['annee']}</span>
-                                    </div>
                                     <div class="pure-control-group" id="descrp">
-                                        <label for="presentation" class = "label-p">presentation</label>
-                                        <textarea id="descr" name="presentation" rows="3" cols="80" placeholder="c'est une histoire lie ..."></textarea>
-                                        <span class="msgE">${form.erreurs['presentation']}</span>
+                                        <label for="presentation" class = "label-p">Description</label>
+                                        <textarea id="descr" name="presentation" rows="3" cols="80" placeholder="c'est une histoire ..."></textarea>
+                                        <span class="erreur">${form.erreurs['presentation']}</span>
                                     </div>
                                     <div class="pure-control-group" id="paragraphp">
-                                        <label for="paragraph" class = "label-p" >histoire</label>
+                                        <label for="paragraph" class = "label-p" >Histoire</label>
                                         <textarea id="paragraph" name="paragraph" rows="10" cols="80" placeholder="il y a longtemps ..."></textarea>
-                                        <span class="msgE">${form.erreurs['paragraph']}</span>
+                                        <span class="erreur">${form.erreurs['paragraph']}</span>
                                     </div>
                                     <div class="pure-control-group" id="LesChoix">
                                       <div class="pure-controls-group" >
                                         <label for="LesChoix" class = "label-p" >Les Choix</label>
-                                        <input type ="button" class="pure-button pure-button-primary buttonadd " name="LesChoix" value="Add Un Choix" id="buttonaddChoix">
+                                        <input type ="button" class="pure-button pure-button-primary buttonadd " name="LesChoix" value="Ajouter un Choix" id="buttonaddChoix">
                                       </div>
                                     </div>
                                     <div class="pure-controls" id="casep">
-                                            <label for="conditions" class="pure-checkbox" >
-                                            <input id="case" name='case' type="checkbox">  I've read the terms and conditions
-                                            <span class="msgE">erreur message</span>
-                                            </label>
                                         <input id="submit" type="submit" name="button" value="submit" class="pure-button pure-button-primary button">
                                     </div>
                         

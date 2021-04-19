@@ -22,10 +22,7 @@
                                         <span class="msgE">erreur message</span>
                                     
                                     <div class="pure-controls" id="casep">
-                                            <label for="conditions" class="pure-checkbox" >
-                                            <input id="case" name='case' type="checkbox">  I've read the terms and conditions
-                                            <span class="msgE">erreur message</span>
-                                            </label>
+
                                         <input id="submit" type="submit" name="button" value="modify"  class="pure-button pure-button-primary button">
                                         <input id="annuler" type="submit" name="annuler" value="annuler"  class="pure-button pure-button-primary button">
                                    	</div>
