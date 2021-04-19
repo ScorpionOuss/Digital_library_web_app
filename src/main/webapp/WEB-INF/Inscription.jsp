@@ -16,8 +16,12 @@
     <body>
 	<jsp:include page="header.jsp" /> 
 		<div class ="col-3-12"></div>
+				<div class="col-1-2">
+		
                <div class="loginOrRegisterBox col-1-1-all">
-                       <form action="inscription" method="post" id="register">
+                     <div id="form">
+               
+                       <form action="inscription" method="post" id="login">
                            <input type="text" placeholder="username" name="username">
                            <span class="erreur">${form.erreurs['username']}</span>
                            <input type="password" placeholder="password" name="motdepasse">
@@ -28,6 +32,8 @@
                            <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
                        </form>
                    </div>
+	  	        	</div>
+	  	        	</div>
 	  	
 	  <div class="col-3-12"></div>
 	<jsp:include page="footer.jsp" />    

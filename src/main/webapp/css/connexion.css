@@ -98,9 +98,9 @@
 .content .loginOrRegisterBox>#form>form>div>a:visited {
     color: white;
 }
-#register {
+/* #register {
     display: none;
-}
+} */
 #create{
     font-size: 8px;
     margin-top: 10px;
