@@ -80,6 +80,7 @@ footer{
   	padding-bottom:8px;
   	font-size: 90%;
 }
+
 h1,h2,h3.h4,h5,p,section{
 	word-wrap: break-word;
 }
@@ -119,7 +120,31 @@ article.at-histoire>header>h4{
   font-size:        90%;
 }
 
-
+.center{
+	text-align:center;
+}
+.interdit{
+	padding:20px;
+	border-color:#ef2929;
+}
+.interdit h2{
+	color: #cc0000;
+	font-weight: bold;
+	
+}
+.interdit h4{
+	color: #021241;
+}
+.interdit p.l1{
+	margin-bottom:5px;
+	font-size:1.3em;
+	color: #021241;
+}
+.interdit p.l2{
+	margin-top:40px;
+	font-size:1em;
+	font-weight: bold;
+}
 .at-histoire{
 	margin: 10px 10px 10px 10px;
 }
@@ -200,11 +225,32 @@ article.at-histoire>header>h4{
 	-webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
+.button4{
+	margin-left:10px;
+	margin-bottom:5px;
+	display: inline-block;
+	padding:15px 15px;
+	width: 100px;
+	height: auto;
+	text-align: center;
+	font-size: 1.2em;
+	text-decoration: none;
+	border-radius: 6px;
+	color:#FFF;
+	background-color: rgba(0,233,233,0.1);
+	border-color: #FFF;
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
 .button#btn{
 	background-color: rgba(61, 42, 42, 0.377);
 }
 .button#btn:hover {
     background-color: rgba(0, 0, 0, 0.678); 
+    color: white;
+}
+.button4:hover{
+	background-color: rgba(0,0,0,0.5); /* Green */
     color: white;
 }
 .buttonadd{
@@ -279,6 +325,7 @@ nav#sommaire .button2:hover{
 	height:150px;
 	width: 215px;
 }
+
 
 .dropdown-content {
     display: none;
