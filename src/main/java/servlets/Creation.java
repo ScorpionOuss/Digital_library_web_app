@@ -54,20 +54,12 @@ public class Creation extends HttpServlet {
         request.setAttribute( ATT_HISTOIRE, histoire);
         
     	 PrintWriter out = response.getWriter();
-    	 out.println(histoire[0]);
     	 
-//    	 for (String erreur: form.getErreurs().values()) {
-//    		 out.println(erreur);
-//    	 }
-    	 
-//    	 out.println(form.getResultat());
-//    	 if(histoire != null) {
-//    	 for (String str: histoire) {
-//    		 out.println(str);
-//    	 }
-//    	 }
-//
-        //this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+    	 for (String erreur: form.getErreurs().values()) {
+    		 out.println(erreur);
+    	 }
+
+//        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 
 
     }

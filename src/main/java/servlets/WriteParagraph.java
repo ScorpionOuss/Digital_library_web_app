@@ -34,6 +34,7 @@ public class WriteParagraph extends HttpServlet {
     public static final String ATT_FORM = "form";
     public static final String VUE  = "/WEB-INF/writeParagraph.jsp";
     public static final String VUE_ERREUR  = "/WEB-INF/erreur.jsp";
+    public static final String VUE_SUCCES  = "/edit";
     private static final String donneeHistoire = "donneeHis";
     private static final String textTodisplay = "textAff";
 
@@ -129,6 +130,6 @@ public class WriteParagraph extends HttpServlet {
         /* Stockage du formulaire dans l'objet request */
         request.setAttribute( ATT_FORM, form );
 		
-        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+    	response.sendRedirect(request.getContextPath() +  VUE_SUCCES);    	
     }
 }

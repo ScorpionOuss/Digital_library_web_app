@@ -22,13 +22,13 @@
                      <div id="form">
                
                        <form action="inscription" method="post" id="login">
-                           <input type="text" placeholder="username" name="username">
+                           <input type="text" placeholder="pseudonyme" name="username">
                            <span class="erreur">${form.erreurs['username']}</span>
-                           <input type="password" placeholder="password" name="motdepasse">
+                           <input type="password" placeholder="mot de passe" name="motdepasse">
                            <span class="erreur">${form.erreurs['motdepasse']}</span>
-                           <input type="password" placeholder="confirmPassword" name="confirmation">
+                           <input type="password" placeholder="confirmation" name="confirmation">
                            <span class="erreur">${form.erreurs['confirmation']}</span>
-                           <input type="submit" value="register">
+                           <input type="submit" value="inscription">
                            <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
                        </form>
                    </div>

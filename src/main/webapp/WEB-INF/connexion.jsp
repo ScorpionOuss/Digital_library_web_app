@@ -21,11 +21,13 @@
                		
                    <div id="form">
                        <form action="connexion" method="post" id="login">
-                           <input type="text" placeholder="username" name="username">
+                           <input type="text" placeholder=pseudonyme name="username">
                            <span class="erreur">${form.erreurs['username']}</span>
-                           <input type="password" placeholder="password" name="motdepasse">
+                           <input type="password" placeholder="mot de passe" name="motdepasse">
                             <span class="erreur">${form.erreurs['motdepasse']}</span>
                            <input type="submit" value="Connexion">
+                           <span class="erreur">${form.erreurs['connexion']}</span>
+                           
                        </form>
                    </div>
         	</div>

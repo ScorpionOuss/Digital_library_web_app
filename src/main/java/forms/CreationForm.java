@@ -191,13 +191,13 @@ public final class CreationForm {
 	}
 
 	private void ValidateParagraph(String paragraph) throws Exception {
-    	if (paragraph == null || paragraph.length() < 20 ) {
+    	if (paragraph == null || paragraph.length() < 10 ) {
             throw new Exception("Le contenu du paragraphe doit contenir au moins 20 caractères.");
         }
 	}
 
 	private void validateDescription(String presentation) throws Exception {
-    	if (presentation == null || presentation.length() < 10 ) {
+    	if (presentation == null || presentation.length() < 5) {
             throw new Exception("Le contenu de la description doit contenir au moins 10 caractères.");
         }
 	}

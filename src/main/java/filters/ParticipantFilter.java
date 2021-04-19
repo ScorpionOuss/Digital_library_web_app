@@ -49,12 +49,12 @@ public class ParticipantFilter implements Filter {
         if ( user== null ||
         		story == null) {
             /* Redirection vers la page publique */
-            response.sendRedirect( request.getContextPath() + ACCES_RESTREINT );
+            response.sendRedirect( request.getContextPath() + "/accueil" );
         } else {
-        	
         	HistoireDAO stDao = new HistoireDAO(dataSource);
         	LinkedList<String> participants = stDao.getInvited(story.getTitle());
-        	        	
+        	participants.add(story.getCreator());
+
             boolean participe = containsStr(user.getUserName(), participants) || story.getPublicEc();
             
             if (!participe) {
@@ -64,7 +64,7 @@ public class ParticipantFilter implements Filter {
 	        	/* Affichage de la page restreinte */
 	            chain.doFilter( request, response );
             	}
-            
+        	
         	}
         }
     
