@@ -16,7 +16,7 @@
             <section class="tabbed col-xs-offset-1 col-lg-offset-2 col-xs-22 col-lg-20">
                 <h2>FOIRE AUX QUESTION</h2>
                 <div class="container-lists">
-                    <ul class="container-list js-accord" component:js-accord>
+                    <ul class="container-list js-accord">
                         <li class="item js-item target--off">
                             <p class="question js-shown">
                                 comment creer une histoire par soi meme?
@@ -30,10 +30,10 @@
                         </li>
                         <li class="item js-item target--off">
                             <p class="question js-shown">
-                                comment creer une histoire par soi meme?
+                               What can you do in your personal space？
                             </p>
                             <p class="answer js-target target--off">
-                                il faut connexion avec une compte et clique la button creation.
+                                You can view the stories you created in your personal space (not including the stories you participated in), you can add the participants of the story or choose to tell the story to open it to everyone. Similarly, you can also choose to publish your story so that other audiences can watch it.
                             </p>
                             <span class="answer-button js-trigger trigger--off">
                                 "&nbsp;"
@@ -41,10 +41,21 @@
                         </li>
                         <li class="item js-item target--off">
                             <p class="question js-shown">
-                                comment creer une histoire par soi meme?
+                                Why are some stories you can read but not edit?
                             </p>
                             <p class="answer js-target target--off">
-                                il faut connexion avec une compte et clique la button creation.
+                                The editing authority of each story is edited by the founder of the story. If you really want to participate, please contact the relevant creator.
+                            </p>
+                            <span class="answer-button js-trigger trigger--off">
+                                "&nbsp;"
+                            </span>
+                        </li>
+                        <li class="item js-item target--off">
+                            <p class="question js-shown">
+                                about team  du Votre hero histoire?
+                            </p>
+                            <p class="answer js-target target--off">
+                               Our team is composed of four young, energetic and passionate student engineers. This project originated from a school-related topic.
                             </p>
                             <span class="answer-button js-trigger trigger--off">
                                 "&nbsp;"
@@ -54,10 +65,10 @@
                     <ul class="container-list">
                         <li class="item js-item target--off">
                             <p class="question js-shown">
-                                comment creer une histoire par soi meme?
+                                How can I return to the previous option when reading mode?
                             </p>
                             <p class="answer js-target target--off">
-                                il faut connexion avec une compte et clique la button creation.
+                                Under the reading mode, there are all the corresponding choices you have made in the past, you can choose to click to return to the original paragraph, and select another one
                             </p>
                             <span class="answer-button js-trigger trigger--off">
                                 "&nbsp;"
@@ -65,10 +76,10 @@
                         </li>
                         <li class="item js-item target--off">
                             <p class="question js-shown">
-                                comment creer une histoire par soi meme?
+                                How can I participate in editing a story?
                             </p>
                             <p class="answer js-target target--off">
-                                il faut connexion avec une compte et clique la button creation.
+                                First of all, you need to be logged in to edit and create. At this time, you click on edition, and all the stories that you have the right to participate in editing will be listed. You can click on a story to read it. When reading each paragraph, you can see whether the choice is edited or not. You can select the paragraph that has not been edited to continue your imagination. You also have the right to add a choice yourself.
                             </p>
                             <span class="answer-button js-trigger trigger--off">
                                 "&nbsp;"
@@ -76,10 +87,10 @@
                         </li>
                         <li class="item js-item target--off">
                             <p class="question js-shown">
-                                comment creer une histoire par soi meme?
+                                How can I delete a paragraph that I edit?
                             </p>
                             <p class="answer js-target target--off">
-                                il faut connexion avec une compte et clique la button creation.
+                               To delete a paragraph first, you need to be the author of this paragraph, and the deletion of this paragraph does not affect other paragraphs before you have the right to delete it.
                             </p>
                             <span class="answer-button js-trigger trigger--off">
                                 "&nbsp;"
