@@ -23,7 +23,7 @@
 						<p>
 							A story with multiple trends, here will produce a different plot based on your unique choice, I believe this will definitely bring you a new experience.Come and enjoy those wonderful stories.
 						</p>
-						<a class="button4" href="afficherHistoires">Explore</a>
+						<a id="button4" href="afficherHistoires">Explore</a>
 					</div>
 					<div class="col-1-2">
 						<p><img src="images/people.jpg" alt="help article" class="test_a"></p>
