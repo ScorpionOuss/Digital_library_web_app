@@ -440,4 +440,30 @@ public class ChoixDAO extends AbstractDAO {
 			ResClose.silencedClosing(st, conn);
 		}	
 	}
+
+	public Integer getChoiceLockedBy(String user) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+		ResultSet res = null ;
+		
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("SELECT IdChoice from Choice Join Paragraph On assocPar =  idParagraph and " + 
+					"assocStory = titleStory where author = ? and locked = 1");
+			st.setString(1, user);;
+			res = st.executeQuery();
+			/* If there is no result */
+			if (!res.next()) {
+				return null;
+			}
+			else {
+				return res.getInt("idChoice");
+			}
+			
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(res, st, conn);
+		}
+	}
 }
