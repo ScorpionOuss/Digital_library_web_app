@@ -1,5 +1,7 @@
 package forms;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -46,7 +48,7 @@ public final class InscriptionForm {
             validationMotsDePasse( motDePasse, confirmation );
         } catch ( Exception e ) {
             setErreur( CHAMP_PASS, e.getMessage() );
-            setErreur( CHAMP_CONF, null );
+//            setErreur( CHAMP_CONF, null );
         }
         utilisateur.setMotDePasse( motDePasse );
 
@@ -55,6 +57,10 @@ public final class InscriptionForm {
         if ( erreurs.isEmpty() ) {
         	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
         	//inscrire
+        	/*
+        	String hashPass = hashPassword(motDePasse);
+            utilisateur.setMotDePasse( hashPass );
+            */
         	userDao.insertUser(utilisateur);
             resultat = "Succès de l'inscription.";
         } else {
@@ -77,10 +83,9 @@ public final class InscriptionForm {
     private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
 		for (String invited : invites) {
 			if(invited.contentEquals(inv)) {
-				return;
+				throw new Exception("userName invalide");
 			}
 		}
-		throw new Exception("userName invalide");
 	}
 
 	private void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception {
@@ -114,6 +119,30 @@ public final class InscriptionForm {
         } else {
             return valeur.trim();
         }
+    }
+    
+    /**
+     * Encode le mot de passe afin d'éviter l'identification des  vrais mots de passes
+     * @param password
+     * @return nouveau mot de passe codé
+     */
+    public String hashPassword(String password){
+        String generatedPass = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPass = sb.toString();
+         } catch (NoSuchAlgorithmException e) 
+            {
+                e.printStackTrace();
+            }
+        return generatedPass;
     }
 
 }

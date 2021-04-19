@@ -37,11 +37,7 @@ public class Inscription extends HttpServlet {
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_USER, utilisateur );
 
-        PrintWriter out = response.getWriter();
-        
-        for (String erreur:form.getErreurs().values()) {
-        	out.println(erreur);
-        }
-//        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+
+        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
 }

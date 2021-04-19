@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import beans.Choix;
 import beans.Histoire;
 import beans.Paragraphe;
 import beans.Utilisateur;
+import dao.ChoixDAO;
 import dao.HistoireDAO;
 import dao.ParagrapheDAO;
 import dao.UtilisateurDAO;
@@ -31,6 +33,8 @@ public class EspacePersonnel extends HttpServlet {
     public static final String ATT_PAR        = "paragraphs";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String VUE       = "/WEB-INF/espacePersonnel.jsp";
+    public static final String ATT_TEXT = "text";
+    public static final String ATT_IDCHOICE = "idChoice";
 
 
     
@@ -49,6 +53,18 @@ public class EspacePersonnel extends HttpServlet {
     	ParagrapheDAO parDao = new ParagrapheDAO(dataSource);
     	LinkedList<Paragraphe> paragraphs = parDao.parWroteBy(user.getUserName());
     	request.setAttribute(ATT_PAR, paragraphs);
+    	
+    	/*Récupérer les choix écrits mais pas encore validés*/
+    	ChoixDAO chDao = new ChoixDAO(dataSource);
+    	Integer idChoice = chDao.getChoiceLockedBy(user.getUserName());
+    	String text = null;
+    	if (idChoice != null) {
+    		Choix choix = chDao.getChoice(idChoice);
+    		text = choix.getText();
+    	}
+    	
+    	request.setAttribute(ATT_TEXT, text);
+    	request.setAttribute(ATT_IDCHOICE, idChoice);
     	
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }

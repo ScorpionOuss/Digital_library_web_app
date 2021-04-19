@@ -104,6 +104,11 @@
                                 
                             </div>
                         </div> --%>
+                        
+                        <div class="col-1-1-all espace-block">
+                            <h2 class="title-move-right">Non encore validé</h2>
+		 								<a href="writeParagraph?idChoice=${idChoice}"> ${text}</a>
+                            </div>
 		<jsp:include page="footer.jsp" />
 						
 			
