@@ -119,28 +119,33 @@ article.at-histoire>header>h4{
   margin: 0 0 0 0px;
   font-size:        90%;
 }
-
-.center{
+section>.container-read.col-1-1 {
+    padding-top: 40px;
+}
+div.interdit>.center{
 	text-align:center;
 }
-.interdit{
-	padding:20px;
+div.interdit {
+	margin:30px;
+	padding:30px;
+	border-style:solid;
+    border-width:3px;
 	border-color:#ef2929;
 }
-.interdit h2{
+div.interdit>h2{
 	color: #cc0000;
 	font-weight: bold;
 	
 }
-.interdit h4{
+div.interdit>h4{
 	color: #021241;
 }
-.interdit p.l1{
+div.interdit>p.l1{
 	margin-bottom:5px;
-	font-size:1.3em;
+	font-size:1em;
 	color: #021241;
 }
-.interdit p.l2{
+div.interdit>p.l2{
 	margin-top:40px;
 	font-size:1em;
 	font-weight: bold;
@@ -225,7 +230,7 @@ article.at-histoire>header>h4{
 	-webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
-.button4{
+main a#button4{
 	margin-left:10px;
 	margin-bottom:5px;
 	display: inline-block;
@@ -237,13 +242,14 @@ article.at-histoire>header>h4{
 	text-decoration: none;
 	border-radius: 6px;
 	color:#FFF;
-	background-color: rgba(0,233,233,0.1);
+	background-color: rgba(23, 0, 85, 0.74);
 	border-color: #FFF;
 	-webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
-.button#btn{
-	background-color: rgba(61, 42, 42, 0.377);
+main a#button4:hover{
+	background-color: rgba(29, 27, 172, 0.678); 
+    color: white;
 }
 .button#btn:hover {
     background-color: rgba(0, 0, 0, 0.678); 
@@ -330,7 +336,8 @@ nav#sommaire .button2:hover{
 .dropdown-content {
     display: none;
     background-color: #7269699c;
-    min-width: 100px;
+    border-radius: 4px;
+    min-width: 120px;
     box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
 	border-radius: 6px;
 }
