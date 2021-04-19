@@ -21,7 +21,7 @@
 				&copy; 2021, Votre hero histoire team<br>
 		      All trademarks and registered trademarks appearing on
 		      this site are the property of their respective owners.<br>
-		      <a href="index.html" class="button2" title="about">@about us</a>
+		      <a href="support" class="button2" title="about">@about us</a>
 		</footer>
 </body>
 </html>
