@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "accueil", urlPatterns = {"/accueil"})
-public class Accueil extends HttpServlet {
+@WebServlet(name = "support", urlPatterns = {"/support"})
+public class Support extends HttpServlet {
 
-    public static final String VUE = "/WEB-INF/index2.jsp";
+    public static final String VUE = "/WEB-INF/support.jsp";
 
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         

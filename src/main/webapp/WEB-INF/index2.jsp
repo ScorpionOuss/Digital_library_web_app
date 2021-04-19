@@ -54,12 +54,12 @@
 					<article>
 						<header>
 							<h4>
-								article Didacticielles
+								Didacticiel
 							</h4>
 						</header>
 						<section>
 							<h5>Vous avez des questions ?</h5>
-							<p>Vous ne savez pas par où commencer votre histoire? Vous avez des questions pendant le processus de création? Nos didacticiels artices vous guident pas à pas.
+							<p>Vous ne savez pas par où commencer votre histoire? Vous avez des questions pendant le processus de création? Nos didacticiels vous guident pas à pas.
 							</p>
 						</section>
 						<footer>
