@@ -26,7 +26,7 @@ public class Connexion extends HttpServlet {
     private DataSource dataSource;
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";
-    public static final String VUE_SUCCES       = "/WEB-INF/index.jsp";
+    public static final String VUE_SUCCES       = "/WEB-INF/index2.jsp";
     public static final String VUE_FAILURE      = "/WEB-INF/connexion.jsp";
 
     
