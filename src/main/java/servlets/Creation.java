@@ -64,38 +64,4 @@ public class Creation extends HttpServlet {
 
     }
     
-//    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-//    
-////    	ChoixDAO choiceDAO= new ChoixDAO(dataSource);
-////    	
-////    	String title = "titre de l'histoire";
-////    	int idP = 24;
-////    	String choice = "ouiii";
-////    	
-////		choiceDAO.addChoice(title, idP, choice);
-//    	
-////    	CreationForm form = new CreationForm();
-////    	boolean b = form.validationTitle("Little Red Riding", dataSource);
-////   	 	PrintWriter out = response.getWriter();
-////   	 	if (b) {
-////   	 		out.print("Yeees");
-////   	 	}
-////   	 	else {
-////   	 		out.print("NOOO");
-////   	 	}
-//
-//    	HistoireDAO st = new HistoireDAO(dataSource);
-//    	LinkedList<String> ll = st.verifyTitle("Little Red Riding");
-//    	PrintWriter out = response.getWriter();
-//    	if (ll == null) {
-//    		out.print("viiiiiiiiide");
-//    	}
-//    	else {
-//    		
-//    	
-//    	for (String ss:ll) {
-//    		out.println(ss);
-//    	}
-//    }
-//    }
 }
