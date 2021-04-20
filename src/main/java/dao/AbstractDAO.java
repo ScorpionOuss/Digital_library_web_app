@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 /**
- * Classe abstraite permettant de factoriser du code pour les DAO
- * basées sur JDBC
+ * an abstract class that allows to factor the DAO code based on JDBC 
+ * @author mounsit kaddami yan perez 
+ *
  */
 public abstract class AbstractDAO {
 
@@ -15,11 +16,11 @@ public abstract class AbstractDAO {
     protected AbstractDAO(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-/**
- * Établissement de la connexion
- * @return connection
- * @throws java.sql.SQLException
- */
+    /**
+     * Establishing a connection to the DB
+     * @return connection
+     * @throws java.sql.SQLException
+     */
     protected Connection getConnexion() throws SQLException {
         return dataSource.getConnection();
     }

@@ -1,6 +1,10 @@
 package dao;
 
-
+/**
+ * 
+ * @author mounsit kaddami yan perez
+ *
+ */
 public class DAOConfigException extends RuntimeException {
     /*
      * Constructeurs

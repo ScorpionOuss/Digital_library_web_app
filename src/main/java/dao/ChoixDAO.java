@@ -13,12 +13,23 @@ import javax.sql.DataSource;
 import beans.Choix;
 import beans.Paragraphe;
 
+/**
+ * This is a DAO class that interacts with the data base concerning the choices treatments 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public class ChoixDAO extends AbstractDAO {
 
 	public ChoixDAO(DataSource dataSource) {
 		super(dataSource);
 	}
 	
+	/**
+	 * this method allows to get all the information stored in the data base about a choice identified
+	 * by an the integer given in parameters 
+	 * @param idChoice : an integer that identifies the choice in the data base 
+	 * @return Choix : an object that groups the informations found about the choice 
+	 */
 	public Choix getChoice(int idChoice) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -42,11 +53,12 @@ public class ChoixDAO extends AbstractDAO {
 	}
 	
 	/**
+	 * This allows to add to the data base a choice that follows a certain paragraph
 	 * the id returned must be stored in the corresponding paragraph list of choices 
-	 * @param story
-	 * @param idParagraph
-	 * @param text
-	 * @return
+	 * @param story :  the story to which the paragraph and the choice belongs 
+	 * @param idParagraph : the id of the paragraph that precedes the choice
+	 * @param text : the choice states 
+	 * @return the id of the choice inserted in the data base 
 	 */
 	public int addChoice(String story, int idParagraph, String text) {
 		Connection conn = null; 
@@ -75,6 +87,15 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * This allows to add to the data base a choice that follows a certain paragraph
+	 * @param story : the story to which the paragraph and the choice belongs 
+	 * @param idParagraph: the id of the paragraph that precedes the choice
+	 * @param text : the choice states
+	 * @param assocStory : the story to which the paragraph that the choice leads to belongs
+	 * @param assocPar : the paragraph to which the choice must lead 
+	 * @return:  the id of the choice inserted in the data base 
+	 */
 	public int addChoice(String story, int idParagraph, String text, String assocStory, int assocPar) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -98,8 +119,10 @@ public class ChoixDAO extends AbstractDAO {
 			ResClose.silencedClosing(res, st, conn);
 		}
 	}
+	
 	/**
-	 * see if the choice must not be displayed in reading mode
+	 * see if the choice must not be displayed in reading mode 
+	 * it is about verifying if the choice leads to a conclusion or not 
 	 * @param idChoice
 	 * @return
 	 */
@@ -111,10 +134,16 @@ public class ChoixDAO extends AbstractDAO {
 		return isMaskedRecur(idChoice, memoizeMap);
 	}
 	
-	/* Just about the non validated paragraphs : we assume that these paragraphs either they have no choices or if they 
-	 * heve definitely they are not associated to a paragraph 
-	 * But if they don't have any choice : conclusion : Yeah : must verify that its validated 
+	/**
+	 * A recursive version that allows to implements a memoization algorithm to verify if a choice 
+	 * must be hidden or not in reading mode 
+	 * @param idChoice : the id of choice which must be verified 
+	 * @param memoizeMap : a map that allows the implementation of the memoization algorithm
+	 * @return
 	 */
+	// Just about the non validated paragraphs : we assume that these paragraphs either they have no choices or if they 
+	// have it definitely they are not associated to a paragraph 
+	// But if they don't have any choice : conclusion : Yeah : must verify that its validated 
 	private boolean isMaskedRecur(int idChoice, Map<Integer, Boolean> memoizeMap) {
 		/* search if the answer is in the map */
 		if (memoizeMap.containsKey(idChoice)) {
@@ -174,10 +203,12 @@ public class ChoixDAO extends AbstractDAO {
 	}
 	
 	/**
-	 * The purpose from this method is to get the next choices to analyze 
+	 * The purpose from this method is to get the next choices to analyze : it is destined to the recurision
+	 * algorithm that verifies if a choice is hidden or not 
 	 * @param story
 	 * @param idPar
-	 * @return
+	 * @param conn: the connection object to the SQL data base 
+	 * @return a list of the choices that follows the paragraph identified by the parameters values 
 	 */
 	private LinkedList<Integer> getNextChoices(String story, int idPar, Connection conn){
 		PreparedStatement st = null; 
@@ -201,6 +232,12 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 
+	/**
+	 * this method allows to retrieve the data stored about the paragraph associated to a certain choice 
+	 * identified by the given parameter 
+	 * @param idChoice : the id of the choice 
+	 * @return an object paragraphe that groups the data about the associated paragraph
+	 */
 	public Paragraphe retreiveCorrPar(int idChoice) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -223,10 +260,10 @@ public class ChoixDAO extends AbstractDAO {
 	}
 	
 	/**
-	 * will return the associated paragraph to update after with the appropriate text 
+	 * lock the choice in the data base and return the associated paragraph id to update after with the appropriate text 
 	 * Or null if the user has no right to lock 
 	 * @param idChoice
-	 * @param lockedBy
+	 * @param lockedBy : the userName of the user who asked to lock the choice  
 	 * @return
 	 */
 	public Integer lockChoice(int idChoice, String lockedBy) {
@@ -279,6 +316,11 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * this method allows to unlock the choice if the writer does not want no longer write the choice's 
+	 * paragraph, it also do some cleaning by deleting the paragraph written by the user before that.
+	 * @param idChoice : the id of the choice to unlock 
+	 */
 	public void unlockChoice(int idChoice) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -305,7 +347,11 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
-	/* Return null if there is no condition */
+	/**
+	 * This allows to verify if there is an access condition over the choice identified by the given parameter
+	 * @param idChoice : the id of the choice 
+	 * @return the id of the paragraph that represents the access condition or null if there is no access condition 
+	 */
 	public Integer getAccessCondition(int idChoice) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -331,7 +377,11 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
-	/* Return the name of the user who locked the choice or wrote it */
+	/**
+	 * 
+	 * @param idChoice
+	 * @return the userName of the user who locked the choice or wrote it
+	 */
 	public String lockedOrDoneBy(int idChoice) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -358,6 +408,12 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * this method allows to define the paragraph to which the choice must lead 
+	 * @param idChoice
+	 * @param idParagraph
+	 * @param story
+	 */
 	public void associateParagraph(int idChoice, int idParagraph, String story) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -375,6 +431,16 @@ public class ChoixDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * This method allows to retrieve recursively the list of the paragraphs that the user can choose 
+	 * as an access condition over the choice he is writing 
+	 * @param stopIn : allows to define the stop condition of the recursion 
+	 * @param stopSt : allows to define the stop condition of the recursion 
+	 * @param insertIn : the list of the paragraphs to fill 
+	 * @param prevPar 
+	 * @param prevStory
+	 * @param conn : Data Base connection 
+	 */
 	public void listParConditionRecur(int stopIn, String stopSt, Map<String, Integer> insertIn, int prevPar, 
 			String prevStory, Connection conn) {
 		if (stopIn == prevPar && stopSt.equals(prevStory)) {
@@ -403,7 +469,8 @@ public class ChoixDAO extends AbstractDAO {
 	}
 	
 	/**
-	 * 
+	 * allows to retrieve the list of the paragraphs that the user can choose between them to define 
+	 * his access condition 
 	 * @param idChoice
 	 * @return a list of paragraphs that the user can choose one of them to define his 
 	 * access condition
@@ -441,6 +508,12 @@ public class ChoixDAO extends AbstractDAO {
 		}	
 	}
 
+	/**
+	 * allows to retrieve the id of the choice which is locked by the user identified by the given parameter
+	 * it is unique by definition 
+	 * @param user
+	 * @return the id of the locked choice if it exists or null if there is no choice locked by the given user 
+	 */
 	public Integer getChoiceLockedBy(String user) {
 		Connection conn = null; 
 		PreparedStatement st = null; 
@@ -464,6 +537,31 @@ public class ChoixDAO extends AbstractDAO {
 			throw new DAOException("Erreur BD " + e.getMessage(), e);
 		} finally {
 			ResClose.silencedClosing(res, st, conn);
+		}
+	}
+
+	/**
+	 * Allows to store in the data base an access condition over a given choice 
+	 * @param idChoice : the id of the choice over which must establish an access condition 
+	 * @param idParagraph : it defines the condition 
+	 * @param story : it defines the condition 
+	 */
+	public void addAccessCondition(int idChoice, int idParagraph, String story) {
+		Connection conn = null; 
+		PreparedStatement st = null; 
+	
+		try {
+			conn = getConnexion();
+			st = conn.prepareStatement("INSERT into AccessCondition(idChoice, idParagraph, titleStory) values(?, ?, ?)");
+			st.setInt(1, idChoice);
+			st.setInt(2, idParagraph);
+			st.setString(3, story);
+			st.executeUpdate();
+			
+		} catch (SQLException e){
+			throw new DAOException("Erreur BD " + e.getMessage(), e);
+		} finally {
+			ResClose.silencedClosing(st, conn);
 		}
 	}
 }
