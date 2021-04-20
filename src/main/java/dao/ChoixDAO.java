@@ -94,7 +94,7 @@ public class ChoixDAO extends AbstractDAO {
 	 * @param text : the choice states
 	 * @param assocStory : the story to which the paragraph that the choice leads to belongs
 	 * @param assocPar : the paragraph to which the choice must lead 
-	 * @return:  the id of the choice inserted in the data base 
+	 * @return  the id of the choice inserted in the data base 
 	 */
 	public int addChoice(String story, int idParagraph, String text, String assocStory, int assocPar) {
 		Connection conn = null; 

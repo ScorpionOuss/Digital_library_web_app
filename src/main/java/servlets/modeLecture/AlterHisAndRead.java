@@ -18,7 +18,7 @@ import dao.HistoriqueDAO;
 import servlets.Connexion;
 
 /**
- * Servlet implementation class AlterHisAndRead
+ * handle the history changing in case if the user chose to get back to a certain previous choice 
  */
 @WebServlet("/AlterHisAndRead")
 public class AlterHisAndRead extends HttpServlet {

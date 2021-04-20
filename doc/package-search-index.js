@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"servlets"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"beans"},{"l":"dao"},{"l":"filters"},{"l":"forms"},{"l":"servlets"},{"l":"servlets.modeLecture"}];updateSearchResults();

@@ -19,7 +19,7 @@ import dao.HistoriqueDAO;
 import servlets.Connexion;
 
 /**
- * Servlet implementation class LireParagraph
+ * handle the display of a paragraph in reading mode 
  */
 @WebServlet("/LireParagraph")
 public class LireParagraph extends HttpServlet {

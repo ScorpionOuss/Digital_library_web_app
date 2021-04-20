@@ -15,7 +15,7 @@ import beans.Histoire;
 import dao.HistoireDAO;
 
 /**
- * Servlet implementation class AfficherHistoires
+ * handle the display of stories in reading mode 
  */
 @WebServlet("/afficherHistoires")
 public class AfficherHistoires extends HttpServlet {

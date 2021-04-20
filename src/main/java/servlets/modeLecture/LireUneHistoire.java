@@ -23,7 +23,7 @@ import dao.ParagrapheDAO;
 import servlets.Connexion;
 
 /**
- * Servlet implementation class LireUneHistoire
+ * handle the display of a story in reading mode 
  */
 @WebServlet("/LireUneHistoire")
 public class LireUneHistoire extends HttpServlet {
