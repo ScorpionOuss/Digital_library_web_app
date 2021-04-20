@@ -38,7 +38,7 @@ public class Historique {
 	 * constructor
 	 * @param user
 	 * @param story
-	 * @param hisChoices
+	 * @param hisChoices : the list of choices contained in the history
 	 */
 	public Historique(String user, String story, LinkedList<Choix> hisChoices) {
 		this.user = user; 

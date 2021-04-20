@@ -15,7 +15,7 @@ public class Choix {
 	private Integer assocPar; 
 	
 	/**
-	 * 
+	 * getter for the id that identifies the paragraph to which the choice leads 
 	 * @return the id of the associated paragraph  
 	 */
 	public Integer getAssocPar() {
@@ -39,7 +39,7 @@ public class Choix {
 	}
 	
 	/**
-	 * to indicate if this choice is hidden or not 
+	 * to indicate if this choice is hidden or not, a choice is hidden if it does not lead to a conclusion
 	 * @param isMasked
 	 */
 	public void setIsMasked(boolean isMasked) {
@@ -47,17 +47,25 @@ public class Choix {
 	}
 	
 	/**
-	 * 
+	 * getter for the choice states 
 	 * @return string : the choice states
 	 */
 	public String getText() {
 		return text;
 	}
 	
+	/**
+	 * setter for the choice states
+	 * @param text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}
 	
+	/**
+	 * setter for the id that identifies the choice in the data base
+	 * @param idChoice
+	 */
 	public void setIdChoice(Integer idChoice) {
 		this.idChoice = idChoice;
 	}
@@ -81,7 +89,7 @@ public class Choix {
 	
 	/**
 	 * to indicate if the choice is locked , unlocked or validated 
-	 * @param locked
+	 * @param locked is 1 if the choice is locked, 0 is unlocked and 2 if it's already written and validated
 	 */
 	public void setLocked(int locked) {
 		assert(locked == 1 || locked == 2 || locked == 0);
