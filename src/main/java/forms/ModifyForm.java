@@ -14,6 +14,12 @@ import beans.Paragraphe;
 import dao.ChoixDAO;
 import dao.ParagrapheDAO;
 
+/**
+ * to handle the paragraphs modifications by their owners 
+ * note that this modification form is only for the paragraphs already written and validated 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public final class ModifyForm {
 
     private static final String CHAMP_Histoire    = "paragraph";
@@ -29,6 +35,14 @@ public final class ModifyForm {
         return erreurs;
     }
     
+    /**
+     * allows to modify a paragraph in the data base according to what the user inserted in the given
+     * form 
+     * @param request
+     * @param dataSource
+     * @param title : identifies the paragraph to modify
+     * @param idP : identifies the paragraph to modify
+     */
     public void modifierParagraph(HttpServletRequest request, DataSource dataSource, String title, int idP) {
     
     	String paragraph = getValeurChamp(request, CHAMP_Histoire);
@@ -48,6 +62,12 @@ public final class ModifyForm {
         }
     }
 	
+    /**
+     * validate the paragraph's text inserted by the user 
+     * the text is validated if it is not too short (less that 20 characters) 
+     * @param paragraph
+     * @throws Exception
+     */
     private void ValidateParagraph(String paragraph) throws Exception {
     	if ( paragraph != null && paragraph.length() < 20 ) {
             throw new Exception( "Le contenu du paragraphe doit contenir au moins 20 caractères." );
@@ -56,16 +76,22 @@ public final class ModifyForm {
 
 
 
-	/*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
-     */
+	/**
+	 * add an error message that corresponds to a certain field in the form
+	 * @param champ
+	 * @param message
+	 */
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+   
+    /**
+     * this is a useful method used to retrieve the value of a certain field in the form 
+     * by normalizing into null if there is no content in the corresponding field 
+     * @param request
+     * @param nomChamp
+     * @return
      */
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );

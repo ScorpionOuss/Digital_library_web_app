@@ -14,6 +14,11 @@ import beans.Paragraphe;
 import dao.ChoixDAO;
 import dao.ParagrapheDAO;
 
+/**
+ * To handle adding a new paragraph or modifying a non validated paragraph in a story 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public final class WriteParagraphForm {
 
     private static final String CHAMP_Histoire    = "paragraph";
@@ -31,7 +36,14 @@ public final class WriteParagraphForm {
         return erreurs;
     }
 
-    
+    /**
+     * validate the form submitted by the user and store the inserted informations in an object of class
+     * Paragraphe
+     * @param request
+     * @param dataSource
+     * @param author
+     * @return an object of class Paragraphe that contains the informations submitted by the user well structured 
+     */
     public Paragraphe creerParagraphe( HttpServletRequest request, DataSource dataSource, String author) {
     	
     	
@@ -77,7 +89,11 @@ public final class WriteParagraphForm {
     }
     
     
-
+    /**
+     * verify if the paragraph is valid : there is absolutely a text and it contains more that 20 characters 
+     * @param paragraph
+     * @throws Exception if the paragraph's text is not valid
+     */
     private void ValidateParagraph(String paragraph) throws Exception {
     	if ( paragraph != null && paragraph.length() < 20 ) {
             throw new Exception( "Le contenu du paragraphe doit contenir au moins 20 caractères." );
@@ -85,17 +101,22 @@ public final class WriteParagraphForm {
 	}
 
 
-
-	/*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+    /**
+     * add an error message that corresponds to a certain field in the form
+     * @param champ
+     * @param message
      */
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+
+    /**
+     * this is a useful method used to retrieve the value of a certain field in the form 
+     * by normalizing into null if there is no content in the corresponding field 
+     * @param request
+     * @param nomChamp
+     * @return
      */
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );

@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+/**
+ * displays informations about the web site 
+ * @author mounsit  kaddami yan perez 
+ *
+ */
 @WebServlet(name = "support", urlPatterns = {"/support"})
 public class Support extends HttpServlet {
 

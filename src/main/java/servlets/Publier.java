@@ -12,6 +12,11 @@ import javax.sql.DataSource;
 
 import dao.HistoireDAO;
 
+/**
+ * servlet that handle the changing of the story's status in reading mode (public/private) 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 @WebServlet(name = "publier", urlPatterns = {"/publier"})
 public class Publier extends HttpServlet {
 	

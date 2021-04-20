@@ -1,8 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +11,11 @@ import javax.sql.DataSource;
 import beans.Utilisateur;
 import forms.InscriptionForm;
 
+/**
+ * servlet that handles the sign up 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public class Inscription extends HttpServlet {
 	
 	@Resource(name = "users")

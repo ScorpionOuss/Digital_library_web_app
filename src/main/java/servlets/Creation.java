@@ -1,10 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import beans.Histoire;
 import beans.Utilisateur;
-import dao.ChoixDAO;
-import dao.HistoireDAO;
 import forms.CreationForm;
 
+/**
+ * To handle the creation of a new story
+ * @author mounsit kaddami yan perez 
+ *
+ */
 @WebServlet(name = "creation", urlPatterns = {"/creation"})
 public class Creation extends HttpServlet {
 	
@@ -63,39 +61,4 @@ public class Creation extends HttpServlet {
 
 
     }
-    
-//    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-//    
-////    	ChoixDAO choiceDAO= new ChoixDAO(dataSource);
-////    	
-////    	String title = "titre de l'histoire";
-////    	int idP = 24;
-////    	String choice = "ouiii";
-////    	
-////		choiceDAO.addChoice(title, idP, choice);
-//    	
-////    	CreationForm form = new CreationForm();
-////    	boolean b = form.validationTitle("Little Red Riding", dataSource);
-////   	 	PrintWriter out = response.getWriter();
-////   	 	if (b) {
-////   	 		out.print("Yeees");
-////   	 	}
-////   	 	else {
-////   	 		out.print("NOOO");
-////   	 	}
-//
-//    	HistoireDAO st = new HistoireDAO(dataSource);
-//    	LinkedList<String> ll = st.verifyTitle("Little Red Riding");
-//    	PrintWriter out = response.getWriter();
-//    	if (ll == null) {
-//    		out.print("viiiiiiiiide");
-//    	}
-//    	else {
-//    		
-//    	
-//    	for (String ss:ll) {
-//    		out.println(ss);
-//    	}
-//    }
-//    }
 }

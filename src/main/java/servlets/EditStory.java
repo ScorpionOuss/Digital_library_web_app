@@ -17,7 +17,8 @@ import dao.HistoireDAO;
 import dao.ParagrapheDAO;
 
 /**
- * Servlet implementation class LireUneHistoire
+ * Servlet that handles the display of a story in editing mode, it displays in fact the 
+ * story information and its first paragraph and its choices 
  */
 @WebServlet("/editStory")
 public class EditStory extends HttpServlet {

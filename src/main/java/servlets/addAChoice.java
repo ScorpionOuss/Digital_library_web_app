@@ -15,7 +15,7 @@ import dao.ChoixDAO;
 import dao.ParagrapheDAO;
 
 /**
- * Servlet implementation class addAChoice
+ * Servlet To handle the use case : adding a choice to a paragraph 
  */
 @WebServlet("/addAChoice")
 public class addAChoice extends HttpServlet {

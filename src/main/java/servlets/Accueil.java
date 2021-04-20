@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+/**
+ * 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 @WebServlet(name = "accueil", urlPatterns = {"/accueil"})
 public class Accueil extends HttpServlet {
 

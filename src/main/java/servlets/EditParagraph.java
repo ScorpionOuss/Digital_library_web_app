@@ -14,10 +14,9 @@ import javax.sql.DataSource;
 import beans.Paragraphe;
 import beans.Utilisateur;
 import dao.ChoixDAO;
-import dao.ParagrapheDAO;
 
 /**
- * Servlet implementation class LireParagraph
+ * servlet that handles the display of paragraphs in editing mode giving the id of the associated choice  
  */
 @WebServlet("/editParagraph")
 public class EditParagraph extends HttpServlet {

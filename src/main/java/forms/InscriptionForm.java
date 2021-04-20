@@ -12,6 +12,11 @@ import javax.sql.DataSource;
 import beans.Utilisateur;
 import dao.UtilisateurDAO;
 
+/**
+ * handle the sign up 
+ * @author mounsit
+ *
+ */
 public final class InscriptionForm {
     private static final String CHAMP_USERNAME  = "username";
     private static final String CHAMP_PASS   = "motdepasse";
@@ -29,7 +34,12 @@ public final class InscriptionForm {
         return erreurs;
     }
 
-
+    /**
+     * allows a user to sign up after verifying his submission over the data base 
+     * @param request
+     * @param dataSource
+     * @return an object of class Utilisateur containing the signed up user informations 
+     */
     public Utilisateur inscrireUtilisateur( HttpServletRequest request, DataSource dataSource) {
         String userName = getValeurChamp( request, CHAMP_USERNAME );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
@@ -69,9 +79,12 @@ public final class InscriptionForm {
         return utilisateur;
     }
     
-
-
-
+    /**
+     * validate the userName submitted by the user by verifying that it does not already exist in the data base 
+     * @param userName
+     * @param dataSource
+     * @throws Exception if the user name already exists in the data base 
+     */
     private void validationUserName(String userName, DataSource dataSource) throws Exception {
 
     	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
@@ -86,7 +99,14 @@ public final class InscriptionForm {
 			}
 		}
 	}
-
+    
+    /**
+     * validate the password given by the user by checking and comparing the two fields containing the password and 
+     * its confirmation.
+     * @param motDePasse
+     * @param confirmation
+     * @throws Exception if the password is too short or there is difference between it and its confirmation 
+     */
 	private void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception {
         if ( motDePasse != null && confirmation != null ) {
             if ( !motDePasse.equals( confirmation ) ) {
@@ -100,16 +120,21 @@ public final class InscriptionForm {
     }
 
 
-    /*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
-     */
+	/**
+	 * add an error message that corresponds to a certain field in the form
+	 * @param champ
+	 * @param message
+	 */
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
-
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+    
+    /**
+     * this is a useful method used to retrieve the value of a certain field in the form 
+     * by normalizing into null if there is no content in the corresponding field 
+     * @param request
+     * @param nomChamp
+     * @return
      */
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );
@@ -121,9 +146,9 @@ public final class InscriptionForm {
     }
     
     /**
-     * Encode le mot de passe afin d'éviter l'identification des  vrais mots de passes
+     * Encode the password to avoid identification by real passwords 
      * @param password
-     * @return nouveau mot de passe codé
+     * @return password hashed 
      */
     public String hashPassword(String password){
         String generatedPass = null;

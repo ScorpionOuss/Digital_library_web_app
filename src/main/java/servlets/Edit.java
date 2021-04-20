@@ -16,6 +16,11 @@ import beans.Histoire;
 import beans.Utilisateur;
 import dao.HistoireDAO;
 
+/**
+ * To handle the display if the stories that can be edited by the logged in user 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 @WebServlet(name = "edit", urlPatterns = {"/edit"})
 public class Edit extends HttpServlet {
 	

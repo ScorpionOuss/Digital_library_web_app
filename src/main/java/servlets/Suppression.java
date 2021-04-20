@@ -15,6 +15,11 @@ import javax.sql.DataSource;
 import beans.Histoire;
 import dao.ParagrapheDAO;
 
+/**
+ * servlet that handle a paragraph's deletion 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 @WebServlet(name = "supprimer", urlPatterns = {"/supprimer"})
 public class Suppression extends HttpServlet {
 	

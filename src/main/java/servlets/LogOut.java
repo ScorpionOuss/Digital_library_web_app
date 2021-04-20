@@ -16,9 +16,9 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
- *  Déconnexion de l'utilisateur
+ *  for the user to log out 
  * 
- * @author Equipe 9
+ * @author mounsit kaddami yan perez 
  */
 @WebServlet(name = "LogOut", urlPatterns = {"/logout"})
 public class LogOut extends HttpServlet {

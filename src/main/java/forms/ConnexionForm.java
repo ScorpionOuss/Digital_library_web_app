@@ -12,6 +12,11 @@ import javax.sql.DataSource;
 import beans.Utilisateur;
 import dao.UtilisateurDAO;
 
+/**
+ * To handle the connection of the user over the application 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public final class ConnexionForm {
     private static final String CHAMP_USERNAME  = "username";
     private static final String CHAMP_PASS   = "motdepasse";
@@ -27,7 +32,14 @@ public final class ConnexionForm {
     public Map<String, String> getErreurs() {
         return erreurs;
     }
-
+    
+    /**
+     * allows the user to be logged in after verifying his given submissions over the data base 
+     * @param request
+     * @param userDAO
+     * @param dataSource
+     * @return
+     */
     public Utilisateur connecterUtilisateur( HttpServletRequest request, UtilisateurDAO userDAO, DataSource dataSource ) {
         /* Récupération des champs du formulaire */
         String userName = getValeurChamp( request, CHAMP_USERNAME );
@@ -71,13 +83,19 @@ public final class ConnexionForm {
         return utilisateur;
     }
 
-    
+    /**
+     * validate the user name inserted in the form by verifying if it exists in the data base or not
+     * @param userName
+     * @param dataSource
+     * @throws Exception
+     */
     private void validationUserName(String userName, DataSource dataSource) throws Exception {
 
     	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
     	LinkedList<String> users = userDao.getUsers();
     	verifyIn(users, userName);	
 	}
+    
     
     private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
 		for (String invited : invites) {
@@ -90,7 +108,7 @@ public final class ConnexionForm {
 	}
 
     /**
-     * Valide le mot de passe saisi.
+     * verifying the inserted password by checking if it is not null and its length is more than 3 characters 
      */
     private void validationMotDePasse( String motDePasse ) throws Exception {
         if ( motDePasse != null ) {
@@ -102,16 +120,22 @@ public final class ConnexionForm {
         }
     }
 
-    /*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+    /**
+     * add an error message that corresponds to a certain field in the form
+     * @param champ
+     * @param message
      */
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+
+    /**
+     * this is a useful method used to retrieve the value of a certain field in the form 
+     * by normalizing into null if there is no content in the corresponding field 
+     * @param request
+     * @param nomChamp
+     * @return
      */
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );
@@ -135,9 +159,9 @@ public final class ConnexionForm {
     }
     
     /**
-     * Encode le mot de passe afin d'éviter l'identification des  vrais mots de passes
+     * Encode the password to avoid identification by real passwords 
      * @param password
-     * @return nouveau mot de passe codé
+     * @return password hashed 
      */
     public String hashPassword(String password){
         String generatedPass = null;

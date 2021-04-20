@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import javax.annotation.Resource;
@@ -20,9 +19,13 @@ import beans.Utilisateur;
 import dao.ChoixDAO;
 import dao.HistoireDAO;
 import dao.ParagrapheDAO;
-import dao.UtilisateurDAO;
-import forms.ConnexionForm;
 
+/**
+ * servlet that handle display of the stories owned by the logged in user also 
+ * as the choice he's currently writing 
+ * @author mounsit
+ *
+ */
 @WebServlet("/espacePersonnel")
 public class EspacePersonnel extends HttpServlet {
 	

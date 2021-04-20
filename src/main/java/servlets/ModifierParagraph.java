@@ -1,8 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,18 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import beans.Choix;
 import beans.Histoire;
 import beans.Paragraphe;
-import beans.Utilisateur;
-import dao.ChoixDAO;
 import dao.ParagrapheDAO;
-import forms.InscriptionForm;
 import forms.ModifyForm;
-import forms.WriteParagraphForm;
 
 /**
- * Servlet implementation class LireParagraph
+ * Servlet that handle a validated paragraph's modification 
  */
 @WebServlet("/modifier")
 public class ModifierParagraph extends HttpServlet {
@@ -38,7 +31,6 @@ public class ModifierParagraph extends HttpServlet {
     public static final String VUEPost  = "/editStory";
     
     private static final String donneeHistoire = "donneeHis";
-    private static final String textTodisplay = "textAff";
 
     /**
      * @see HttpServlet#HttpServlet()

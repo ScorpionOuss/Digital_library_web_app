@@ -15,6 +15,11 @@ import beans.Utilisateur;
 import dao.UtilisateurDAO;
 import forms.ConnexionForm;
 
+/**
+ * allows the user to log in after a verification in the data base
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public class Connexion extends HttpServlet {
 	
 	@Resource(name = "users")

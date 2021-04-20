@@ -1,8 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,11 +16,11 @@ import beans.Paragraphe;
 import beans.Utilisateur;
 import dao.ChoixDAO;
 import dao.ParagrapheDAO;
-import forms.InscriptionForm;
 import forms.WriteParagraphForm;
 
 /**
- * Servlet implementation class LireParagraph
+ * Servlet that manage the insertion of a new paragraph 
+ * @author mounsit kaddami yan perez 
  */
 @WebServlet("/writeParagraph")
 public class WriteParagraph extends HttpServlet {

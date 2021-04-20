@@ -13,6 +13,12 @@ import dao.ChoixDAO;
 import dao.HistoireDAO;
 import dao.ParagrapheDAO;
 import dao.UtilisateurDAO;
+
+/**
+ * To handle the creation of a new story 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public final class CreationForm {
     private static final String CHAMP_TITRE  = "nom";
     private static final String CHAMP_IMAGE_URL   = "site";
@@ -36,7 +42,14 @@ public final class CreationForm {
         return erreurs;
     }
 
-    
+    /**
+     * allows to add a story in the data base from the form submitted by the user, the insertion 
+     * is done after verifying all the form fields 
+     * @param request
+     * @param dataSource
+     * @param author
+     * @return
+     */
     public String[] creerHistoire( HttpServletRequest request, DataSource dataSource, String author ) {
     	
     	String title = getValeurChamp( request, CHAMP_TITRE );
@@ -168,14 +181,25 @@ public final class CreationForm {
     }
     
     
-
+    /**
+     * verify if the given invited user names inserted by the user already exist in the data base or not 
+     * @param invited
+     * @param title
+     * @param dataSource
+     * @throws Exception
+     */
     private void ValidateInvited(String invited, String title, DataSource dataSource) throws Exception {
     	UtilisateurDAO usersDAO = new UtilisateurDAO(dataSource);
     	LinkedList<String> invites = usersDAO.getUsers();
     	verifyIn(invites, invited);
 	}
     
-    //À modifier.
+    /**
+     * verify if the userName of an invited exists in a list of userNames
+     * @param invites
+     * @param inv
+     * @throws Exception : if the user name does not belong the the list given in parameter 
+     */
 	private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
 		for (String invited : invites) {
 			if(invited.contentEquals(inv)) {
@@ -190,12 +214,23 @@ public final class CreationForm {
 		
 	}
 
+	/**
+	 * verify if the paragraph is valid : there is absolutely a text and it contains more that 10 characters 
+	 * @param paragraph
+	 * @throws Exception if the paragraph's text is not valid
+	 */
 	private void ValidateParagraph(String paragraph) throws Exception {
     	if (paragraph == null || paragraph.length() < 10 ) {
             throw new Exception("Le contenu du paragraphe doit contenir au moins 20 caractères.");
         }
 	}
 
+	/**
+	 * verify if the story's description given by the user is valid : there is absolutely a description and 
+	 * it contains at least 5 characters.
+	 * @param presentation
+	 * @throws Exception if the given description is not valid 
+	 */
 	private void validateDescription(String presentation) throws Exception {
     	if (presentation == null || presentation.length() < 5) {
             throw new Exception("Le contenu de la description doit contenir au moins 10 caractères.");
@@ -212,6 +247,13 @@ public final class CreationForm {
 
 	}
 
+	/**
+	 * validate the story's title : the title is valid if it is not a null value and it does not 
+	 * exist in the data base before 
+	 * @param titre
+	 * @param dataSource
+	 * @throws Exception if the title is not valid 
+	 */
 	private void validationTitle(String titre, DataSource dataSource) throws Exception {
 		HistoireDAO story = new HistoireDAO(dataSource);
 		if( titre == null || story.verifyTitle(titre)== false) {
@@ -219,16 +261,23 @@ public final class CreationForm {
 		}
 	}
 
-	/*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
-     */
+	
+	/**
+	 * add an error message that corresponds to a certain field in the form
+	 * @param champ
+	 * @param message
+	 */
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
+    
+    /**
+     * this is a useful method used to retrieve the value of a certain field in the form 
+     * by normalizing into null if there is no content in the corresponding field 
+     * @param request
+     * @param nomChamp
+     * @return
      */
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );
