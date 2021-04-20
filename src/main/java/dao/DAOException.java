@@ -1,6 +1,11 @@
 
 package dao;
 
+/**
+ * Handle data base exceptions 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public class DAOException extends RuntimeException {
 
     public DAOException() {

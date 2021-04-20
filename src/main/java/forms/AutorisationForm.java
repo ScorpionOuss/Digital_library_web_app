@@ -10,6 +10,11 @@ import javax.sql.DataSource;
 import dao.HistoireDAO;
 import dao.UtilisateurDAO;
 
+/**
+ * to handle the access rights to edit a story
+ * @author mounsit kaddami mateo perez 
+ *
+ */
 public class AutorisationForm {
 
     private static final String CHAMP_CHECK = "typecand";
@@ -27,7 +32,14 @@ public class AutorisationForm {
         return erreurs;
     }
     
-    
+    /**
+     * allows to change the status of a story (public/ private for editing) according to what the users 
+     * submitted in the form 
+     * @param request : contains the form's answers
+     * @param dataSource
+     * @param title : title of the story 
+     * @return
+     */
     public String[] autoriserAcces( HttpServletRequest request, DataSource dataSource, String title ) {
     	String[] checkBox = request.getParameterValues(CHAMP_CHECK);
     	String[] invited = request.getParameterValues(CHAMP_INVITED);
@@ -77,20 +89,35 @@ public class AutorisationForm {
     	return invited;
     }
     
-	/*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+	
+    /**
+     * add an error message that corresponds to a certain field in the form 
+     * @param champ
+     * @param message
      */
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
     
+    /**
+     * verify that the userName to invite inserted by the user already exists in the data base 
+     * @param invited
+     * @param title
+     * @param dataSource
+     * @throws Exception
+     */
     private void ValidateInvited(String invited, String title, DataSource dataSource) throws Exception {
     	UtilisateurDAO usersDAO = new UtilisateurDAO(dataSource);
     	LinkedList<String> invites = usersDAO.getUsers();
     	verifyIn(invites, invited);
 	}
     
-    //À modifier.
+    /**
+     * verify if the userName of an invited exists in a list of userNames
+     * @param invites
+     * @param inv
+     * @throws Exception
+     */
 	private void verifyIn(LinkedList<String> invites, String inv) throws Exception {
 		for (String invited : invites) {
 			if(invited.contentEquals(inv)) {

@@ -11,12 +11,24 @@ import javax.sql.DataSource;
 import beans.Choix;
 import beans.Paragraphe;
 
+/**
+ * This is a DAO class that interacts with the data base concerning the paragraphs treatments
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public class ParagrapheDAO extends AbstractDAO {
 
 	public ParagrapheDAO(DataSource dataSource) {
 		super(dataSource);
 	}
 	
+	/**
+	 * this method allows to get all the information stored in the data base about a paragraph identified
+	 * by the given parameters
+	 * @param titleStory
+	 * @param idPar
+	 * @return
+	 */
 	public Paragraphe getParagraphe(String titleStory, int idPar) {
 		Connection conn = null;
 		PreparedStatement st = null; 
@@ -61,16 +73,24 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 
+	/**
+	 * allows to add a paragraph in the data base 
+	 * @param p
+	 * @param validated
+	 * @param isConclusion
+	 * @return the id (integer) of the paragraph which is created
+	 */
 	public int addParagraphe(Paragraphe p, boolean validated, boolean isConclusion) {
 		return addParagraphe(p.getStory(), p.getText(), validated, p.getAuthor(),isConclusion);
 	}
+	
 	/**
 	 * return the id of the paragraph created in order to be used after for associating a next paragraph or choices 
 	 * @param story
 	 * @param text
 	 * @param validated
 	 * @param author
-	 * @return
+	 * @return the id (integer) of the paragraph which is created 
 	 */
 	public int addParagraphe(String story, String text, boolean validated, String author, boolean isConclusion) {
 		Connection conn = null;
@@ -110,6 +130,12 @@ public class ParagrapheDAO extends AbstractDAO {
 	}
 	
 	
+	/** 
+	 * modify the text of a paragraph identified by the given parameters 
+	 * @param titleStory
+	 * @param idPar
+	 * @param newText
+	 */
 	public void modifyText(String titleStory, int idPar, String newText) {
 		Connection conn = null;
 		PreparedStatement st = null; 
@@ -128,6 +154,11 @@ public class ParagrapheDAO extends AbstractDAO {
 	}
 	
 	
+	/**
+	 * this method allows to validate the paragraph in the data base also as the choice that leads to this paragraph
+	 * @param titleStory
+	 * @param idPar
+	 */
 	public void validateParagraphe(String titleStory, int idPar) {
 		Connection conn = null;
 		PreparedStatement st = null; 
@@ -152,6 +183,15 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * this method allows to define a paragraph as a next for a given paragraph, it stores in fact the 
+	 * next paragraph in the paragraph  as a choice with a default text 'Paragraphe suivante' 
+	 * @param titleStory : defines the current paragraph
+	 * @param idPar : defines the current paragraph
+	 * @param titleNext : defines the paragraph which the user had chosen as a next for the paragraph he's writing 
+	 * @param idParNext : defines the paragraph which the user had chosen as a next for the paragraph he's writing
+	 * @return
+	 */
 	public int associateNextParagraph(String titleStory, int idPar, String titleNext, int idParNext) {
 		Connection conn = null;
 		PreparedStatement st = null; 
@@ -185,6 +225,13 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * delete the paragraph from the data base : the paragraph is deleted only if it has not any choice 
+	 * that's written or in process of writing 
+	 * @param title
+	 * @param idParagraph
+	 * @return boolean that indicates if the paragraph is deleted or not 
+	 */
 	public boolean deleteParagraphe(String title, int idParagraph) {
 		Connection conn = null;
 		PreparedStatement st = null; 
@@ -220,7 +267,12 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 
-	/* For the unique display */
+	/**
+	 * this method takes a list of paragraphs and groups there texts in one text and stores the names of all the authors 
+	 * @param titleStory
+	 * @param idPars : the list of the paragraphs to convert into on paragraph 
+	 * @return an object of class Paragraphe that stores all the paragraphs texts and authors  
+	 */
 	public Paragraphe turnIntoOneParagraph(String titleStory, LinkedList<Integer> idPars) {
 		Paragraphe assocPar = new Paragraphe();
 		assocPar.setStory(titleStory);
@@ -236,6 +288,11 @@ public class ParagrapheDAO extends AbstractDAO {
 		return assocPar; 
 	}
 	
+	/**
+	 * allows to define a paragraph is the data base as a body paragraph 
+	 * @param idParagraph
+	 * @param title
+	 */
 	public void declareAsBodyParagraph(int idParagraph, String title) {
 		Connection conn = null;
 		PreparedStatement st = null; 
@@ -261,7 +318,11 @@ public class ParagrapheDAO extends AbstractDAO {
 		}
 	}
 	
-	/* Guess since it's only for deleting and modifying text : There is no need to choices */
+	/**
+	 * allows to retrieve all the paragraphs written by a given user 
+	 * @param user
+	 * @return list of the paragraphs written by a certain user 
+	 */
 	public LinkedList<Paragraphe> parWroteBy(String user){
 		LinkedList<Paragraphe> paragraphs = new LinkedList<Paragraphe>();
 		Connection conn = null;

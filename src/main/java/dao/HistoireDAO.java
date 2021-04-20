@@ -11,6 +11,11 @@ import javax.sql.DataSource;
 import beans.Histoire;
 import beans.Utilisateur;
 
+/**
+ * This is a DAO class that interacts with the data base concerning the stories treatments 
+ * @author mounsit kaddami yan perez 
+ *
+ */
 public class HistoireDAO extends AbstractDAO {
 	 
 	public HistoireDAO(DataSource dataSource) {
@@ -18,9 +23,10 @@ public class HistoireDAO extends AbstractDAO {
 	}
 
 	/**
-	 * 
+	 * this method allows to get all the information stored in the data base about a story identified
+	 * by the given parameters
 	 * @param title
-	 * @return
+	 * @return an object that contains the available informations about the story 
 	 * @throws DAOException
 	 */
 	public Histoire getHistoire(String title) throws DAOException {
@@ -52,7 +58,9 @@ public class HistoireDAO extends AbstractDAO {
 	}
 	
 	/**
-	 * returns the id of the paragraph that must be modified 
+	 * add the story to the data base and returns the id of the paragraph that must be modified 
+	 * the first paragraph is created with a default text since the information about it's id must be stored 
+	 * in the stories table
 	 * @param title
 	 * @param creator
 	 * @param publicLec
@@ -105,7 +113,7 @@ public class HistoireDAO extends AbstractDAO {
 	 * a story is available for read if there is a conclusion 
 	 * Aware : only the validated conclusion to take in consideration 
 	 * @param title
-	 * @return
+	 * @return a boolean indicating if the stories is available to read or not 
 	 */
 	private boolean availableForRead(String title, Connection conn, PreparedStatement st, ResultSet res) {
 		try {
@@ -121,10 +129,11 @@ public class HistoireDAO extends AbstractDAO {
 	}
 	
 	/** 
-	 * This must not be called before verifying if the story can be displayed or not (there is definitely a conclusion) 
+	 * allows to verify if the story must be displayed in just one time : if it has one conclusion and a unique path toward it  
+	 * This must not be called before verifying if the story can be displayed or not (it is considered that there is definitely a conclusion) 
 	 * @param title
 	 * @param path : to store the IDs of the paragraphs leading to the conclusion if there is only one path
-	 * @return
+	 * @return boolean indicating if the story must be displayed in one time or not 
 	 */
 	public boolean uniqueDisplay(String title, LinkedList<Integer> path) {
 		Connection conn = null;
@@ -231,6 +240,12 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * allows to retrieve the list of the stories that the user given in parameter has the right to edit 
+	 * it concerns the public stories for editing, the stories created by the given user and the ones to which he's invited.
+	 * @param user
+	 * @return a list of the stoires that the user has the right to edit 
+	 */
 	public LinkedList<Histoire> listOfStoriesToEdit(Utilisateur user){
 		String editor = user.getUserName();
 		LinkedList<Histoire> stories = new LinkedList<Histoire>();
@@ -263,6 +278,11 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 	
+	/**
+	 * The list of stories that a user has the right to read depending of its status if he's logged in or not 
+	 * @param isConnected : indicated if the current user is logged in or not 
+	 * @return the list of the stories that user can read 
+	 */
 	public LinkedList<Histoire> listOfStoriesToRead(boolean isConnected){
 		LinkedList<Histoire> stories = new LinkedList<Histoire>();
 		Connection conn = null;
@@ -298,6 +318,12 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 
+	/**
+	 * indicates that a given user is invited to participate in a story
+	 * this method does not do any verifications about the fact if the story is public in writing mode or not 
+	 * @param story
+	 * @param userInvited
+	 */
 	public void addInvited(String story, String userInvited) {
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -324,7 +350,11 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 
-	/* Return the list of invited people to edit story */
+	/**
+	 * 
+	 * @param story
+	 * @return Return the list of invited people to edit story 
+	 */
 	public LinkedList<String> getInvited(String story){
 		LinkedList<String> invited = new LinkedList<String>();
 		Connection conn = null;
@@ -347,9 +377,11 @@ public class HistoireDAO extends AbstractDAO {
 	}
 	
 	/**
-	 * 
+	 * verify if a certain story already exists in the data base with the same title 
+	 * it is used while creating a story since a story is identified by its title so we must avoid 
+	 * the unique constraint violation exception
 	 * @param title
-	 * @return
+	 * @return boolean indicating if the story already exists in the data base or not 
 	 */
 	public boolean verifyTitle(String title) {
 		Connection conn = null; 
@@ -372,7 +404,11 @@ public class HistoireDAO extends AbstractDAO {
 		return true;
 	}
 
-	/** Guess returning stories are better to see what to publish/unpublish add more invited */
+	/**
+	 * 
+	 * @param user
+	 * @return the list of stories created by the given user 
+	 */
 	public LinkedList<Histoire> storiesCreatedBy(String user){
 		LinkedList<Histoire> stories = new LinkedList<Histoire>();
 		Connection conn = null; 
@@ -402,8 +438,10 @@ public class HistoireDAO extends AbstractDAO {
 		return stories;
 	}
 
-	/* Participants are who wrote a paragraph : don't need to retrieve the creator of the paragraph 
-	 * because he is the writer of the first paragraph 
+	/**
+	 * 
+	 * @param story
+	 * @return the list of the users name who wrote at least a paragraph in the story
 	 */
 	public LinkedList<String> participants(String story){
 		LinkedList<String> participants = new LinkedList<String>();
@@ -427,6 +465,10 @@ public class HistoireDAO extends AbstractDAO {
 		
 	}
 
+	/**
+	 * allows to indicate in the data base that the story is public for writing 
+	 * @param story
+	 */
 	public void publishForWriting(String story) {
 		Connection conn = null; 
 		PreparedStatement st = null;  
@@ -448,6 +490,10 @@ public class HistoireDAO extends AbstractDAO {
 		}
 	}
 
+	/**
+	 * allows to indicate in the data base that the story is private for writing 
+	 * @param story
+	 */
 	public void unpublishForWriting(String story) {
 		Connection conn = null; 
 		PreparedStatement st = null;  

@@ -10,13 +10,21 @@ import javax.sql.DataSource;
 import beans.Choix;
 import beans.Historique;
 
+/**
+ * This is a DAO class that interacts with the data base concerning the history treatments
+ * @author mounsit kaddami yan perez
+ *
+ */
 public class HistoriqueDAO extends AbstractDAO {
 
 	public HistoriqueDAO(DataSource dataSource) {
 		super(dataSource);
 	}
 	
-	/* Can be used to add a new history or modify an old one */
+	/**
+	 * Can be used to add a new history or modify an old one
+	 * @param history
+	 */
 	public void addHistoryToDB(Historique history) {
 		/* If there is already a history : modify it otherwise create it */
 		String his ="";
@@ -59,10 +67,13 @@ public class HistoriqueDAO extends AbstractDAO {
 			ResClose.silencedClosing(res, st, conn);
 		}
 	}
-	
-	/* We'll choose to return null if  there is no history in the database 
-	 * For the choice get that only the id and the text are necessary for the history 
-	 * we don't care about other things here */
+	 
+	/**
+	 * restore the history that corresponds the a given story and given user in the data base 
+	 * @param story
+	 * @param reader
+	 * @return the history stored in the data base or null if it doesn't exist 
+	 */
 	public Historique GetHistoryFromDB(String story, String reader) {
 
 		Connection conn = null; 
@@ -104,7 +115,12 @@ public class HistoriqueDAO extends AbstractDAO {
 		}
 	}
 
-
+	
+	/**
+	 * delete the history corresponding to a given user and a given story from the data base 
+	 * @param story
+	 * @param reader
+	 */
 	public void deleteHistory(String story, String reader) {
 		Connection conn = null; 
 		PreparedStatement st = null;  
