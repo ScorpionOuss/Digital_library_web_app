@@ -66,12 +66,14 @@
                                       <div class="pure-controls-group" >
                                         <label for="LesChoix" class = "label-p" >Les Choix</label>
                                         <input type ="button" class="pure-button pure-button-primary buttonadd " name="LesChoix" value="Ajouter un Choix" id="buttonaddChoix">
+                                        <span class="erreur">${form.erreurs['choix']}</span>
                                       </div>
                                     </div>
                                     <div class="pure-controls" id="casep">
                                         <input id="submit" type="submit" name="button" value="submit" class="pure-button pure-button-primary button">
                                     </div>
-                        
+                        			<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+                        			
                                 </fieldset>
                             </form>
                         </div>
@@ -86,7 +88,7 @@
 
     <script>
       $(function(){
-          $('form span').hide();
+          /* $('form span').hide(); */
           var flag=0;
           console.log("jquery ok");
           $('#dept,#nom,#stylemusic,#annee,#descr,#site,#email,#case:checked').each(

@@ -185,9 +185,10 @@ public final class CreationForm {
 		throw new Exception("userName invalide");
 	}
 
-	private void ValidateChoix(String choix) {
-		// TODO Auto-generated method stub
-		
+	private void ValidateChoix(String choix) throws Exception {
+		if (choix == null) {
+            throw new Exception("Choix non valide.");
+		}
 	}
 
 	private void ValidateParagraph(String paragraph) throws Exception {
@@ -207,11 +208,12 @@ public final class CreationForm {
 		
 	}
 
-	private void validateURL(String imageUrl) {
-		// TODO Auto-generated method stub
-
+	private void validateURL(String imageUrl) throws Exception {
+		if (imageUrl == null) {
+            throw new Exception("Url non valide.");
+		}
 	}
-
+	
 	private void validationTitle(String titre, DataSource dataSource) throws Exception {
 		HistoireDAO story = new HistoireDAO(dataSource);
 		if( titre == null || story.verifyTitle(titre)== false) {

@@ -26,8 +26,8 @@ public class Creation extends HttpServlet {
 
 	@Resource(name = "users")
     private DataSource dataSource;
-    public static final String VUE = "/WEB-INF/creation.jsp";
-    public static final String VUEP = "/WEB-INF/creationVisualis.jsp";
+    public static final String VUE_Succes = "/espacePersonnel";
+    public static final String VUE_Failure = "/WEB-INF/creation.jsp";
 
     public static final String ATT_USER         = "utilisateur";
     public static final String ATT_HISTOIRE = "histoire";
@@ -36,7 +36,7 @@ public class Creation extends HttpServlet {
     
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         /* Affichage de la page de connexion */
-        this.getServletContext().getRequestDispatcher( VUE).forward( request, response );
+        this.getServletContext().getRequestDispatcher( VUE_Failure).forward( request, response );
     }
 
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
@@ -59,8 +59,11 @@ public class Creation extends HttpServlet {
 //    		 out.println(erreur);
 //    	 }
 
-        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
-
+        if (form.getErreurs().isEmpty()) {
+        	this.getServletContext().getRequestDispatcher( VUE_Succes ).forward( request, response );
+        } else {
+        	this.getServletContext().getRequestDispatcher( VUE_Failure ).forward( request, response);
+        }
 
     }
     
