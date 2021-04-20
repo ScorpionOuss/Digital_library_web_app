@@ -53,13 +53,13 @@ public class Creation extends HttpServlet {
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_HISTOIRE, histoire);
         
-    	 PrintWriter out = response.getWriter();
-    	 
-    	 for (String erreur: form.getErreurs().values()) {
-    		 out.println(erreur);
-    	 }
+//    	 PrintWriter out = response.getWriter();
+//    	 
+//    	 for (String erreur: form.getErreurs().values()) {
+//    		 out.println(erreur);
+//    	 }
 
-//        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 
 
     }
