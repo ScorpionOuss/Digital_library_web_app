@@ -24,7 +24,14 @@ public class Creation extends HttpServlet {
 
 	@Resource(name = "users")
     private DataSource dataSource;
+	/**
+	 * the request is directed to the servlet espacePersonnel in case that the story's creation 
+	 * succeeded 
+	 */
     public static final String VUE_Succes = "/espacePersonnel";
+    /**
+     * in case of the story's creation failed
+     */
     public static final String VUE_Failure = "/WEB-INF/creation.jsp";
 
     public static final String ATT_USER         = "utilisateur";
