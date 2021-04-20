@@ -49,15 +49,15 @@ public final class ConnexionForm {
         } catch ( Exception e ) {
             setErreur( CHAMP_PASS, e.getMessage() );
         }
-        utilisateur.setMotDePasse( motDePasse );
+        //utilisateur.setMotDePasse( motDePasse );
 
         /* Initialisation du résultat global de la validation. */
         if ( erreurs.isEmpty() ) {
         	resultat = "Succès de la connexion.";
-        	/*
+        	
             String hashPass = hashPassword(motDePasse);
             utilisateur.setMotDePasse( hashPass );
-            */
+            
         	try {
         	connexionUser(utilisateur, userDAO);
             resultat = "Succès de la connexion.";

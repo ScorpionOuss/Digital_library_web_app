@@ -50,17 +50,16 @@ public final class InscriptionForm {
             setErreur( CHAMP_PASS, e.getMessage() );
 //            setErreur( CHAMP_CONF, null );
         }
-        utilisateur.setMotDePasse( motDePasse );
+        //utilisateur.setMotDePasse( motDePasse );
 
 
 
         if ( erreurs.isEmpty() ) {
         	UtilisateurDAO userDao = new UtilisateurDAO(dataSource);
         	//inscrire
-        	/*
         	String hashPass = hashPassword(motDePasse);
             utilisateur.setMotDePasse( hashPass );
-            */
+            
         	userDao.insertUser(utilisateur);
             resultat = "Succès de l'inscription.";
         } else {
